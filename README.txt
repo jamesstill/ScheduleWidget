@@ -1,0 +1,1 @@
+ScheduleWidget handles recurring events for calendars
