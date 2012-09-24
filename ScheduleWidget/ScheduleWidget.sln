@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleWidget", "ScheduleWidget\ScheduleWidget.csproj", "{D3C50C97-90AE-4CC4-A4A3-9DC9F01E19E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleWidget.UnitTest", "ScheduleWidget.UnitTest\ScheduleWidget.UnitTest.csproj", "{C7F36444-DD65-4BC5-8154-B42005BE22F8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{06422817-9D16-47EB-9CE2-952A0C41F280}"
+	ProjectSection(SolutionItems) = preProject
+		manifest.nuspec = manifest.nuspec
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = ScheduleWidget.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D3C50C97-90AE-4CC4-A4A3-9DC9F01E19E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3C50C97-90AE-4CC4-A4A3-9DC9F01E19E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3C50C97-90AE-4CC4-A4A3-9DC9F01E19E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3C50C97-90AE-4CC4-A4A3-9DC9F01E19E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7F36444-DD65-4BC5-8154-B42005BE22F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7F36444-DD65-4BC5-8154-B42005BE22F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7F36444-DD65-4BC5-8154-B42005BE22F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7F36444-DD65-4BC5-8154-B42005BE22F8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

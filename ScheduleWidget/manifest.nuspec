@@ -1,0 +1,17 @@
+﻿<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>ScheduleWidget</id>
+    <version>2.1.0</version>
+    <authors>James Still</authors>
+    <description>ScheduleWidget handles recurring events for calendars</description>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System" targetFramework="net40" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="ScheduleWidget.dll" target="lib\NET40" />
+    <file src="ScheduleWidget.pdb" target="lib\NET40" />
+  </files>
+</package>
