@@ -54,5 +54,55 @@ namespace ScheduleWidget.UnitTest
             Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 2, 5))); // Tue
             Assert.IsFalse(schedule.IsOccurring(new DateTime(2014, 7, 5))); // Sat
         }
+
+        [Test]
+        public void WeeklyEventTest3()
+        {
+            var aEvent = new Event()
+            {
+                ID = 1,
+                Title = "Every 2nd week on Mon Wed Fri",
+                Frequency = 2,        // weekly
+                MonthlyInterval = 0,  // not applicable
+                DaysOfWeek = 44,      // every Tue, Wed and Fri
+                WeeklyInterval = 2, // every 2nd week
+                FirstDateTime = new DateTime(2013, 1, 1) // start date on a Tue
+            };
+
+            var schedule = new Schedule(aEvent);
+
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 1, 1)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 1, 15)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 2, 12)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 12, 17)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2014, 1, 14)));
+
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 1, 8))); // 1st week
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 1, 14))); // 2nd week but Mon
+        }
+
+        [Test]
+        public void WeeklyEventTest4()
+        {
+            var aEvent = new Event()
+            {
+                ID = 1,
+                Title = "Every 3rd week on Mon Wed Fri",
+                Frequency = 2,        // weekly
+                MonthlyInterval = 0,  // not applicable
+                DaysOfWeek = 44,      // every Tue, Wed and Fri
+                WeeklyInterval = 3, // every 2nd week
+                FirstDateTime = new DateTime(2013, 1, 1) // start date on a Tue
+            };
+
+            var schedule = new Schedule(aEvent);
+
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 1, 1)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 1, 22)));
+
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 1, 8))); // 1st week
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 1, 15))); // 2nd week
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 1, 21))); // 3rd week but Mon
+        }
     }
 }
