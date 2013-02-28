@@ -17,11 +17,24 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
         {
             var union = new UnionTE();
             var daysOfWeek = EnumExtensions.GetFlags(_event.DaysOfWeekOptions);
-            foreach (DayOfWeekEnum day in daysOfWeek)
+            var weeklyIntervals = _event.WeeklyIntervalOptions;
+            if (weeklyIntervals > 1 && _event.FirstDateTime != null)
             {
-                var dayOfWeek = new DayOfWeekTE(day);
-                union.Add(dayOfWeek);
+                foreach (DayOfWeekEnum day in daysOfWeek)
+                {
+                    var dayOfWeek = new DayInWeekTE(day, (DateTime)_event.FirstDateTime, weeklyIntervals);
+                    union.Add(dayOfWeek);
+                }
             }
+            else
+            {
+                foreach (DayOfWeekEnum day in daysOfWeek)
+                {
+                    var dayOfWeek = new DayOfWeekTE(day);
+                    union.Add(dayOfWeek);
+                }
+            }
+
             return union;
         }
     }

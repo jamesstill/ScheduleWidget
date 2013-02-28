@@ -28,6 +28,11 @@ namespace ScheduleWidget.ScheduledEvents
         public DateTime? OneTimeOnlyEventDate { get; set; }
 
         /// <summary>
+        /// If this is a event that repeats every x weeks set the date
+        /// </summary>
+        public DateTime? FirstDateTime { get; set; }
+
+        /// <summary>
         /// For events that occur only part of the year (optional)
         /// </summary>
         public RangeInYear RangeInYear { get; set; }
@@ -44,6 +49,13 @@ namespace ScheduleWidget.ScheduledEvents
         /// E.g., the first and third weeks of the month == 5
         /// </summary>
         public int MonthlyInterval { get; set; }
+
+        /// <summary>
+        /// If the frequency is weekly then the interval of the
+        /// event as an int.
+        /// E.g., every second week == 2
+        /// </summary>
+        public int WeeklyInterval { get; set; }
 
         /// <summary>
         /// The days of the week that the event occurs as a value
@@ -79,6 +91,21 @@ namespace ScheduleWidget.ScheduledEvents
             set
             {
                 MonthlyInterval = (int)value;
+            }
+        }
+
+        /// <summary>
+        /// The monthly interval expressed as enumeration
+        /// </summary>
+        public int WeeklyIntervalOptions
+        {
+            get
+            {
+                return WeeklyInterval;
+            }
+            set
+            {
+                WeeklyInterval = value;
             }
         }
 
