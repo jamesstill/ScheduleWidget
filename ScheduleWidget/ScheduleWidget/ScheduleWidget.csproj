@@ -45,8 +45,11 @@
     <Compile Include="Enums\DayOfWeekEnum.cs" />
     <Compile Include="Enums\FrequencyTypeEnum.cs" />
     <Compile Include="Enums\MonthlyIntervalEnum.cs" />
+    <Compile Include="Enums\QuarterEnum.cs" />
+    <Compile Include="Enums\QuarterlyIntervalEnum.cs" />
     <Compile Include="ScheduledEvents\FrequencyBuilder\ConcreteBuilders\OneTimeEventBuilder.cs" />
     <Compile Include="ScheduledEvents\FrequencyBuilder\ConcreteBuilders\MonthlyEventBuilder.cs" />
+    <Compile Include="ScheduledEvents\FrequencyBuilder\ConcreteBuilders\QuarterlyEventBuilder.cs" />
     <Compile Include="ScheduledEvents\FrequencyBuilder\ConcreteBuilders\WeeklyEventBuilder.cs" />
     <Compile Include="ScheduledEvents\FrequencyBuilder\ConcreteBuilders\DailyEventBuilder.cs" />
     <Compile Include="ScheduledEvents\FrequencyBuilder\EventFrequencyBuilder.cs" />
@@ -58,6 +61,8 @@
     <Compile Include="ScheduledEvents\FrequencyBuilder\IEventFrequencyBuilder.cs" />
     <Compile Include="ScheduledEvents\WeekInRange.cs" />
     <Compile Include="TemporalExpressions\CollectionTE.cs" />
+    <Compile Include="TemporalExpressions\DayInQuarterTE.cs" />
+    <Compile Include="TemporalExpressions\DayInWeekTE.cs" />
     <Compile Include="TemporalExpressions\DayOfWeekTE.cs" />
     <Compile Include="TemporalExpressions\FloatingHolidayTE.cs" />
     <Compile Include="TemporalExpressions\DateTE.cs" />
@@ -66,6 +71,7 @@
     <Compile Include="TemporalExpressions\FixedHolidayTE.cs" />
     <Compile Include="TemporalExpressions\IntersectionTE.cs" />
     <Compile Include="TemporalExpressions\RangeEachYearTE.cs" />
+    <Compile Include="TemporalExpressions\TEHelpers.cs" />
     <Compile Include="TemporalExpressions\TemporalExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemporalExpressions\UnionTE.cs" />

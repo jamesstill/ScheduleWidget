@@ -2,6 +2,9 @@
 
 namespace ScheduleWidget.Enums
 {
+    /// <summary>
+    /// The week(s) in which a monthly event recurs, e.g. every 3rd week, or the last week, or the first and second weeks
+    /// </summary>
     [Flags]
     public enum MonthlyIntervalEnum
     {

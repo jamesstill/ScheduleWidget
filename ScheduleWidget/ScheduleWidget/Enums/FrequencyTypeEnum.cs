@@ -1,5 +1,9 @@
 ﻿namespace ScheduleWidget.Enums
 {
+    /// <summary>
+    /// The frequency at which an event repeats - every Day, Week, Month, Quarter, Year etc. 
+    /// Cannot be combined like Monthly, Daily etc. (XOR type)
+    /// </summary>
     public enum FrequencyTypeEnum
     {
         None = 0,
