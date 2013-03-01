@@ -33,6 +33,12 @@ namespace ScheduleWidget.ScheduledEvents
         public DateTime? FirstDateTime { get; set; }
 
         /// <summary>
+        /// If this event has a yearly frequency then the anniversary
+        /// describes the fixed year after year month and day of recurrence.
+        /// </summary>
+        public Anniversary Anniversary { get; set; }
+
+        /// <summary>
         /// For events that occur only part of the year (optional)
         /// </summary>
         public RangeInYear RangeInYear { get; set; }

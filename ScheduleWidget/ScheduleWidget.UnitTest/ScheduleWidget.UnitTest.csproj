@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicTest.cs" />
+    <Compile Include="AnniversaryTests.cs" />
     <Compile Include="QuarterlyTests.cs" />
     <Compile Include="WeeklyTests.cs" />
     <Compile Include="DailyTests.cs" />

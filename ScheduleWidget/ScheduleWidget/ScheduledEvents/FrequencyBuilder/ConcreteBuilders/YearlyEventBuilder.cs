@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using ScheduleWidget.Enums;
 using ScheduleWidget.TemporalExpressions;
 
 namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
@@ -15,9 +13,23 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
             _event = aEvent;
         }
 
+        /// <summary>
+        /// On yearly frequency build an anniversary temporal expression
+        /// </summary>
+        /// <returns></returns>
         public UnionTE Create()
         {
-            throw new NotImplementedException();
+            var union = new UnionTE();
+            if (_event.FrequencyTypeOptions == FrequencyTypeEnum.Yearly)
+            {
+                if (_event.Anniversary == null)
+                {
+                    throw new ApplicationException("Events with a yearly frequency requires an anniversary.");
+                }
+
+                union.Add(new AnniversaryTE(_event.Anniversary.Month, _event.Anniversary.Day));
+            }
+            return union;
         }
     }
 }
