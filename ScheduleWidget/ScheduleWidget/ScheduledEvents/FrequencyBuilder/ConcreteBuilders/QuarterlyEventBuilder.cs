@@ -1,12 +1,12 @@
-﻿using System;
-using ScheduleWidget.Enums;
+﻿using ScheduleWidget.Enums;
 using ScheduleWidget.TemporalExpressions;
 
 namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
 {
     /// <summary>
-    /// Allows for recurring Quarterly events. Events set to Freq = Quarterly will also have a MonthlyInterval and DailyInterval set, 
-    /// so we can specify e.g. event takes place on the 1st and last quarter, last week, Wednesday, Thursday and Fridays
+    /// Allows for recurring Quarterly events. Events set to Freq = Quarterly will also 
+    /// have a MonthlyInterval and DailyInterval set, so we can specify e.g. event takes 
+    /// place on the 1st and last quarter, last week, Wednesday, Thursday and Fridays
     /// </summary>
     public class QuarterlyEventBuilder : IEventFrequencyBuilder
     {

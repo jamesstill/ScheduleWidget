@@ -10,7 +10,6 @@ namespace ScheduleWidget.UnitTest
     [TestFixture]
     public class QuarterlyTests
     {
-
         [Test]
         public void MonthQuarterMatrixConstructed()
         {
@@ -197,13 +196,13 @@ namespace ScheduleWidget.UnitTest
             Assert.IsTrue(schedule.IsOccurring(new DateTime(2014, 5, 14)), "expect match for May. 14th");
             Assert.IsTrue(schedule.IsOccurring(new DateTime(2014, 11, 12)), "expect match for Nov. 12th");
 
-            var occurances = schedule.Occurrences(new DateRange
+            var occurrences = schedule.Occurrences(new DateRange
             {
                 StartDateTime = new DateTime(2014, 1, 1),
                 EndDateTime = new DateTime(2014, 12, 31)
             });
 
-            Assert.IsTrue(occurances.Count() == 2, "expect 2 events");
+            Assert.IsTrue(occurrences.Count() == 2, "expect 2 events");
         }
 
         [Test]

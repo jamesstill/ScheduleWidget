@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using NUnit.Framework;
-using ScheduleWidget.Enums;
 using ScheduleWidget.ScheduledEvents;
 using ScheduleWidget.TemporalExpressions;
 
