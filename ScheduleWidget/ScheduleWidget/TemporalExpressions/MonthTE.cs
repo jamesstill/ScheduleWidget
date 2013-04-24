@@ -106,7 +106,7 @@ namespace ScheduleWidget.TemporalExpressions
         protected bool IntervalMatches(DateTime aDate)
         {
             return _monthIntervals > 1
-                   ? ((int)Math.Abs(aDate.Month - _firstDateTime.Month)) % _monthIntervals == 0
+                   ? (Math.Abs(aDate.Month - _firstDateTime.Month)) % _monthIntervals == 0
                    : true;
         }
     }

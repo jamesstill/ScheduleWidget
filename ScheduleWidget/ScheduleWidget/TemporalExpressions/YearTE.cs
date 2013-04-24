@@ -12,10 +12,6 @@ namespace ScheduleWidget.TemporalExpressions
         private readonly int _month;
         private readonly int _day;
 
-        public YearTE(int month, int day)
-            : this(1, DateTime.Now.Year, month, day)
-        { }
-
         public YearTE(int yearIntervals, int eventStartYear, int month, int day)
         {
             _yearIntervals = yearIntervals;
@@ -37,7 +33,7 @@ namespace ScheduleWidget.TemporalExpressions
         protected bool IntervalMatches(DateTime aDate)
         {
             return _yearIntervals > 1
-                   ? ((int)Math.Abs(aDate.Year - _eventStartYear)) % _yearIntervals == 0
+                   ? (Math.Abs(aDate.Year - _eventStartYear)) % _yearIntervals == 0
                    : true;
         }
 

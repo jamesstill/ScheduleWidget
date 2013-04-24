@@ -11,9 +11,6 @@ namespace ScheduleWidget.TemporalExpressions
     /// </summary>
     public class AnniversaryTE : YearTE
     {
-        private readonly int _month;
-        private readonly int _day;
-
         /// <summary>
         /// The month and day, e.g., "Aug 1 (Birthday)":
         /// var birthday = new AnniversaryTE(8, 1);
@@ -21,7 +18,7 @@ namespace ScheduleWidget.TemporalExpressions
         /// <param name="month"></param>
         /// <param name="day"></param>
         public AnniversaryTE(int month, int day)
-            : base(month, day) 
+            : base(1, DateTime.Now.Year, month, day)
         { }
     }
 }

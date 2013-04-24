@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ScheduleWidget.ScheduledEvents.FrequencyBuilder;
 using ScheduleWidget.TemporalExpressions;
+using ScheduleWidget.Enums;
 
 namespace ScheduleWidget.ScheduledEvents
 {
@@ -22,7 +23,7 @@ namespace ScheduleWidget.ScheduledEvents
             _event = aEvent;
             TemporalExpression = Create();
         }
-        
+
         public Schedule(Event aEvent, IEnumerable<DateTime> excludedDates)
         {
             _event = aEvent;
@@ -60,11 +61,7 @@ namespace ScheduleWidget.ScheduledEvents
         /// <returns></returns>
         public DateTime? PreviousOccurrence(DateTime aDate)
         {
-            var during = new DateRange()
-            {
-                StartDateTime = aDate.AddMonths(-3),
-                EndDateTime = aDate
-            };
+            var during = DateRange(aDate, true);
             var dates = Occurrences(during).OrderByDescending(o => o.Date);
             return dates.SkipWhile(o => o >= aDate.Date).FirstOrDefault();
         }
@@ -76,11 +73,7 @@ namespace ScheduleWidget.ScheduledEvents
         /// <returns></returns>
         public DateTime? NextOccurrence(DateTime aDate)
         {
-            var during = new DateRange()
-            {
-                StartDateTime = aDate,
-                EndDateTime = aDate.AddMonths(3)
-            };
+            var during = DateRange(aDate, false);
             var dates = Occurrences(during);
             return dates.SkipWhile(o => o.Date <= aDate.Date).FirstOrDefault();
         }
@@ -129,7 +122,7 @@ namespace ScheduleWidget.ScheduledEvents
         /// <returns>Complete schedule as an expression</returns>
         private TemporalExpression Create(TemporalExpression excludedDates)
         {
-            var intersectionTE = new IntersectionTE(); 
+            var intersectionTE = new IntersectionTE();
 
             // get a builder that knows how to create a UnionTE for the event frequency
             var builder = EventFrequencyBuilder.Create(_event);
@@ -180,6 +173,56 @@ namespace ScheduleWidget.ScheduledEvents
         {
             for (var day = from.Date; day.Date <= through.Date; day = day.AddDays(1))
                 yield return day;
+        }
+
+        //An effective way to find date range especially when the interval is greater than one for any date frequencies (daily, weekly, monthly, quarterly and yearly).
+        //NOTE: Quarterly is still not completely done as it is not supporting the interval (every n quarter(s)) feature right now.
+        /// <summary>
+        /// Return a date range to find either a previous occurrence or a next occurrence
+        /// for a given date by evaluating some required properties of the event
+        /// </summary>
+        /// <param name="aDate"></param>
+        /// <param name="previousOccurrence"></param>
+        /// <returns></returns>
+        private DateRange DateRange(DateTime aDate, bool previousOccurrence)
+        {
+            if (_event.FrequencyTypeOptions == FrequencyTypeEnum.None)
+                return new DateRange() { StartDateTime = aDate, EndDateTime = aDate };
+
+            Func<int, DateTime> add = null;
+            var interval = 1;
+
+            switch (_event.FrequencyTypeOptions)
+            {
+                case FrequencyTypeEnum.Daily:
+                    interval = _event.DayInterval;
+                    add = delegate(int number) { return aDate.AddDays(number); };
+                    break;
+                case FrequencyTypeEnum.Weekly:
+                    interval = _event.WeeklyInterval;
+                    add = delegate(int number) { return aDate.AddDays(number * 7); };
+                    break;
+                case FrequencyTypeEnum.Monthly:
+                    interval = _event.MonthInterval;
+                    add = delegate(int number) { return aDate.AddMonths(number); };
+                    break;
+                case FrequencyTypeEnum.Quarterly:
+                    //Assign the default value as there is no interval option available for this frequency type now.
+                    interval = 3;
+                    add = delegate(int number) { return aDate.AddMonths(number * 3); };
+                    break;
+                case FrequencyTypeEnum.Yearly:
+                    interval = _event.YearInterval;
+                    add = delegate(int number) { return aDate.AddYears(number); };
+                    break;
+            }
+
+            interval += 1;
+            var dateRange = previousOccurrence
+                            ? new DateRange() { StartDateTime = add(-interval), EndDateTime = aDate }
+                            : new DateRange() { StartDateTime = aDate, EndDateTime = add(interval) };
+
+            return dateRange;
         }
     }
 }

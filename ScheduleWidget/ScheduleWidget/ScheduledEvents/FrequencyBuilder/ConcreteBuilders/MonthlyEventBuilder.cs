@@ -10,6 +10,7 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
 
         public MonthlyEventBuilder(Event aEvent)
         {
+            //Assigning default value to month interval if the value is 0.
             if (aEvent.MonthInterval == 0)
                 aEvent.MonthInterval = 1;
 
