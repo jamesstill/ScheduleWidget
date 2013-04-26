@@ -188,68 +188,47 @@ namespace ScheduleWidget.ScheduledEvents
         private DateRange DateRange(DateTime aDate, bool previousOccurrence)
         {
             if (_event.FrequencyTypeOptions == FrequencyTypeEnum.None)
-                return new DateRange() { StartDateTime = aDate, EndDateTime = aDate };
+                return new DateRange { StartDateTime = aDate, EndDateTime = aDate };
 
-            var interval = GetIntervalForDateRange();
-            var dateRange = null as DateRange;
+            int interval;
+            DateRange dateRange = null;
 
             switch (_event.FrequencyTypeOptions)
             {
                 case FrequencyTypeEnum.Daily:
+                    interval = _event.DayInterval + 1;
                     dateRange = previousOccurrence
-                                ? new DateRange() { StartDateTime = aDate.AddDays(-interval), EndDateTime = aDate }
-                                : new DateRange() { StartDateTime = aDate, EndDateTime = aDate.AddDays(interval) };
+                                ? new DateRange { StartDateTime = aDate.AddDays(-interval), EndDateTime = aDate }
+                                : new DateRange { StartDateTime = aDate, EndDateTime = aDate.AddDays(interval) };
                     break;
                 case FrequencyTypeEnum.Weekly:
+                    interval = (_event.WeeklyInterval + 1) * 7;
                     dateRange = previousOccurrence
-                                ? new DateRange() { StartDateTime = aDate.AddDays(-interval * 7), EndDateTime = aDate }
-                                : new DateRange() { StartDateTime = aDate, EndDateTime = aDate.AddDays(interval * 7) };
+                                ? new DateRange { StartDateTime = aDate.AddDays(-interval), EndDateTime = aDate }
+                                : new DateRange { StartDateTime = aDate, EndDateTime = aDate.AddDays(interval) };
                     break;
                 case FrequencyTypeEnum.Monthly:
+                    interval = _event.MonthInterval + 1;
                     dateRange = previousOccurrence
-                                ? new DateRange() { StartDateTime = aDate.AddMonths(-interval), EndDateTime = aDate }
-                                : new DateRange() { StartDateTime = aDate, EndDateTime = aDate.AddMonths(interval) };
+                                ? new DateRange { StartDateTime = aDate.AddMonths(-interval), EndDateTime = aDate }
+                                : new DateRange { StartDateTime = aDate, EndDateTime = aDate.AddMonths(interval) };
                     break;
                 case FrequencyTypeEnum.Quarterly:
+                    //Assign a default value as there is no interval option available for this frequency type now.
+                    interval = 12;
                     dateRange = previousOccurrence
-                                ? new DateRange() { StartDateTime = aDate.AddMonths(-interval * 3), EndDateTime = aDate }
-                                : new DateRange() { StartDateTime = aDate, EndDateTime = aDate.AddMonths(interval * 3) };
+                                ? new DateRange { StartDateTime = aDate.AddMonths(-interval), EndDateTime = aDate }
+                                : new DateRange { StartDateTime = aDate, EndDateTime = aDate.AddMonths(interval) };
                     break;
                 case FrequencyTypeEnum.Yearly:
+                    interval = _event.YearInterval + 1;
                     dateRange = previousOccurrence
-                                ? new DateRange() { StartDateTime = aDate.AddYears(-interval), EndDateTime = aDate }
-                                : new DateRange() { StartDateTime = aDate, EndDateTime = aDate.AddYears(interval) };
+                                ? new DateRange { StartDateTime = aDate.AddYears(-interval), EndDateTime = aDate }
+                                : new DateRange { StartDateTime = aDate, EndDateTime = aDate.AddYears(interval) };
                     break;
             }
 
             return dateRange;
-        }
-
-        private int GetIntervalForDateRange()
-        {
-            var interval = 1;
-
-            switch (_event.FrequencyTypeOptions)
-            {
-                case FrequencyTypeEnum.Daily:
-                    interval = _event.DayInterval;
-                    break;
-                case FrequencyTypeEnum.Weekly:
-                    interval = _event.WeeklyInterval;
-                    break;
-                case FrequencyTypeEnum.Monthly:
-                    interval = _event.MonthInterval;
-                    break;
-                case FrequencyTypeEnum.Quarterly:
-                    //Assign a default value as there is no interval option available for this frequency type now.
-                    interval = 3;
-                    break;
-                case FrequencyTypeEnum.Yearly:
-                    interval = _event.YearInterval;
-                    break;
-            }
-
-            return interval + 1;
         }
     }
 }
