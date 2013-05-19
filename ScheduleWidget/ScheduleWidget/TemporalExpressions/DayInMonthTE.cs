@@ -11,8 +11,8 @@ namespace ScheduleWidget.TemporalExpressions
     /// </summary>
     public class DayInMonthTE : TemporalExpression
     {
-        private readonly int _dayOfWeek;
-        private readonly int _monthlyInterval;
+        internal protected readonly int _dayOfWeek;
+        internal protected readonly int _monthlyInterval;
         private readonly bool _ignoreWeek;
 
         /// <summary>
@@ -30,13 +30,13 @@ namespace ScheduleWidget.TemporalExpressions
         /// <param name="dayOfWeekOption">Day of week</param>
         public DayInMonthTE(DayOfWeekEnum dayOfWeekOption)
          {
-            
-             _dayOfWeek = GetDayOfWeekValue(dayOfWeekOption);
+
+             _dayOfWeek = TEHelpers.GetDayOfWeekValue(dayOfWeekOption);
              _ignoreWeek = true;
          }
         
         /// <summary>
-        /// Creates a temporaral expression using day of the week 0 to 6 and day
+        /// Creates a temporal expression using day of the week 0 to 6 and day
         /// of week in a month which can be positive (counting from the beginning
         /// of the month) or negative (counting from the end of the month).
         /// 
@@ -48,8 +48,8 @@ namespace ScheduleWidget.TemporalExpressions
         /// <param name="monthlyIntervalOption"></param>
         public DayInMonthTE(DayOfWeekEnum dayOfWeekOption, MonthlyIntervalEnum monthlyIntervalOption)
         {
-            _dayOfWeek = GetDayOfWeekValue(dayOfWeekOption);
-            _monthlyInterval = GetMonthlyIntervalValue(monthlyIntervalOption);
+            _dayOfWeek = TEHelpers.GetDayOfWeekValue(dayOfWeekOption);
+            _monthlyInterval = TEHelpers.GetMonthlyIntervalValue(monthlyIntervalOption);
             _ignoreWeek = false;
         }
 
@@ -57,10 +57,10 @@ namespace ScheduleWidget.TemporalExpressions
         {
             if (_ignoreWeek)
             {
-                return DayMatches(aDate);
+                return TEHelpers.DayMatches(aDate, _dayOfWeek);
             }
 
-            return DayMatches(aDate) && WeekMatches(aDate);
+            return TEHelpers.DayMatches(aDate, _dayOfWeek) && TEHelpers.WeekMatches(aDate, _monthlyInterval);
         }
 
         public override bool Equals(object obj)
@@ -79,86 +79,6 @@ namespace ScheduleWidget.TemporalExpressions
         {
             return _monthlyInterval ^ _dayOfWeek;
         }
-
-        protected bool DayMatches(DateTime aDate)
-        {
-            return GetDayOfWeek(aDate) == _dayOfWeek;
-        }
-
-        protected bool WeekMatches(DateTime aDate)
-        {
-            if (_monthlyInterval > 0)
-            {
-                return WeekFromStartMatches(aDate);
-            }
-
-            return WeekFromEndMatches(aDate);
-        }
-
-        private bool WeekFromStartMatches(DateTime aDate)
-        {
-            var week = GetWeekInMonth(aDate.Day);
-            return (week == _monthlyInterval);
-        }
-
-        private bool WeekFromEndMatches(DateTime aDate)
-        {
-            var daysFromMonthEnd = GetDaysLeftInMonth(aDate) + 1;
-            return GetWeekInMonth(daysFromMonthEnd) == Math.Abs(_monthlyInterval);
-        }
-
-        private static int GetDayOfWeekValue(DayOfWeekEnum dayOfWeekOption)
-        {
-            switch (dayOfWeekOption)
-            {
-                case DayOfWeekEnum.Sun:
-                    return 0;
-
-                case DayOfWeekEnum.Mon:
-                    return 1;
-
-                case DayOfWeekEnum.Tue:
-                    return 2;
-
-                case DayOfWeekEnum.Wed:
-                    return 3;
-
-                case DayOfWeekEnum.Thu:
-                    return 4;
-
-                case DayOfWeekEnum.Fri:
-                    return 5;
-
-                case DayOfWeekEnum.Sat:
-                    return 6;
-
-                default:
-                    return 0;
-            }
-        }
-
-        private static int GetMonthlyIntervalValue(MonthlyIntervalEnum monthlyIntervalOption)
-        {
-            switch(monthlyIntervalOption)
-            {
-                case MonthlyIntervalEnum.First:
-                    return 1;
-
-                case MonthlyIntervalEnum.Second:
-                    return 2;
-
-                case MonthlyIntervalEnum.Third:
-                    return 3;
-
-                case MonthlyIntervalEnum.Fourth:
-                    return 4;
-
-                case MonthlyIntervalEnum.Last:
-                    return -1;
-
-                default:
-                    return 0;
-            }
-        }
+        
     }
 }

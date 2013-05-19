@@ -33,15 +33,35 @@ namespace ScheduleWidget.ScheduledEvents
         public DateTime? FirstDateTime { get; set; }
 
         /// <summary>
+        /// If this event has a yearly frequency then the anniversary
+        /// describes the fixed year after year month and day of recurrence.
+        /// </summary>
+        public Anniversary Anniversary { get; set; }
+
+        /// <summary>
         /// For events that occur only part of the year (optional)
         /// </summary>
         public RangeInYear RangeInYear { get; set; }
 
         /// <summary>
         /// The one-time, daily, weekly, or monthly frequency of the event as a
-        /// value of FrequencyTypeEnum (0, 1, 2, or 4 only).
+        /// value of FrequencyTypeEnum (0, 1, 2, 4, 8 or 16 only).
         /// </summary>
         public int Frequency { get; set; }
+
+        /// <summary>
+        /// If an event is quarterly, which quarter(s) does it fall in? 
+        /// From QuarterEnum: First, Second, Third, Fourth 
+        /// E.g., Second and Fourth quarters == 10 (2 + 8)
+        /// </summary>
+        public int QuarterInterval { get; set; }
+
+        /// <summary>
+        /// If the frequency is quarterly then the interval of the
+        /// event as a flag attribute value of QuarterlyIntervalEnum.
+        /// E.g., the first and last months of the quarter == 5
+        /// </summary>
+        public int QuarterlyInterval { get; set; }
 
         /// <summary>
         /// If the frequency is monthly then the interval of the
@@ -80,7 +100,32 @@ namespace ScheduleWidget.ScheduledEvents
         }
 
         /// <summary>
-        /// The monthly interval expressed as enumeration
+        /// The actual Quarter expressed as an enumeration
+        /// </summary>
+        public QuarterEnum QuarterlyOptions
+        {
+            get { return (QuarterEnum)QuarterInterval; }
+            set { QuarterInterval = (int)value; }
+
+        }
+
+        /// <summary>
+        /// The quarterly interval (i.e. month) expressed as enumeration
+        /// </summary>
+        public QuarterlyIntervalEnum QuarterlyIntervalOptions
+        {
+            get
+            {
+                return (QuarterlyIntervalEnum)QuarterlyInterval;
+            }
+            set
+            {
+                QuarterlyInterval = (int)value;
+            }
+        }
+
+        /// <summary>
+        /// The monthly interval (i.e. week) expressed as enumeration
         /// </summary>
         public MonthlyIntervalEnum MonthlyIntervalOptions
         {
@@ -96,6 +141,7 @@ namespace ScheduleWidget.ScheduledEvents
 
         /// <summary>
         /// The monthly interval expressed as enumeration
+        /// The weekly interval (i.e. 2 == every 2 weeks) expressed as enumeration
         /// </summary>
         public int WeeklyIntervalOptions
         {

@@ -32,7 +32,7 @@ namespace ScheduleWidget.TemporalExpressions
         /// <returns></returns>
         public override bool Includes(DateTime aDate)
         {   
-            return MonthMatches(aDate) && DayMatches(aDate) && WeekMatches(aDate);
+            return MonthMatches(aDate) && TEHelpers.DayMatches(aDate, _dayOfWeek) && TEHelpers.WeekMatches(aDate, _monthlyInterval);
         }
 
         private bool MonthMatches(DateTime aDate)

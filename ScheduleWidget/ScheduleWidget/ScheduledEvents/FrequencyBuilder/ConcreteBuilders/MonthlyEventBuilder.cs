@@ -17,9 +17,10 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
         {
             var union = new UnionTE();
             var monthlyIntervals = EnumExtensions.GetFlags(_event.MonthlyIntervalOptions);
+            var daysOfWeek = EnumExtensions.GetFlags(_event.DaysOfWeekOptions);
+
             foreach (MonthlyIntervalEnum monthlyInterval in monthlyIntervals)
             {
-                var daysOfWeek = EnumExtensions.GetFlags(_event.DaysOfWeekOptions);
                 foreach (DayOfWeekEnum dayOfWeek in daysOfWeek)
                 {
                     var dayInMonth = new DayInMonthTE(dayOfWeek, monthlyInterval);
