@@ -10,6 +10,10 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
 
         public YearlyEventBuilder(Event aEvent)
         {
+            //Assigning default value to year interval if the value is 0.
+            if (aEvent.YearInterval == 0)
+                aEvent.YearInterval = 1;
+
             _event = aEvent;
         }
 
@@ -27,7 +31,7 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
                     throw new ApplicationException("Events with a yearly frequency requires an anniversary.");
                 }
 
-                union.Add(new AnniversaryTE(_event.Anniversary.Month, _event.Anniversary.Day));
+                union.Add(new YearTE(_event.YearInterval, DateTime.Now.Year, _event.Anniversary.Month, _event.Anniversary.Day));
             }
             return union;
         }

@@ -36,7 +36,7 @@ namespace ScheduleWidget.TemporalExpressions
             if (aDate.Month == ourMonth)
             {
                 // we have a match on Month! Now just need to check day ...
-                return TEHelpers.DayMatches(aDate, _dayOfWeek) && TEHelpers.WeekMatches(aDate, _monthInterval);
+                return TEHelpers.DayOfWeekMatches(aDate, _dayOfWeek) && TEHelpers.WeekMatches(aDate, _monthInterval);
             }
             return false;
         }

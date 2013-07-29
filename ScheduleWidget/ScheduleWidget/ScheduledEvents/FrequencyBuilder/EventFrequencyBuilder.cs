@@ -16,7 +16,7 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder
                     break;
 
                 case FrequencyTypeEnum.Daily:
-                    builder = new DailyEventBuilder();
+                    builder = new DailyEventBuilder(aEvent);
                     break;
 
                 case FrequencyTypeEnum.Weekly:
