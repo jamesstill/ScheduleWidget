@@ -12,6 +12,7 @@ namespace ScheduleWidget.Enums
         Second = 2,
         Third = 4,
         Fourth = 8,
-        Last = 16
+        Last = 16,
+        EveryWeek = First | Second | Third | Fourth | Last
     }
 }

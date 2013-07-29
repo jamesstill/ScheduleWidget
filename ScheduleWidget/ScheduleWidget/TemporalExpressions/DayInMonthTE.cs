@@ -9,14 +9,10 @@ namespace ScheduleWidget.TemporalExpressions
     /// dayOfWeek enum value is converted internally to Sun = 0 ... Sat = 6. The
     /// monthly interval is 1 (first), 2 (second) thru 4 (fourth) and -1 (last).
     /// </summary>
-    public class DayInMonthTE : TemporalExpression
+    public class DayInMonthTE : MonthTE
     {
-        internal protected readonly int _dayOfWeek;
-        internal protected readonly int _monthlyInterval;
-        private readonly bool _ignoreWeek;
-
         /// <summary>
-        /// Creates a temporaral expression using day of the week. For example:
+        /// Creates a temporal expression using day of the week. For example:
         /// 
         /// var sunday = new DayInMonthTE(1);
         /// var monday = new DayInMonthTE(2);
@@ -29,12 +25,22 @@ namespace ScheduleWidget.TemporalExpressions
         /// </summary>
         /// <param name="dayOfWeekOption">Day of week</param>
         public DayInMonthTE(DayOfWeekEnum dayOfWeekOption)
-         {
+            : base(1, DateTime.MinValue, dayOfWeekOption)
+        { }
 
-             _dayOfWeek = TEHelpers.GetDayOfWeekValue(dayOfWeekOption);
-             _ignoreWeek = true;
-         }
-        
+        //Every 1 month, selected date
+        /// <summary>
+        /// Creates a temporal expression using day of the month 1 to 31.
+        /// The date will be adjusted to the last date of a month if a 
+        /// particular month doesn't have the day specified.
+        /// 
+        /// var example1= = new DayInMonthTE(2); //2nd day of the month
+        /// </summary>
+        /// <param name="date"></param>
+        public DayInMonthTE(int date)
+            : base(1, DateTime.MinValue, date)
+        { }
+
         /// <summary>
         /// Creates a temporal expression using day of the week 0 to 6 and day
         /// of week in a month which can be positive (counting from the beginning
@@ -47,21 +53,8 @@ namespace ScheduleWidget.TemporalExpressions
         /// <param name="dayOfWeekOption">day of week</param>
         /// <param name="monthlyIntervalOption"></param>
         public DayInMonthTE(DayOfWeekEnum dayOfWeekOption, MonthlyIntervalEnum monthlyIntervalOption)
-        {
-            _dayOfWeek = TEHelpers.GetDayOfWeekValue(dayOfWeekOption);
-            _monthlyInterval = TEHelpers.GetMonthlyIntervalValue(monthlyIntervalOption);
-            _ignoreWeek = false;
-        }
-
-        public override bool Includes(DateTime aDate)
-        {
-            if (_ignoreWeek)
-            {
-                return TEHelpers.DayMatches(aDate, _dayOfWeek);
-            }
-
-            return TEHelpers.DayMatches(aDate, _dayOfWeek) && TEHelpers.WeekMatches(aDate, _monthlyInterval);
-        }
+            : base(1, DateTime.MinValue, dayOfWeekOption, monthlyIntervalOption)
+        { }
 
         public override bool Equals(object obj)
         {
@@ -79,6 +72,5 @@ namespace ScheduleWidget.TemporalExpressions
         {
             return _monthlyInterval ^ _dayOfWeek;
         }
-        
     }
 }

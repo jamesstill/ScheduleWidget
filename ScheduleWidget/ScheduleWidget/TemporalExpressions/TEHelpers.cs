@@ -76,7 +76,20 @@ namespace ScheduleWidget.TemporalExpressions
             }
         }
 
-        internal static bool DayMatches(DateTime aDate, int dayOfWeek)
+        internal static bool DayMatches(DateTime aDate, int day)
+        {
+            var matchFound = (int)aDate.Day == day;
+            if (!matchFound)
+            {
+                var totalDaysInMonth = DateTime.DaysInMonth(aDate.Year, aDate.Month);
+                if (day > totalDaysInMonth && aDate.Day == totalDaysInMonth)
+                    matchFound = true;
+            }
+
+            return matchFound;
+        }
+
+        internal static bool DayOfWeekMatches(DateTime aDate, int dayOfWeek)
         {
             return GetDayOfWeek(aDate) == dayOfWeek;
         }

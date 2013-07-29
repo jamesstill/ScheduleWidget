@@ -1,6 +1,8 @@
 ﻿using System;
 using NUnit.Framework;
 using ScheduleWidget.ScheduledEvents;
+using ScheduleWidget.Enums;
+using ScheduleWidget.TemporalExpressions;
 
 namespace ScheduleWidget.UnitTest
 {
@@ -44,6 +46,47 @@ namespace ScheduleWidget.UnitTest
             Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 2, 14)));
             Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 4, 25)));
             Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 11, 7)));
+        }
+
+        [Test]
+        public void DailyEventTest3()
+        {
+            var aEvent = new Event()
+            {
+                ID = 1,
+                Title = "Event 3",
+                FrequencyTypeOptions = FrequencyTypeEnum.Daily,
+                DayInterval = 4,
+                FirstDateTime = new DateTime(2013, 1, 3)
+            };
+
+            var schedule = new Schedule(aEvent);
+
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 1, 7)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 1, 12)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 2, 4)));
+        }
+
+        [Test]
+        public void DailyEventTest4()
+        {
+            var holidays = new UnionTE();
+            holidays.Add(new FixedHolidayTE(2, 4));
+
+            var aEvent = new Event()
+            {
+                ID = 1,
+                Title = "Event 4",
+                FrequencyTypeOptions = FrequencyTypeEnum.Daily,
+                DayInterval = 4,
+                FirstDateTime = new DateTime(2013, 1, 3)
+            };
+
+            var schedule = new Schedule(aEvent, holidays);
+
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 1, 7)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 1, 13)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 2, 4)));
         }
     }
 }
