@@ -68,6 +68,7 @@
     <Compile Include="TemporalExpressions\CollectionTE.cs" />
     <Compile Include="TemporalExpressions\AnniversaryTE.cs" />
     <Compile Include="TemporalExpressions\DayInQuarterTE.cs" />
+    <Compile Include="TemporalExpressions\DayIntervalTE.cs" />
     <Compile Include="TemporalExpressions\DayInWeekTE.cs" />
     <Compile Include="TemporalExpressions\DayOfWeekTE.cs" />
     <Compile Include="TemporalExpressions\FloatingHolidayTE.cs" />
@@ -76,11 +77,13 @@
     <Compile Include="TemporalExpressions\DifferenceTE.cs" />
     <Compile Include="TemporalExpressions\FixedHolidayTE.cs" />
     <Compile Include="TemporalExpressions\IntersectionTE.cs" />
+    <Compile Include="TemporalExpressions\MonthTE.cs" />
     <Compile Include="TemporalExpressions\RangeEachYearTE.cs" />
     <Compile Include="TemporalExpressions\TEHelpers.cs" />
     <Compile Include="TemporalExpressions\TemporalExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemporalExpressions\UnionTE.cs" />
+    <Compile Include="TemporalExpressions\YearTE.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

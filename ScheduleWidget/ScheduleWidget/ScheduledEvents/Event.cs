@@ -140,6 +140,7 @@ namespace ScheduleWidget.ScheduledEvents
         }
 
         /// <summary>
+        /// The monthly interval expressed as enumeration
         /// The weekly interval (i.e. 2 == every 2 weeks) expressed as enumeration
         /// </summary>
         public int WeeklyIntervalOptions
@@ -168,5 +169,29 @@ namespace ScheduleWidget.ScheduledEvents
                 DaysOfWeek = (int)value;
             }
         }
+
+        /// <summary>
+        /// The days interval used for 'Daily' frequency type.
+        /// E.g., every day, every 2 days, every 3 days, .... , every n days.
+        /// </summary>
+        public int DayInterval { get; set; }
+
+        /// <summary>
+        /// The months interval used for 'Monthly' frequency type.
+        /// E.g., every month, every 2 months, every 3 months, .... , every n months.
+        /// </summary>
+        public int MonthInterval { get; set; }
+
+        /// <summary>
+        /// A particular day of a month used for 'Monthly' frequency type.
+        /// E.g., 1st day of every month, 10th day of every 2 months, etc.
+        /// </summary>
+        public int DayOfMonth { get; set; }
+
+        /// <summary>
+        /// The years interval used for 'Yearly' frequency type.
+        /// E.g., every year, every 2 years, every 3 years, .... , every n years.
+        /// </summary>
+        public int YearInterval { get; set; }
     }
 }
