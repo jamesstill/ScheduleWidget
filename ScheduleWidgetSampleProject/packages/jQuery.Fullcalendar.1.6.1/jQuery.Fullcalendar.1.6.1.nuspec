@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>jQuery.Fullcalendar</id>
+    <version>1.6.1</version>
+    <title>jQuery.Fullcalendar</title>
+    <authors>Adam Shaw</authors>
+    <owners>Adam Shaw</owners>
+    <projectUrl>http://arshaw.com/fullcalendar/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A full-sized, drag and drop calendar for jQuery
+    	
+    	Fullcalendar is Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL (http://www.opensource.org/licenses/gpl-license.php) licenses. 
+    	
+    	Copyright (c) 2011 Adam Shaw (http://arshaw.com)</description>
+    <summary>A full-sized, drag and drop calendar for jQuery</summary>
+    <releaseNotes>version 1.6.1 (4/14/13)
+				- fixed event inner content overflow bug (issue 1783)
+				- fixed table header className bug (1772)
+				- removed text-shadow on events (better for general use, thx tkrotoff)</releaseNotes>
+    <copyright>Copyright (c) 2013 Adam Shaw</copyright>
+    <language />
+    <tags>Fullcalendar jQuery Calendar</tags>
+    <dependencies>
+      <dependency id="jQuery" />
+      <dependency id="jQuery.UI.Combined" />
+    </dependencies>
+  </metadata>
+</package>

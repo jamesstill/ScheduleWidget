@@ -1,0 +1,178 @@
+﻿@model ScheduleWidgetSampleProject.Models.ScheduleDTO
+
+@{
+    ViewBag.Title = "CreateSchedule";
+}
+
+<h2>Create Schedule</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.ID)
+
+    <fieldset>
+        <legend>Schedule</legend>
+        
+        <ol class="round">
+            <li class="one">
+                <div>
+                    @Html.LabelFor(model => model.Title)
+                    @Html.EditorFor(model => model.Title)
+                </div>
+            </li>
+        </ol>
+        
+        <ol class="round">
+            <li class="two">
+                <div class="recurrence-details">
+                    @Html.Label("Create Schedule")
+                    <div id="schedule-recurrence-selection">
+                        @Html.RadioButton("ScheduleRecurrence", "OneTime", new { id = "rb-one-time-event" })&nbsp;One-time only
+                        @Html.RadioButton("ScheduleRecurrence", "Repeat", new { id = "rb-recurrence-event" })&nbsp;Repeat
+                        <span id="schedule-recurrence-choice">
+                            @Html.DropDownList("FrequencyChoice", (SelectList)ViewBag.FrequencyChoices, "-- Choose Schedule --")
+                        </span>
+                    </div>
+        
+                    <div id="day-selection">
+                        @Html.CheckBoxFor(model => model.IsSundaySelected) Sun
+                        @Html.CheckBoxFor(model => model.IsMondaySelected) Mon
+                        @Html.CheckBoxFor(model => model.IsTuesdaySelected) Tue
+                        @Html.CheckBoxFor(model => model.IsWednesdaySelected) Wed
+                        @Html.CheckBoxFor(model => model.IsThursdaySelected) Thu
+                        @Html.CheckBoxFor(model => model.IsFridaySelected) Fri
+                        @Html.CheckBoxFor(model => model.IsSaturdaySelected) Sat
+                    </div> 
+        
+                    <div id="monthly-interval-selection">
+                        @Html.CheckBoxFor(model => model.IsFirstWeekOfMonthSelected) First
+                        @Html.CheckBoxFor(model => model.IsSecondWeekOfMonthSelected) Second
+                        @Html.CheckBoxFor(model => model.IsThirdWeekOfMonthSelected) Third
+                        @Html.CheckBoxFor(model => model.IsFourthWeekOfMonthSelected) Fourth
+                        @Html.CheckBoxFor(model => model.IsLastWeekOfMonthSelected) Last Week of Every Month
+                    </div> 
+            
+                    <div>
+                        Starting @Html.EditorFor(model => model.StartDate) from 
+                        @Html.EditorFor(model => model.StartTime) to 
+                        @Html.EditorFor(model => model.EndTime)
+                   
+                        @Html.ValidationMessageFor(model => model.StartDate)
+                        @Html.ValidationMessageFor(model => model.StartTime)
+                        @Html.ValidationMessageFor(model => model.EndTime)  
+                        <span id="schedule-end-date">
+                            Ends @Html.EditorFor(model => model.EndDate)
+                            @Html.ValidationMessageFor(model => model.EndDate) 
+                            or after @Html.TextBoxFor(model => model.NumberOfOccurrences, new { @class = "textbox singlechar" }) occurrences
+                        </span>
+                    </div>     
+                </div>
+            </li>
+        </ol>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+
+    </fieldset>
+}
+
+<script type="text/javascript"> 
+    
+    $(function () {
+        checkRecurrenceType();
+    });
+    
+    $("#rb-one-time-event").click(function () {
+        hideRecurrenceControls();
+    });
+
+    $("#rb-recurrence-event").click(function () {
+
+        // show the repeat weeks 
+        $("#schedule-recurrence-choice").show("fast");
+
+        // show the end date
+        $("#schedule-end-date").show("fast");
+
+    });
+
+    $("#schedule-recurrence-choice").click(function () {
+
+        var value = $("#FrequencyChoice").val();
+
+        if (value == 1) { /* daily */
+            $("#day-selection").hide("fast");
+            $("#monthly-interval-selection").hide("fast");
+            return;
+        }
+
+        if (value == 2) { /* weekly */
+            $("#day-selection").show("fast");
+            $("#monthly-interval-selection").hide("fast");
+            return;
+        }
+
+        if (value == 3) { /* biweekly */
+            $("#day-selection").show("fast");
+            $("#monthly-interval-selection").hide("fast");
+            return;
+        }
+
+        if (value == 4) { /* monthly */
+            $("#day-selection").show("fast");
+            $("#monthly-interval-selection").show("fast");
+        }
+    });
+
+    function checkRecurrenceType() {
+        if (jQuery("#rb-one-time-event").is(":checked")) {
+            hideRecurrenceControls();
+        }
+
+        // hide days and monthly options if daily frequency
+        var value = $("#FrequencyChoice").val();
+        if (value == 1) { // daily
+            $("#day-selection").hide("fast");
+            $("#monthly-interval-selection").hide("fast");
+        }
+
+        if (value == 2) { // weekly
+            $("#day-selection").show("fast");
+            $("#monthly-interval-selection").hide("fast");
+            return;
+        }
+
+        if (value == 3) { // biweekly
+            $("#day-selection").show("fast");
+            $("#monthly-interval-selection").hide("fast");
+            return;
+        }
+
+        if (value == 4) { // monthly
+            $("#day-selection").show("fast");
+            $("#monthly-interval-selection").show("fast");
+        }
+    }
+
+    function hideRecurrenceControls() {
+
+        // hide the repeat weeks
+        $("#schedule-recurrence-choice").hide("fast");
+
+        // set the frequency value back to empty
+        $("#FrequencyChoice").val("");
+
+        // hide the end date
+        $("#schedule-end-date").hide("fast");
+
+        // hide the days of the week
+        $("#day-selection").hide("fast");
+
+        // hide the monthly interval options
+        $("#monthly-interval-selection").hide("fast");
+    }
+
+</script>

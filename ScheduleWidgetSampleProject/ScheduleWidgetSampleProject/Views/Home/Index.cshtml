@@ -1,0 +1,47 @@
+﻿<div id="calendar"></div>
+
+<script type="text/javascript">
+    
+    $(document).ready(function() {
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev, next, today',
+                center: 'title',
+                right: 'month,basicWeek,basicDay'
+            },
+            windowResize: function (view) { },
+            defaultView: 'basicWeek',
+            firstDay: 6,
+            firstHour: 6,
+            allDaySlot: false,
+            timeFormat: 'H:mm', // uppercase H for 24-hour clock
+            editable: true,
+            disableDragging: true,
+            droppable: false,
+            dayClick: function (date, allDay, jsEvent, view) {
+                createEvent(date);
+            },
+            events: "/Home/GetSchedules" 
+        });
+    });
+    
+    function createEvent(date, allDay, jsEvent, view) {
+        // put in form that MVC controller will be able to deserialize
+        var d = date.getDate();
+        var m = date.getMonth() + 1;
+        var y = date.getFullYear();
+        var eventDate = padDigits(m, 2) + '-' + padDigits(d, 2) + '-' + padDigits(y, 4);
+        var actionUrl = '@Url.Action("CreateSchedule", "HOME", new { eventDate = "REPLACE" })';
+        window.location.href = actionUrl.replace("REPLACE", eventDate);
+    }
+
+    function padDigits(n, totalDigits) {
+        n = n.toString(); var pd = '';
+        if (totalDigits > n.length) {
+             for (var i = 0; i < (totalDigits - n.length); i++) {
+                  pd += '0';
+             }
+        } return pd + n.toString();
+    }
+</script>

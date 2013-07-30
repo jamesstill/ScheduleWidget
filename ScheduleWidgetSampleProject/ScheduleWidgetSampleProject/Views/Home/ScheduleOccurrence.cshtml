@@ -1,0 +1,28 @@
+﻿@model ScheduleWidgetSampleProject.Models.ScheduleOccurrenceDTO
+
+@{
+    ViewBag.Title = "ScheduleOccurrence";
+}
+
+<h2>Schedule Occurrence</h2>
+
+<fieldset>
+    <legend>Schedule Occurrence</legend>
+
+    <div>
+        @Html.DisplayNameFor(model => model.ScheduleID)
+        @Html.DisplayFor(model => model.ScheduleID)
+    </div>
+
+    <div>
+        @Html.DisplayNameFor(model => model.OccurrenceDate)
+        @Html.DisplayFor(model => model.OccurrenceDate)
+    </div>
+    
+    <div>
+        <p>Now that I have the unique schedule ID and the occurrence date I can do 
+           something with this particular event. 
+        </p>
+    </div>
+
+</fieldset>
