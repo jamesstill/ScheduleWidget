@@ -31,4 +31,6 @@ foreach(var date in occurrences)
 	System.Diagnostics.Debug.Print(date);
 }
 
-// see http://www.squarewidget.com/schedulewidget for more
+Download the ScheduleWidget Sample Project for a fully-functional test harness that
+illustrates how best to use the ScheduleWidget engine. The project home page is at:
+http://www.squarewidget.com/schedulewidget

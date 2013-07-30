@@ -1,0 +1,22 @@
+﻿<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>ScheduleWidget</id>
+    <version>2.2.0</version>
+    <owners>James Still</owners>
+    <authors>James Still, Dajo Hein, Kurt Mang</authors>
+    <description>ScheduleWidget handles recurring events for calendars</description>
+	<requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <projectUrl>http://www.squarewidget.com/schedulewidget</projectUrl>
+        <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+	<frameworkAssemblies>
+		<frameworkAssembly assemblyName="System" targetFramework="net40" />
+	</frameworkAssemblies>
+        <tags>.net40 schedule recurring events calendars</tags>
+        <language>en-US</language>
+   </metadata>
+   <files>
+	<file src="ScheduleWidget.dll" target="lib\NET40" />
+	<file src="ScheduleWidget.pdb" target="lib\NET40" />
+   </files>
+</package>
