@@ -202,6 +202,9 @@ namespace ScheduleWidget.ScheduledEvents
                                 : new DateRange { StartDateTime = aDate, EndDateTime = aDate.AddDays(interval) };
                     break;
                 case FrequencyTypeEnum.Weekly:
+                case FrequencyTypeEnum.EveryWeekDay:
+                case FrequencyTypeEnum.EveryMonWedFri:
+                case FrequencyTypeEnum.EveryTuTh:
                     interval = (_event.WeeklyInterval + 1) * 7;
                     dateRange = previousOccurrence
                                 ? new DateRange { StartDateTime = aDate.AddDays(-interval), EndDateTime = aDate }
