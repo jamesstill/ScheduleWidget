@@ -10,6 +10,7 @@ namespace ScheduleWidget.ScheduledEvents
     /// monthly its monthly interval. Given an event and an optional set of excluded dates (such
     /// as holidays) a schedule can be created.
     /// </summary>
+    [Serializable]
     public class Event
     {
         /// <summary>
