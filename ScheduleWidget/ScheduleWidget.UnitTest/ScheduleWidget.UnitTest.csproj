@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="BasicTest.cs" />
     <Compile Include="AnniversaryTests.cs" />
+    <Compile Include="LastOccurrenceTests.cs" />
     <Compile Include="MonthTests.cs" />
     <Compile Include="QuarterlyTests.cs" />
     <Compile Include="WeeklyTests.cs" />

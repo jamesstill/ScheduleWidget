@@ -230,5 +230,67 @@ namespace ScheduleWidget.ScheduledEvents
 
             return dateRange;
         }
+        /// <summary>
+        /// Returns the date of last occurrence of the event.
+        /// This method uses NumberOfOccurrences property to decide the last date.
+        /// </summary>
+        /// <returns>The date of last occurrence of the event.</returns>
+        public DateTime? GetLastOccurrenceDate()
+        {
+            DateTime? firstDateTime = _event.FirstDateTime;
+            if (!firstDateTime.HasValue)
+            {
+                return null;
+            }
+            DateTime startDateTime = firstDateTime.Value;
+            FrequencyTypeEnum frequencyType = _event.FrequencyTypeOptions;
+            if (frequencyType == FrequencyTypeEnum.None)
+            {
+                return firstDateTime;
+            }
+
+            if (!_event.NumberOfOccurrences.HasValue)
+            {
+                return firstDateTime;
+            }
+
+            int interval;
+            int occurences = _event.NumberOfOccurrences.Value;
+            DateRange dateRange = null;
+
+            switch (frequencyType)
+            {
+                case FrequencyTypeEnum.Daily:
+                    interval = _event.DayInterval + 1;
+                    dateRange = new DateRange { StartDateTime = startDateTime, EndDateTime = startDateTime.AddDays(interval * occurences) };
+                    break;
+                case FrequencyTypeEnum.Weekly:
+                    interval = (_event.WeeklyInterval + 1) * 7;
+                    dateRange = new DateRange { StartDateTime = startDateTime, EndDateTime = startDateTime.AddDays(interval * occurences) };
+                    break;
+                case FrequencyTypeEnum.Monthly:
+                    interval = _event.MonthInterval + 1;
+                    dateRange = new DateRange { StartDateTime = startDateTime, EndDateTime = startDateTime.AddMonths(interval * occurences) };
+                    break;
+                case FrequencyTypeEnum.Quarterly:
+                    //Assign a default value as there is no interval option available for this frequency type now.
+                    interval = 12;
+                    dateRange = new DateRange { StartDateTime = startDateTime, EndDateTime = startDateTime.AddMonths(interval * occurences) };
+                    break;
+                case FrequencyTypeEnum.Yearly:
+                    interval = _event.YearInterval + 1;
+                    dateRange = new DateRange { StartDateTime = startDateTime, EndDateTime = startDateTime.AddYears(interval * occurences) };
+                    break;
+            }
+
+            IEnumerable<DateTime> items = Occurrences(dateRange);
+            DateTime enddate = startDateTime;
+            if (items != null)
+            {
+                enddate = items.ElementAtOrDefault(occurences-1);
+            }
+            return enddate;
+        }
+
     }
 }
