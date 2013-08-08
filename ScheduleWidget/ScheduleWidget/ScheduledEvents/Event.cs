@@ -45,7 +45,7 @@ namespace ScheduleWidget.ScheduledEvents
 
         /// <summary>
         /// The one-time, daily, weekly, or monthly frequency of the event as a
-        /// value of FrequencyTypeEnum (0, 1, 2, 4, 8 or 16 only).
+        /// value of FrequencyTypeEnum (0, 1, 2, 4, 8, 16, 32, 64 or 128 only).
         /// </summary>
         public int Frequency { get; set; }
 
@@ -193,5 +193,10 @@ namespace ScheduleWidget.ScheduledEvents
         /// E.g., every year, every 2 years, every 3 years, .... , every n years.
         /// </summary>
         public int YearInterval { get; set; }
+
+        /// <summary>
+        /// The number of times the event will repeat.
+        /// </summary>
+        public int? NumberOfOccurrences { get; set; }
     }
 }
