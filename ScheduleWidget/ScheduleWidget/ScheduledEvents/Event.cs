@@ -193,5 +193,10 @@ namespace ScheduleWidget.ScheduledEvents
         /// E.g., every year, every 2 years, every 3 years, .... , every n years.
         /// </summary>
         public int YearInterval { get; set; }
+
+        /// <summary>
+        /// The number of times the event will repeat.
+        /// </summary>
+        public int? NumberOfOccurrences { get; set; }
     }
 }
