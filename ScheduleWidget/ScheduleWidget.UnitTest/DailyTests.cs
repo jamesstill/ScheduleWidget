@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using NUnit.Framework;
 using ScheduleWidget.ScheduledEvents;
 using ScheduleWidget.Enums;
@@ -18,7 +19,8 @@ namespace ScheduleWidget.UnitTest
                 Title = "Event 1",
                 Frequency = 1,        // daily
                 MonthlyInterval = 0,  // not applicable
-                DaysOfWeek = 127      // every day of week
+                DaysOfWeek = 127,      // every day of week
+                FirstDateTime = new DateTime(2013, 1, 1)
             };
 
             var schedule = new Schedule(aEvent);
@@ -38,7 +40,8 @@ namespace ScheduleWidget.UnitTest
                 RangeInYear = null,
                 Frequency = 1,        // daily
                 MonthlyInterval = 0,  // not applicable
-                DaysOfWeek = 16       // Thursday
+                DaysOfWeek = 16,       // Thursday
+                FirstDateTime = new DateTime(2013, 1, 1)
             };
 
             var schedule = new Schedule(aEvent);
@@ -87,6 +90,58 @@ namespace ScheduleWidget.UnitTest
             Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 1, 7)));
             Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 1, 13)));
             Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 2, 4)));
+        }
+
+        [Test]
+        public void DailyEventTest5()
+        {
+
+            var aEvent = new Event()
+            {
+                ID = 5,
+                Title = "Event 5",
+                FrequencyTypeOptions = FrequencyTypeEnum.Daily,
+                DayInterval = 1,
+                FirstDateTime = new DateTime(2013, 8, 8)
+            };
+
+            var schedule = new Schedule(aEvent);
+
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 5)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 6)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 7)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 8, 8)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 8, 9)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 8, 10)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 8, 11)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 8, 12)));
+
+        }
+
+        [Test]
+        public void DailyEventTest6()
+        {
+
+            var aEvent = new Event()
+            {
+                ID = 6,
+                Title = "Event 6",
+                FrequencyTypeOptions = FrequencyTypeEnum.Daily,
+                DayInterval = 2,
+                FirstDateTime = new DateTime(2013, 8, 8)
+            };
+
+            var schedule = new Schedule(aEvent);
+
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 5)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 6)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 7)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 8, 8)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 9)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 8, 10)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 11)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 8, 12)));
+
         }
     }
 }

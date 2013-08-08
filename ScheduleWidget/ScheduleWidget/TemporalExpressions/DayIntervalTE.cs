@@ -21,6 +21,10 @@ namespace ScheduleWidget.TemporalExpressions
 
         public override bool Includes(DateTime aDate)
         {
+            if (aDate < _firstDateTime)
+            {
+                return false;
+            }
             return (aDate - _firstDateTime).Days % _dayIntervals == 0;
         }
     }
