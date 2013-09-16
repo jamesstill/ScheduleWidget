@@ -18,7 +18,7 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
             var union = new UnionTE();
             var daysOfWeek = EnumExtensions.GetFlags(_event.DaysOfWeekOptions);
             var weeklyIntervals = _event.WeeklyIntervalOptions;
-            if (weeklyIntervals > 1 && _event.FirstDateTime != null)
+            if (weeklyIntervals > 0 && _event.FirstDateTime != null)
             {
                 foreach (DayOfWeekEnum day in daysOfWeek)
                 {

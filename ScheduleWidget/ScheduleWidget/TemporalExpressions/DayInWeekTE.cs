@@ -11,7 +11,7 @@ namespace ScheduleWidget.TemporalExpressions
         private readonly DayOfWeekEnum _dayOfWeek;
         private readonly DateTime _firstDayOfWeek;
         private readonly int _weeklyIntervals;
-
+        private readonly DateTime _firstDateTime;
         /// <summary>
         /// The day of week value
         /// </summary>
@@ -21,6 +21,7 @@ namespace ScheduleWidget.TemporalExpressions
             _dayOfWeek = aDayOfWeek;
              _firstDayOfWeek = StartOfWeek(aFirstDateTime, DayOfWeek.Sunday);
             _weeklyIntervals = aWeeklyInterval;
+            _firstDateTime = aFirstDateTime;
         }
 
         /// <summary>
@@ -30,6 +31,10 @@ namespace ScheduleWidget.TemporalExpressions
         /// <returns></returns>
         public override bool Includes(DateTime aDate)
         {
+            if (aDate < _firstDateTime)
+            {
+                return false;
+            }
             return WeekMatches(aDate) && DayMatches(aDate);
         }
        

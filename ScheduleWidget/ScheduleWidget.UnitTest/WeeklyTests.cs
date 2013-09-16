@@ -201,5 +201,38 @@ namespace ScheduleWidget.UnitTest
             Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 11)));
 
         }
+
+
+        [Test]
+        public void WeeklyEventWeeklyOnWeekdaysTest2()
+        {
+            var aEvent = new Event()
+            {
+                ID = 1,
+                Title = "Every weekday (Monday to Friday)",
+                Frequency = 32,        // every weekday (Monday to Friday)
+                DaysOfWeek = 62,      // every Mon, Tue, Wed, Thu and Fri,
+                WeeklyInterval = 1,
+                FirstDateTime = new DateTime(2013, 8, 5)
+            };
+
+            var schedule = new Schedule(aEvent);
+
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 7, 29)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 7, 30)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 7, 31)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 1)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 2)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 3)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 4)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 8, 5)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 8, 6)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 8, 7)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 8, 8)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 8, 9)));
+
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 10)));
+
+        }
     }
 }
