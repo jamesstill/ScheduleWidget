@@ -13,6 +13,8 @@ var aEvent = new Event()
 	FrequencyTypeOptions = FrequencyTypeEnum.Monthly, 
 	MonthlyIntervalOptions = MonthlyIntervalEnum.Last, 
 	DaysOfWeekOptions = DayOfWeekEnum.Fri
+};
+
 =======
 ScheduleWidget handles recurring events for calendars.
 
