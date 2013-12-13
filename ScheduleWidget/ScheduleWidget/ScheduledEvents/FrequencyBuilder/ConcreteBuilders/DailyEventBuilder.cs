@@ -21,21 +21,11 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
         {
             var union = new UnionTE();
 
-            if (_event.DayInterval > 1)
-            {
-                var firstDateTime = _event.FirstDateTime ?? DateTime.Now;
+            var firstDateTime = _event.FirstDateTime ?? DateTime.Now;
 
-                foreach (DayOfWeekEnum day in Enum.GetValues(typeof(DayOfWeekEnum)))
-                {
-                    union.Add(new DayIntervalTE(_event.DayInterval, firstDateTime));
-                }
-            }
-            else
+            foreach (DayOfWeekEnum day in Enum.GetValues(typeof(DayOfWeekEnum)))
             {
-                foreach (DayOfWeekEnum day in Enum.GetValues(typeof(DayOfWeekEnum)))
-                {
-                    union.Add(new DayOfWeekTE(day));
-                }
+                union.Add(new DayIntervalTE(_event.DayInterval, firstDateTime));
             }
 
             return union;
