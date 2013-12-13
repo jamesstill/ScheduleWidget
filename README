@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ScheduleWidget handles recurring events for calendars. Let's say we want to create a 
 recurring event for the Critical Mass Bicycle Ride, which happens in many major cities
 on the last Friday of every month. 
@@ -25,12 +24,10 @@ var aEvent = new Event()
     Title = "Every Mon and Wed",
     FrequencyTypeOptions = FrequencyTypeEnum.Weekly,    
     DaysOfWeekOptions = DayOfWeekEnum.Mon | DayOfWeekEnum.Wed
->>>>>>> fe1521d35db1a846acfcfe665601556481a02500
 };
 
 var schedule = new Schedule(aEvent);
 
-<<<<<<< HEAD
 // give me all the upcoming dates for the next year
 var range = new DateRange() 
 { 
@@ -64,4 +61,3 @@ var range = new DateRange()
 IEnumerable<DateTime> dates = schedule.Occurrences(range);
 
 You can model one-time, daily, weekly, bi-weekly, quarterly, monthly, and yearly (anniversary) intervals. You can make exceptions for holidays. It works great with FullCalendar or any other javascript-based calendar control. 
->>>>>>> fe1521d35db1a846acfcfe665601556481a02500
