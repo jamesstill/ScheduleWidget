@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace ScheduleWidget.ScheduledEvents
 {
     /// <summary>
@@ -7,6 +9,7 @@ namespace ScheduleWidget.ScheduledEvents
     /// birthday that occurs every Aug 1 can migrate over days of the week year 
     /// after year but always falls on the same month and day. 
     /// </summary>
+    [Serializable]
     public class Anniversary
     {
         public int Month { get; set; }

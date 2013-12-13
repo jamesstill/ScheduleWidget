@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace ScheduleWidget.ScheduledEvents
 {
     /// <summary>
@@ -7,6 +9,7 @@ namespace ScheduleWidget.ScheduledEvents
     /// the range would be a start month of 4 and end month of 10. Start and end
     /// days are optional since very fine-grained ranges are rare.
     /// </summary>
+    [Serializable]
     public class RangeInYear
     {
         /// <summary>
