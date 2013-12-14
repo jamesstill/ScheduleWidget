@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>ScheduleWidget</id>
+    <version>2.3.0</version>
+    <authors>James Still,  Dajo Hein,  Kurt Mang,  Raghav Khunger</authors>
+    <owners>James Still,  Dajo Hein,  Kurt Mang,  Raghav Khunger</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ScheduleWidget handles recurring events for calendars</description>
+    <language>en-US</language>
+    <tags>.net45 schedule recurring events calendars</tags>
+  </metadata>
+</package>
