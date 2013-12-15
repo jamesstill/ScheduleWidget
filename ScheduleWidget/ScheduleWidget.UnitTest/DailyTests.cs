@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using NUnit.Framework;
 using ScheduleWidget.ScheduledEvents;
 using ScheduleWidget.Enums;
@@ -142,6 +143,32 @@ namespace ScheduleWidget.UnitTest
             Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 11)));
             Assert.IsTrue(schedule.IsOccurring(new DateTime(2013, 8, 12)));
 
+        }
+
+        [Test]
+        public void DailyEventTest7()
+        {
+            // FirstDateTime should be optional for daily events
+            var aEvent = new Event()
+            {
+                ID = 1,
+                Title = "Event 1",
+                Frequency = 1,        // daily
+                MonthlyInterval = 0,  // not applicable
+                DaysOfWeek = 127      // every day of week
+            };
+
+            var schedule = new Schedule(aEvent);
+
+            var during = new DateRange()
+            {
+                StartDateTime = DateTime.Now.AddDays(-30),
+                EndDateTime = DateTime.Now.AddDays(30)
+            };
+
+            var occurrences = schedule.Occurrences(during);
+
+            Assert.IsTrue(occurrences.Any());
         }
     }
 }

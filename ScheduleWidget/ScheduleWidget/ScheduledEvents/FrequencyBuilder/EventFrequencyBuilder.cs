@@ -9,6 +9,7 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder
         public static IEventFrequencyBuilder Create(Event aEvent)
         {
             IEventFrequencyBuilder builder;
+
             switch(aEvent.FrequencyTypeOptions)
             {
                 case FrequencyTypeEnum.None:
@@ -16,7 +17,12 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder
                     break;
 
                 case FrequencyTypeEnum.Daily:
-                    builder = new DailyEventBuilder(aEvent);
+                    // if the event is using FirstDateTime then return a builder for that
+                    // otherwise return the simpler builder for backward compatibility
+                    if (aEvent.FirstDateTime.HasValue)
+                        builder = new DailyEventWithFirstDateTimeBuilder(aEvent);
+                    else
+                        builder = new DailyEventBuilder();
                     break;
 
                 case FrequencyTypeEnum.Weekly:
@@ -43,6 +49,7 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder
                     builder = null;
                     break;
             }
+
             return builder;
         }
     }

@@ -7,7 +7,11 @@
     <authors>James Still, Dajo Hein, Kurt Mang, Raghav Khunger</authors>
     <description>ScheduleWidget handles recurring events for calendars</description>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <tags>.net45 schedule recurring events calendars</tags>
+    <tags>.net40 schedule recurring events calendars</tags>
     <language>en-US</language>
   </metadata>
+  <files>
+    <file src="ScheduleWidget.dll" target="lib\NET40" />
+    <file src="ScheduleWidget.pdb" target="lib\NET40" />
+  </files>
 </package>
