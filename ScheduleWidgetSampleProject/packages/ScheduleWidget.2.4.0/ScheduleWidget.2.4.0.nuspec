@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>ScheduleWidget</id>
-    <version>2.3.0</version>
+    <version>2.4.0</version>
     <authors>James Still,  Dajo Hein,  Kurt Mang,  Raghav Khunger</authors>
     <owners>James Still,  Dajo Hein,  Kurt Mang,  Raghav Khunger</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

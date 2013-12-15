@@ -43,7 +43,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="ScheduleWidget, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ScheduleWidget.2.3.0\lib\NET40\ScheduleWidget.dll</HintPath>
+      <HintPath>..\packages\ScheduleWidget.2.4.0\lib\NET40\ScheduleWidget.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
