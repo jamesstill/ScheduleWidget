@@ -78,13 +78,14 @@ namespace ScheduleWidget.UnitTest
                 {
                     Month = 9,
                     Day = 27
-                }
+                },
             };
 
+            var thisYear = DateTime.Now.Year;
             var schedule = new Schedule(aEvent);
-            Assert.IsFalse(schedule.IsOccurring(new DateTime(2014, 9, 27)));
-            Assert.IsTrue(schedule.IsOccurring(new DateTime(2015, 9, 27)));
-            Assert.IsFalse(schedule.IsOccurring(new DateTime(2016, 9, 27)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(thisYear + 1, 9, 27)));
+            Assert.IsTrue(schedule.IsOccurring(new DateTime(thisYear + 2, 9, 27)));
+            Assert.IsFalse(schedule.IsOccurring(new DateTime(thisYear + 3, 9, 27)));
         }
     }
 }
