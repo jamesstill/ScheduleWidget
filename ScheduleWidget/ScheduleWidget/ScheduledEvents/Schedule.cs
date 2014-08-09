@@ -55,7 +55,12 @@ namespace ScheduleWidget.ScheduledEvents
         }
 
         /// <summary>
+        /// PreviousOccurrence(DateTime),
         /// Return the previous occurrence in the schedule for the given date.
+        /// Notes:
+        /// This is not inclusive of the supplied date. Only earlier dates can be returned.
+        /// This function takes into account any excluded dates that were provided when the 
+        /// schedule was created.
         /// </summary>
         /// <param name="aDate"></param>
         /// <returns></returns>
@@ -67,7 +72,31 @@ namespace ScheduleWidget.ScheduledEvents
         }
 
         /// <summary>
+        /// PreviousOccurrence(DateTime, DateRange),
+        /// Return the previous occurrence in the schedule for the given date, from within the
+        /// specified date range.
+        /// Notes:
+        /// This is not inclusive of the supplied date (aDate). Only earlier dates can be returned.
+        /// This function takes into account any excluded dates that were provided when the schedule
+        /// was created.
+        /// </summary>
+        public DateTime? PreviousOccurrence(DateTime aDate, DateRange during)
+        {
+            // Make sure that our search begins no later than the end of the during range.
+            DateTime latestSearchStart = during.EndDateTime.AddDays(1);
+            if (aDate > latestSearchStart) { aDate = latestSearchStart; }
+            // Perform the search.
+            DateTime? previousOccurrence = PreviousOccurrence(aDate);
+            // Make sure that our result is no earlier than the start of the during range.
+            if (previousOccurrence != null && previousOccurrence < during.StartDateTime)
+                previousOccurrence = null;
+            return previousOccurrence;
+        }
+
+        /// <summary>
+        /// NextOccurrence(DateTime),
         /// Return the next occurrence in the schedule for the given date.
+        /// This is not inclusive of the supplied date. Only later dates can be returned.
         /// </summary>
         /// <param name="aDate"></param>
         /// <returns></returns>
@@ -76,6 +105,28 @@ namespace ScheduleWidget.ScheduledEvents
             var during = DateRange(aDate, false);
             var dates = Occurrences(during);
             return dates.SkipWhile(o => o.Date <= aDate.Date).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// NextOccurrence(DateTime, DateRange),
+        /// Return the next occurrence in the schedule for the given date, from within the
+        /// specified date range.
+        /// Notes:
+        /// This is not inclusive of the supplied date (aDate). Only later dates can be returned.
+        /// This function takes into account any excluded dates that were provided when the schedule
+        /// was created.
+        /// </summary>
+        public DateTime? NextOccurrence(DateTime aDate, DateRange during)
+        {
+            // Make sure that our search begins no earlier than the beginning of the during range.
+            DateTime earliestSearchStart = during.StartDateTime.AddDays(-1);
+            if (aDate < earliestSearchStart) { aDate = earliestSearchStart; }
+            // Perform the search.
+            DateTime? nextOccurrence = NextOccurrence(aDate);
+            // Make sure that our result is no later than the end of the during range.
+            if (nextOccurrence != null && nextOccurrence > during.EndDateTime)
+                nextOccurrence = null;
+            return nextOccurrence;
         }
 
         /// <summary>
@@ -293,7 +344,7 @@ namespace ScheduleWidget.ScheduledEvents
             DateTime enddate = startDateTime;
             if (items != null)
             {
-                enddate = items.ElementAtOrDefault(occurences-1);
+                enddate = items.ElementAtOrDefault(occurences - 1);
             }
             return enddate;
         }
