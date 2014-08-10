@@ -19,7 +19,7 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder
                 case FrequencyTypeEnum.Daily:
                     // if the event is using FirstDateTime then return a builder for that
                     // otherwise return the simpler builder for backward compatibility
-                    if (aEvent.FirstDateTime.HasValue)
+                    if (aEvent.StartDateTime.HasValue)
                         builder = new DailyEventWithFirstDateTimeBuilder(aEvent);
                     else
                         builder = new DailyEventBuilder();

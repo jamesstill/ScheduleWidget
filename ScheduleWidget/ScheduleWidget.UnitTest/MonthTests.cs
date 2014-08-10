@@ -54,15 +54,15 @@ namespace ScheduleWidget.UnitTest
                 ID = 1,
                 Title = "Event 2",
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
-                MonthInterval = 2,
+                RepeatInterval = 2,
                 MonthlyIntervalOptions = MonthlyIntervalEnum.Last,
                 DaysOfWeekOptions = DayOfWeekEnum.Mon | DayOfWeekEnum.Fri,
-                FirstDateTime = new DateTime(2013, 1, 15)
+                StartDateTime = new DateTime(2013, 1, 15)
             };
 
             var range = new DateRange()
             {
-                StartDateTime = aEvent.FirstDateTime.Value,
+                StartDateTime = aEvent.StartDateTime.Value,
                 EndDateTime = new DateTime(2013, 4, 30)
             };
 
@@ -127,14 +127,14 @@ namespace ScheduleWidget.UnitTest
                 ID = 1,
                 Title = "Event 4",
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
-                MonthInterval = 3,
+                RepeatInterval = 3,
                 DayOfMonth = 30,
-                FirstDateTime = new DateTime(2013, 2, 1)
+                StartDateTime = new DateTime(2013, 2, 1)
             };
 
             var range = new DateRange()
             {
-                StartDateTime = aEvent.FirstDateTime.Value,
+                StartDateTime = aEvent.StartDateTime.Value,
                 EndDateTime = new DateTime(2014, 12, 31)
             };
 

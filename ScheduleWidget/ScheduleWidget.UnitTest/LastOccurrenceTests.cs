@@ -17,7 +17,7 @@ namespace ScheduleWidget.UnitTest
                 Title = "Daily, 3 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Daily,
                 NumberOfOccurrences = 3,
-                FirstDateTime = new DateTime(2013, 7, 29)
+                StartDateTime = new DateTime(2013, 7, 29)
             };
 
             var schedule = new Schedule(aEvent);
@@ -34,8 +34,8 @@ namespace ScheduleWidget.UnitTest
                 Title = "Every 2 days, 3 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Daily,
                 NumberOfOccurrences = 3,
-                DayInterval = 2,
-                FirstDateTime = new DateTime(2013, 7, 29)
+                RepeatInterval = 2,
+                StartDateTime = new DateTime(2013, 7, 29)
             };
 
             var schedule = new Schedule(aEvent);
@@ -53,7 +53,7 @@ namespace ScheduleWidget.UnitTest
                 FrequencyTypeOptions = FrequencyTypeEnum.Weekly,
                 DaysOfWeek = 6,
                 NumberOfOccurrences = 3,
-                FirstDateTime = new DateTime(2013, 7, 29)
+                StartDateTime = new DateTime(2013, 7, 29)
             };
 
             var schedule = new Schedule(aEvent);
@@ -70,9 +70,9 @@ namespace ScheduleWidget.UnitTest
                 Title = "Every 2 weeks on Monday, Tuesday, Wednesday, 10 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Weekly,
                 DaysOfWeek = 14,
-                WeeklyInterval = 2,
+                RepeatInterval = 2,
                 NumberOfOccurrences = 10,
-                FirstDateTime = new DateTime(2013, 7, 29)
+                StartDateTime = new DateTime(2013, 7, 29)
             };
 
             var schedule = new Schedule(aEvent);
@@ -90,7 +90,7 @@ namespace ScheduleWidget.UnitTest
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
                 DayOfMonth = 29,
                 NumberOfOccurrences = 3,
-                FirstDateTime = new DateTime(2013, 7, 29)
+                StartDateTime = new DateTime(2013, 7, 29)
             };
 
             var schedule = new Schedule(aEvent);
@@ -108,8 +108,8 @@ namespace ScheduleWidget.UnitTest
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
                 DayOfMonth = 29,
                 NumberOfOccurrences = 3,
-                MonthInterval = 2,
-                FirstDateTime = new DateTime(2013, 7, 29)
+                RepeatInterval = 2,
+                StartDateTime = new DateTime(2013, 7, 29)
             };
 
             var schedule = new Schedule(aEvent);
@@ -129,7 +129,7 @@ namespace ScheduleWidget.UnitTest
                 DaysOfWeek = 2,
                 NumberOfOccurrences = 3,
                 MonthlyIntervalOptions = MonthlyIntervalEnum.Last,
-                FirstDateTime = new DateTime(2013, 7, 29)
+                StartDateTime = new DateTime(2013, 7, 29)
             };
 
             var schedule = new Schedule(aEvent);
@@ -147,9 +147,9 @@ namespace ScheduleWidget.UnitTest
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
                 DaysOfWeek = 2,
                 NumberOfOccurrences = 3,
-                MonthInterval = 2,
+                RepeatInterval = 2,
                 MonthlyIntervalOptions = MonthlyIntervalEnum.Last,
-                FirstDateTime = new DateTime(2013, 7, 29)
+                StartDateTime = new DateTime(2013, 7, 29)
             };
 
             var schedule = new Schedule(aEvent);
@@ -167,9 +167,9 @@ namespace ScheduleWidget.UnitTest
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
                 DaysOfWeek = 2,
                 NumberOfOccurrences = 3,
-                MonthInterval = 2,
+                RepeatInterval = 2,
                 MonthlyIntervalOptions = MonthlyIntervalEnum.Last,
-                FirstDateTime = new DateTime(2013, 7, 29)
+                StartDateTime = new DateTime(2013, 7, 29)
             };
 
             var schedule = new Schedule(aEvent);
@@ -187,7 +187,7 @@ namespace ScheduleWidget.UnitTest
                 FrequencyTypeOptions = FrequencyTypeEnum.Yearly,
                 NumberOfOccurrences = 2,
                 Anniversary = new Anniversary{ Day = 29,Month = 7},
-                FirstDateTime = new DateTime(2013, 7, 29)
+                StartDateTime = new DateTime(2013, 7, 29)
             };
 
             var schedule = new Schedule(aEvent);
@@ -204,9 +204,9 @@ namespace ScheduleWidget.UnitTest
                 Title = "Every 2 years on July 29, 2 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Yearly,
                 NumberOfOccurrences = 2,
-                YearInterval = 2,
+                RepeatInterval = 2,
                 Anniversary = new Anniversary { Day = 29, Month = 7 },
-                FirstDateTime = new DateTime(2013, 7, 29)
+                StartDateTime = new DateTime(2013, 7, 29)
             };
 
             var schedule = new Schedule(aEvent);

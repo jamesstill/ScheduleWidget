@@ -18,7 +18,7 @@ namespace ScheduleWidget.Sandbox
                 Frequency = 1,        // daily
                 MonthlyInterval = 0,  // not applicable
                 DaysOfWeek = 127,     // every day of week
-                FirstDateTime = new DateTime(2013, 12, 1)
+                StartDateTime = new DateTime(2013, 12, 1)
             };
 
             var during = new DateRange()

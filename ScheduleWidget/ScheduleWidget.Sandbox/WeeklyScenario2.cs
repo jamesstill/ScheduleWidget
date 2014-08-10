@@ -16,10 +16,10 @@ namespace ScheduleWidget.Sandbox
                 ID = 1,
                 Title = "Every Mon and Wed",
                 Frequency = 2,        // weekly
-                WeeklyInterval = 2,   // bi-weekly
+                RepeatInterval = 2,   // bi-weekly
                 MonthlyInterval = 0,  // not applicable
                 DaysOfWeek = 10,      // every Mon and Wed
-                FirstDateTime = new DateTime(2013, 12, 1)
+                StartDateTime = new DateTime(2013, 12, 1)
             };
 
             var during = new DateRange()

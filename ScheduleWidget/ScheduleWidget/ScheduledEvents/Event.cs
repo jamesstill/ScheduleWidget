@@ -29,9 +29,26 @@ namespace ScheduleWidget.ScheduledEvents
         public DateTime? OneTimeOnlyEventDate { get; set; }
 
         /// <summary>
-        /// If this is a event that repeats every x weeks set the date
+        /// If this event occurs only after a certain date,
+        /// or repeats every x weeks, set the date.
         /// </summary>
-        public DateTime? FirstDateTime { get; set; }
+        public DateTime? StartDateTime { get; set; }
+
+        /// <summary>
+        /// If this event occurs only until a specific ending date, set the date.
+        /// Note that if you set both the EndDateTime, and a NumberOfOccurrences,
+        /// The actual end date of the event will be determined by the more restrictive of 
+        /// the two values.
+        /// </summary>
+        public DateTime? EndDateTime { get; set; }
+
+        /// <summary>
+        /// The number of times the event will repeat.
+        /// Note that if you set both the EndDateTime, and a NumberOfOccurrences,
+        /// The actual end date of the event will be determined by the more restrictive of 
+        /// the two values.
+        /// </summary>
+        public int? NumberOfOccurrences { get; set; }
 
         /// <summary>
         /// If this event has a yearly frequency then the anniversary
@@ -49,6 +66,13 @@ namespace ScheduleWidget.ScheduledEvents
         /// value of FrequencyTypeEnum (0, 1, 2, 4, 8, 16, 32, 64 or 128 only).
         /// </summary>
         public int Frequency { get; set; }
+
+        /// <summary>
+        /// If the frequency is daily, weekly, monthly, or yearly, 
+        /// then set the interval of the event as an int.
+        /// E.g., every second week == 2, every fourth day == 4.
+        /// </summary>
+        public int RepeatInterval { get; set; }
 
         /// <summary>
         /// If an event is quarterly, which quarter(s) does it fall in? 
@@ -70,13 +94,6 @@ namespace ScheduleWidget.ScheduledEvents
         /// E.g., the first and third weeks of the month == 5
         /// </summary>
         public int MonthlyInterval { get; set; }
-
-        /// <summary>
-        /// If the frequency is weekly then the interval of the
-        /// event as an int.
-        /// E.g., every second week == 2
-        /// </summary>
-        public int WeeklyInterval { get; set; }
 
         /// <summary>
         /// The days of the week that the event occurs as a value
@@ -141,22 +158,6 @@ namespace ScheduleWidget.ScheduledEvents
         }
 
         /// <summary>
-        /// The monthly interval expressed as enumeration
-        /// The weekly interval (i.e. 2 == every 2 weeks) expressed as enumeration
-        /// </summary>
-        public int WeeklyIntervalOptions
-        {
-            get
-            {
-                return WeeklyInterval;
-            }
-            set
-            {
-                WeeklyInterval = value;
-            }
-        }
-
-        /// <summary>
         /// The days of the week expressed as enumeration.
         /// </summary>
         public DayOfWeekEnum DaysOfWeekOptions
@@ -172,32 +173,32 @@ namespace ScheduleWidget.ScheduledEvents
         }
 
         /// <summary>
-        /// The days interval used for 'Daily' frequency type.
-        /// E.g., every day, every 2 days, every 3 days, .... , every n days.
-        /// </summary>
-        public int DayInterval { get; set; }
-
-        /// <summary>
-        /// The months interval used for 'Monthly' frequency type.
-        /// E.g., every month, every 2 months, every 3 months, .... , every n months.
-        /// </summary>
-        public int MonthInterval { get; set; }
-
-        /// <summary>
         /// A particular day of a month used for 'Monthly' frequency type.
         /// E.g., 1st day of every month, 10th day of every 2 months, etc.
         /// </summary>
         public int DayOfMonth { get; set; }
 
-        /// <summary>
-        /// The years interval used for 'Yearly' frequency type.
-        /// E.g., every year, every 2 years, every 3 years, .... , every n years.
-        /// </summary>
-        public int YearInterval { get; set; }
 
         /// <summary>
-        /// The number of times the event will repeat.
+        /// Returns the start and end date for this event as a date range instance.
+        /// If the event does not have a start date or end date, the date range values will be
+        /// DateTime.MinValue and DateTime.MaxValue, respectively.
         /// </summary>
-        public int? NumberOfOccurrences { get; set; }
+        public DateRange GetEventLimitsAsDateRange()
+        {
+            DateRange range = new DateRange();
+            range.StartDateTime = (StartDateTime == null) ? DateTime.MinValue : (DateTime)StartDateTime;
+            range.EndDateTime = (EndDateTime == null) ? DateTime.MaxValue : (DateTime)EndDateTime;
+            return range;
+        }
+
+        /// <summary>
+        /// Returns true if a date falls within this event's limits, otherwise false.
+        /// </summary>
+        internal bool DateIsWithinLimits(DateTime aDate)
+        {
+            DateRange limits = GetEventLimitsAsDateRange();
+            return (aDate >= limits.StartDateTime && aDate <= limits.EndDateTime);
+        }
     }
 }

@@ -65,8 +65,8 @@ namespace ScheduleWidget.UnitTest
                 Frequency = 2,        // weekly
                 MonthlyInterval = 0,  // not applicable
                 DaysOfWeek = 44,      // every Tue, Wed and Fri
-                WeeklyInterval = 2, // every 2nd week
-                FirstDateTime = new DateTime(2013, 1, 1) // start date on a Tue
+                RepeatInterval = 2, // every 2nd week
+                StartDateTime = new DateTime(2013, 1, 1) // start date on a Tue
             };
 
             var schedule = new Schedule(aEvent);
@@ -91,8 +91,8 @@ namespace ScheduleWidget.UnitTest
                 Frequency = 2,        // weekly
                 MonthlyInterval = 0,  // not applicable
                 DaysOfWeek = 44,      // every Tue, Wed and Fri
-                WeeklyInterval = 3, // every 2nd week
-                FirstDateTime = new DateTime(2013, 1, 1) // start date on a Tue
+                RepeatInterval = 3, // every 3rd week
+                StartDateTime = new DateTime(2013, 1, 1) // start date on a Tue
             };
 
             var schedule = new Schedule(aEvent);
@@ -114,7 +114,7 @@ namespace ScheduleWidget.UnitTest
                 Title = "Every weekday (Monday to Friday)",
                 Frequency = 32,        // every weekday (Monday to Friday)
                 DaysOfWeek = 62,      // every Mon, Tue, Wed, Thu and Fri
-                FirstDateTime = new DateTime(2013, 8, 1) 
+                StartDateTime = new DateTime(2013, 8, 1) 
             };
 
             var schedule = new Schedule(aEvent);
@@ -144,7 +144,7 @@ namespace ScheduleWidget.UnitTest
                 Title = "Weekly on Monday, Wednesday, Friday",
                 Frequency = 64,        // weekly on Monday, Wednesday, Friday
                 DaysOfWeek = 42,      // every Mon, Wed and Fri
-                FirstDateTime = new DateTime(2013, 8, 2)
+                StartDateTime = new DateTime(2013, 8, 2)
             };
 
             var schedule = new Schedule(aEvent);
@@ -178,7 +178,7 @@ namespace ScheduleWidget.UnitTest
                 Title = "Weekly on Tuesday and Thursday",
                 Frequency = 128,        // weekly on Tuesday and Thursday
                 DaysOfWeek = 20,      // every Tuesday and Thursday
-                FirstDateTime = new DateTime(2013, 8, 1)
+                StartDateTime = new DateTime(2013, 8, 1)
             };
 
             var schedule = new Schedule(aEvent);
@@ -212,8 +212,8 @@ namespace ScheduleWidget.UnitTest
                 Title = "Every weekday (Monday to Friday)",
                 Frequency = 32,        // every weekday (Monday to Friday)
                 DaysOfWeek = 62,      // every Mon, Tue, Wed, Thu and Fri,
-                WeeklyInterval = 1,
-                FirstDateTime = new DateTime(2013, 8, 5)
+                RepeatInterval = 1,
+                StartDateTime = new DateTime(2013, 8, 5)
             };
 
             var schedule = new Schedule(aEvent);
