@@ -99,7 +99,7 @@ namespace ScheduleWidget.ScheduledEvents
         /// SetEndDateTimeForMaximumNumberOfOccurrences() function, for informational purposes only.
         /// If nothing has been set, this will contain null.
         /// </summary>
-        public int? NumberOfOccurrencesThatWasLastSet { get; private set; }
+        public int? NumberOfOccurrencesThatWasLastSet { get; set; }
 
         /// <summary>
         /// The frequency expressed as enumeration.
@@ -201,7 +201,7 @@ namespace ScheduleWidget.ScheduledEvents
         }
 
         /// <summary>
-        /// SetEndDateTimeForMaximumNumberOfOccurrences,
+        /// SetEndDateWithNumberOfOccurrences,
         /// This will use the currently defined event schedule, to choose and set an
         /// EndDateTime that will limit the event to a fixed maximum number of occurrences.
         /// Calling this function will override any previously set EndDateTime.
@@ -219,7 +219,7 @@ namespace ScheduleWidget.ScheduledEvents
         /// Setting this to null will clear the NumberOfOccurrencesThatWasLastSet variable, but will
         /// not change the EndDateTime value.
         /// </summary>
-        public void SetEndDateForNumberOfOccurrences(int? numberOfOccurrences)
+        public void SetEndDateWithNumberOfOccurrences(int? numberOfOccurrences)
         {
             // If the supplied parameter is null, clear the last set number of occurrences and return.
             if (numberOfOccurrences == null)
@@ -236,6 +236,18 @@ namespace ScheduleWidget.ScheduledEvents
             EndDateTime = schedule.zInternalGetEndDateBasedOnNumberOfOccurrences((int)numberOfOccurrences);
             // Store the last set number of occurrences, for future reference by the user.
             NumberOfOccurrencesThatWasLastSet = numberOfOccurrences;
+        }
+
+        /// <summary>
+        /// SetEndDateTimeWithDate,
+        /// This is a convenience function, for setting or clearing the end date while remembering to
+        /// clear any pre-existing NumberOfOccurrencesThatWasLastSet value.
+        /// Setting this function to null, will cause the event to repeat forever.
+        /// </summary>
+        public void SetEndDateTimeWithDate(DateTime? endDate)
+        {
+            NumberOfOccurrencesThatWasLastSet = null;
+            EndDateTime = endDate;
         }
     }
 }

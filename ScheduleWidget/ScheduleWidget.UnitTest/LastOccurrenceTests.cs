@@ -18,7 +18,7 @@ namespace ScheduleWidget.UnitTest
                 FrequencyTypeOptions = FrequencyTypeEnum.Daily,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
-            aEvent.SetEndDateForNumberOfOccurrences(3);
+            aEvent.SetEndDateWithNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -36,7 +36,7 @@ namespace ScheduleWidget.UnitTest
                 RepeatInterval = 2,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
-            aEvent.SetEndDateForNumberOfOccurrences(3);
+            aEvent.SetEndDateWithNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -54,7 +54,7 @@ namespace ScheduleWidget.UnitTest
                 DaysOfWeek = 6,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
-            aEvent.SetEndDateForNumberOfOccurrences(3);
+            aEvent.SetEndDateWithNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -73,7 +73,7 @@ namespace ScheduleWidget.UnitTest
                 RepeatInterval = 2,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
-            aEvent.SetEndDateForNumberOfOccurrences(10);
+            aEvent.SetEndDateWithNumberOfOccurrences(10);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -91,7 +91,7 @@ namespace ScheduleWidget.UnitTest
                 DayOfMonth = 29,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
-            aEvent.SetEndDateForNumberOfOccurrences(3);
+            aEvent.SetEndDateWithNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -110,7 +110,7 @@ namespace ScheduleWidget.UnitTest
                 RepeatInterval = 2,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
-            aEvent.SetEndDateForNumberOfOccurrences(3);
+            aEvent.SetEndDateWithNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -130,7 +130,7 @@ namespace ScheduleWidget.UnitTest
                 MonthlyIntervalOptions = MonthlyIntervalEnum.Last,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
-            aEvent.SetEndDateForNumberOfOccurrences(3);
+            aEvent.SetEndDateWithNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -150,7 +150,7 @@ namespace ScheduleWidget.UnitTest
                 MonthlyIntervalOptions = MonthlyIntervalEnum.Last,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
-            aEvent.SetEndDateForNumberOfOccurrences(3);
+            aEvent.SetEndDateWithNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -170,7 +170,7 @@ namespace ScheduleWidget.UnitTest
                 MonthlyIntervalOptions = MonthlyIntervalEnum.Last,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
-            aEvent.SetEndDateForNumberOfOccurrences(3);
+            aEvent.SetEndDateWithNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -188,7 +188,7 @@ namespace ScheduleWidget.UnitTest
                 Anniversary = new Anniversary { Day = 29, Month = 7 },
                 StartDateTime = new DateTime(2013, 7, 29)
             };
-            aEvent.SetEndDateForNumberOfOccurrences(2);
+            aEvent.SetEndDateWithNumberOfOccurrences(2);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -207,7 +207,7 @@ namespace ScheduleWidget.UnitTest
                 Anniversary = new Anniversary { Day = 29, Month = 7 },
                 StartDateTime = new DateTime(2013, 7, 29)
             };
-            aEvent.SetEndDateForNumberOfOccurrences(2);
+            aEvent.SetEndDateWithNumberOfOccurrences(2);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();

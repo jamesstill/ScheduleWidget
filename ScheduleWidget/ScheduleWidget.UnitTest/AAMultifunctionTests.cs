@@ -26,7 +26,7 @@ namespace ScheduleWidget.UnitTest
                 }
             };
             // Occurs 2000,2002,2004,2006,2008,2010
-            aEvent.SetEndDateForNumberOfOccurrences(6);
+            aEvent.SetEndDateWithNumberOfOccurrences(6);
 
             // Check that the ending date was set correctly.
             Assert.IsTrue(aEvent.EndDateTime == new DateTime(2010, 9, 27));
