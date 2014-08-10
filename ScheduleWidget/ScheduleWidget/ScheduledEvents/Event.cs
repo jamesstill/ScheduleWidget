@@ -1,5 +1,6 @@
 ﻿using System;
 using ScheduleWidget.Enums;
+using System.Collections.Generic;
 
 namespace ScheduleWidget.ScheduledEvents
 {
@@ -248,6 +249,28 @@ namespace ScheduleWidget.ScheduledEvents
         {
             NumberOfOccurrencesThatWasLastSet = null;
             EndDateTime = endDate;
+        }
+
+        /// <summary>
+        /// HasOccurrences,
+        /// This will return true if this event is capable of generating occurrences, otherwise false.
+        /// </summary>
+        public bool HasOccurrences()
+        {
+            if (FrequencyTypeOptions == FrequencyTypeEnum.Weekly && DaysOfWeekOptions == 0)
+                return false;
+            if (FrequencyTypeOptions == FrequencyTypeEnum.Yearly && Anniversary == null)
+                return false;
+            if (StartDateTime == null || EndDateTime == null)
+                return true;
+            if (StartDateTime == DateTime.MinValue || EndDateTime == DateTime.MaxValue)
+                return true;
+            Schedule schedule = new Schedule(this);
+            DateRange occurrenceRange = schedule.DateRangeForPreviousOrNextOccurrence(
+                (DateTime)StartDateTime, false, null);
+            IEnumerable<DateTime> occurrences = schedule.Occurrences(occurrenceRange);
+            foreach (DateTime date in occurrences) { return true; }
+            return false;
         }
     }
 }

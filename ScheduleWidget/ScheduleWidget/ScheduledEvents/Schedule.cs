@@ -170,8 +170,8 @@ namespace ScheduleWidget.ScheduledEvents
             // Find the loop limit date for this search.
             // This should be the earliest available ending date from all the applicable limiting ranges.
             DateTime latestSearchDate = during.EndDateTime;
-            if (eventLimits.EndDateTime < latestSearchDate) 
-                latestSearchDate = eventLimits.EndDateTime; 
+            if (eventLimits.EndDateTime < latestSearchDate)
+                latestSearchDate = eventLimits.EndDateTime;
             // Perform the search.
             DateTime? occurrence = null;
             while (aDate <= latestSearchDate)
@@ -290,19 +290,18 @@ namespace ScheduleWidget.ScheduledEvents
             for (var day = from.Date; day.Date <= through.Date; day = day.AddDays(1))
                 yield return day;
         }
-
-        //An effective way to find date range especially when the interval is greater than one for any date frequencies 
-        //(every x days, every x weeks, every x months, every x quarters or every x years).
-        //NOTE: Quarterly is still not completely done as it is not supporting the interval (every n quarter(s)) feature right now.
         /// <summary>
+        /// DateRangeForPreviousOrNextOccurrence
+        /// This is an effective way to find date range especially when the interval is greater than one for any date
+        /// frequencies (every x days, every x weeks, every x months, every x quarters or every x years).
+        /// NOTE: Quarterly is still not completely done as it is not supporting the interval 
+        /// (every n quarter(s)) feature right now.
+        /// 
         /// Return a date range to find either previous or next occurrence
         /// for a given date by evaluating some properties of the event
         /// </summary>
-        /// <param name="aDate"></param>
-        /// <param name="previousOccurrence"></param>
-        /// <returns></returns>
-        private DateRange DateRangeForPreviousOrNextOccurrence(
-            DateTime aDate, bool previousOccurrence, DateTime limitingDate)
+        internal DateRange DateRangeForPreviousOrNextOccurrence(
+            DateTime aDate, bool previousOccurrence, DateTime? optionalLimitingDate)
         {
             if (_event.FrequencyTypeOptions == FrequencyTypeEnum.None)
                 return new DateRange { StartDateTime = aDate, EndDateTime = aDate };
@@ -347,10 +346,15 @@ namespace ScheduleWidget.ScheduledEvents
                                 : new DateRange { StartDateTime = aDate, EndDateTime = aDate.AddYears(interval) };
                     break;
             }
-            if (previousOccurrence)
-                dateRange.StartDateTime = (limitingDate > dateRange.StartDateTime) ? limitingDate : dateRange.StartDateTime;
-            else
-                dateRange.EndDateTime = (limitingDate < dateRange.EndDateTime) ? limitingDate : dateRange.EndDateTime;
+            if (optionalLimitingDate != null)
+            {
+                if (previousOccurrence)
+                    dateRange.StartDateTime = (optionalLimitingDate > dateRange.StartDateTime) ? 
+                        (DateTime)optionalLimitingDate : dateRange.StartDateTime;
+                else
+                    dateRange.EndDateTime = (optionalLimitingDate < dateRange.EndDateTime) ?
+                        (DateTime)optionalLimitingDate : dateRange.EndDateTime;
+            }
             if (dateRange.StartDateTime > dateRange.EndDateTime)
                 throw new Exception("Start and end date are inconsistent. This should not happen.");
             return dateRange;
