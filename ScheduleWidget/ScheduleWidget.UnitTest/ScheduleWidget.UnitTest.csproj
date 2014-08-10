@@ -71,6 +71,7 @@
     <Compile Include="StreetCleaningTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DayInMonthTests.cs" />
+    <Compile Include="AAMultifunctionTests.cs" />
     <Compile Include="YearTests.cs" />
   </ItemGroup>
   <ItemGroup>

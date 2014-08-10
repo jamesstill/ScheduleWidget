@@ -124,7 +124,9 @@ namespace ScheduleWidget.UnitTest
                 Title = "My Recurring Event",
                 Frequency = 4,        // monthly
                 MonthlyInterval = 5,  // first and third of month
-                DaysOfWeek = 10       // Mon and Wed
+                DaysOfWeek = 10,      // Mon and Wed
+                StartDateTime = new DateTime(2000,1,1),
+                EndDateTime = new DateTime(2020,1,1)
             };
         }
     }

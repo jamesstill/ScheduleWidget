@@ -115,7 +115,9 @@ public class StreetCleaningTests
             },
             Frequency = 4,       // monthly       
             MonthlyInterval = 5, // first and third of month
-            DaysOfWeek = 2       // Mon
+            DaysOfWeek = 2,       // Mon
+            StartDateTime = new DateTime(2000, 1, 1),
+            EndDateTime = new DateTime(2020, 1, 1)
         };
     }
 

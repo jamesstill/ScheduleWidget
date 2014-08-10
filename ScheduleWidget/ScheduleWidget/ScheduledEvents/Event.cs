@@ -43,14 +43,6 @@ namespace ScheduleWidget.ScheduledEvents
         public DateTime? EndDateTime { get; set; }
 
         /// <summary>
-        /// The number of times the event will repeat.
-        /// Note that if you set both the EndDateTime, and a NumberOfOccurrences,
-        /// The actual end date of the event will be determined by the more restrictive of 
-        /// the two values.
-        /// </summary>
-        public int? NumberOfOccurrences { get; set; }
-
-        /// <summary>
         /// If this event has a yearly frequency then the anniversary
         /// describes the fixed year after year month and day of recurrence.
         /// </summary>
@@ -101,6 +93,13 @@ namespace ScheduleWidget.ScheduledEvents
         /// day of the week is 127.
         /// </summary>
         public int DaysOfWeek { get; set; }
+
+        /// <summary>
+        /// This holds the number of occurrences that was last set with the 
+        /// SetEndDateTimeForMaximumNumberOfOccurrences() function, for informational purposes only.
+        /// If nothing has been set, this will contain null.
+        /// </summary>
+        public int? NumberOfOccurrencesThatWasLastSet { get; private set; }
 
         /// <summary>
         /// The frequency expressed as enumeration.
@@ -199,6 +198,44 @@ namespace ScheduleWidget.ScheduledEvents
         {
             DateRange limits = GetEventLimitsAsDateRange();
             return (aDate >= limits.StartDateTime && aDate <= limits.EndDateTime);
+        }
+
+        /// <summary>
+        /// SetEndDateTimeForMaximumNumberOfOccurrences,
+        /// This will use the currently defined event schedule, to choose and set an
+        /// EndDateTime that will limit the event to a fixed maximum number of occurrences.
+        /// Calling this function will override any previously set EndDateTime.
+        /// 
+        /// All other desired event parameters should be set before this function is called.
+        /// Previously set variables should include at minimum, a StartDateTime, and a Frequency.
+        /// 
+        /// The reason this sets a "maximum" number of occurrences, is that the number of 
+        /// actual occurrences can be reduced by excluding occurrence dates from a Schedule 
+        /// instance. Changing the exclusions will not change the EndDateTime.
+        /// 
+        /// The supplied maximumNumberOfOccurrences value is recorded for informational
+        /// purposes only. Only the EndDateTime is used by the Event and Schedule calculations.
+        /// 
+        /// Setting this to null will clear the NumberOfOccurrencesThatWasLastSet variable, but will
+        /// not change the EndDateTime value.
+        /// </summary>
+        public void SetEndDateForNumberOfOccurrences(int? numberOfOccurrences)
+        {
+            // If the supplied parameter is null, clear the last set number of occurrences and return.
+            if (numberOfOccurrences == null)
+            {
+                NumberOfOccurrencesThatWasLastSet = null;
+                return;
+            }
+            // Validate the input parameters.
+            if (numberOfOccurrences < 1)
+                throw new Exception("SetEndDateTimeForMaximumNumberOfOccurrences(), " +
+                    "numberOfOccurrences cannot be less than one.");
+            // Calculate and set the appropriate end date.
+            Schedule schedule = new Schedule(this);
+            EndDateTime = schedule.zInternalGetEndDateBasedOnNumberOfOccurrences((int)numberOfOccurrences);
+            // Store the last set number of occurrences, for future reference by the user.
+            NumberOfOccurrencesThatWasLastSet = numberOfOccurrences;
         }
     }
 }

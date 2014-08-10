@@ -17,27 +17,23 @@ namespace ScheduleWidget.ScheduledEvents
     {
         private readonly Event _event;
         public TemporalExpression TemporalExpression { get; private set; }
-        public TemporalExpression TemporalExpressionIgnoringExclusions { get; private set; }
 
         public Schedule(Event aEvent)
         {
             _event = aEvent;
             TemporalExpression = Create();
-            TemporalExpressionIgnoringExclusions = Create();
         }
 
         public Schedule(Event aEvent, IEnumerable<DateTime> excludedDates)
         {
             _event = aEvent;
             TemporalExpression = Create(excludedDates);
-            TemporalExpressionIgnoringExclusions = Create();
         }
 
         public Schedule(Event aEvent, UnionTE excludedDates)
         {
             _event = aEvent;
             TemporalExpression = Create(excludedDates);
-            TemporalExpressionIgnoringExclusions = Create();
         }
 
         /// <summary>
@@ -61,44 +57,29 @@ namespace ScheduleWidget.ScheduledEvents
         }
 
         /// <summary>
-        /// Return true if the date occurs in the schedule, ignoring excluded dates.
-        /// </summary>
-        /// <param name="aDate"></param>
-        /// <returns></returns>
-        private bool IsOccurringIgnoringExcludedDates(DateTime aDate)
-        {
-            if (!_event.DateIsWithinLimits(aDate))
-                return false;
-            return TemporalExpressionIgnoringExclusions.Includes(aDate);
-        }
-
-        /// <summary>
         /// PreviousOccurrence(DateTime),
         /// Return the previous occurrence in the schedule for the given date.
         /// Returns null if nothing is found.
+        /// And start date is required in order to determine the search limits.
+        /// Throws an exception if the event has no start date, and no search range is provided.
         /// Notes:
         /// This is not inclusive of the supplied date. Only earlier dates can be returned.
         /// This returned value will stay inside the event StartDateTime and EndDateTime.
         /// This function takes into account any excluded dates that were provided when the 
         /// schedule was created.
+        /// This function will use the Event.StartDateTime to set a default search limit.
+        /// Improved performance can generally be obtained by using the previous occurrence function
+        /// with an explicit date range.
         /// </summary>
         /// <param name="aDate"></param>
         /// <returns></returns>
         public DateTime? PreviousOccurrence(DateTime aDate)
         {
-            // Make sure that our search begins no later than the end of the event limits range.
-            DateRange eventLimits = _event.GetEventLimitsAsDateRange();
-            DateTime latestSearchStart = eventLimits.EndDateTime.SafeAddDays(1);
-            if (aDate > latestSearchStart) { aDate = latestSearchStart; }
-            // Get a working range for this search.
-            var workingRange = DateRange(aDate, true);
-            // Find the previous occurrence.
-            var dates = Occurrences(workingRange).OrderByDescending(o => o.Date);
-            DateTime? occurrence = dates.SkipWhile(o => o >= aDate.Date).FirstOrDefault();
-            occurrence = (occurrence == default(DateTime)) ? null : occurrence;
-            // Make sure that our result is no earlier than the start of the event limits range.
-            if (occurrence != null && occurrence < eventLimits.StartDateTime) { occurrence = null; }
-            return occurrence;
+            if (_event.StartDateTime == null || _event.StartDateTime == DateTime.MinValue)
+                throw new Exception("PreviousOccurrence(), The event must have a StartDateTime, or " +
+                "a DateRange must be included, to use this function.");
+            if (aDate < _event.StartDateTime) { return null; }
+            return PreviousOccurrence(aDate, new DateRange((DateTime)_event.StartDateTime, aDate));
         }
 
         /// <summary>
@@ -110,10 +91,35 @@ namespace ScheduleWidget.ScheduledEvents
         public DateTime? PreviousOccurrence(DateTime aDate, DateRange during)
         {
             // Make sure that our search begins no later than the end of the during range.
-            DateTime latestSearchStart = during.EndDateTime.SafeAddDays(1);
-            if (aDate > latestSearchStart) { aDate = latestSearchStart; }
+            DateTime duringEnding = during.EndDateTime.SafeAddDays(1);
+            if (aDate > duringEnding) { aDate = duringEnding; }
+            // Make sure that our search begins no later than the end of the event limits range.
+            DateRange eventLimits = _event.GetEventLimitsAsDateRange();
+            DateTime eventEnding = eventLimits.EndDateTime.SafeAddDays(1);
+            if (aDate > eventEnding) { aDate = eventEnding; }
+            // Find the loop limit date for this search.
+            // This should be the latest available start date from all the applicable limiting ranges.
+            DateTime earliestSearchDate = during.StartDateTime;
+            if (eventLimits.StartDateTime > earliestSearchDate)
+                earliestSearchDate = eventLimits.StartDateTime;
             // Perform the search.
-            DateTime? occurrence = PreviousOccurrence(aDate);
+            DateTime? occurrence = null;
+            while (aDate >= earliestSearchDate)
+            {
+                // Get a working range for this search.
+                var workingRange = DateRangeForPreviousOrNextOccurrence(aDate, true, earliestSearchDate);
+                // Find the previous occurrence.
+                var dates = Occurrences(workingRange).OrderByDescending(o => o.Date);
+                occurrence = dates.SkipWhile(o => o >= aDate.Date).FirstOrDefault();
+                occurrence = (occurrence == default(DateTime)) ? null : occurrence;
+                // Break the loop if an occurrence was found.
+                if (occurrence != null) { break; }
+                // Increment the search date to search an earlier DateRange.
+                aDate = workingRange.StartDateTime.AddDays(-1);
+            }
+
+            // Make sure that our result is no earlier than the start of the event limits range.
+            if (occurrence != null && occurrence < eventLimits.StartDateTime) { occurrence = null; }
             // Make sure that our result is no earlier than the start of the during range.
             if (occurrence != null && occurrence < during.StartDateTime)
                 occurrence = null;
@@ -124,29 +130,26 @@ namespace ScheduleWidget.ScheduledEvents
         /// NextOccurrence(DateTime),
         /// Return the next occurrence in the schedule for the given date.
         /// Returns null if nothing is found.
+        /// And ending date is required in order to determine the search limits.
+        /// Throws an exception if the event has no end date, and no search range is provided.
         /// Notes:
         /// This is not inclusive of the supplied date. Only later dates can be returned.
         /// This returned value will stay inside the event StartDateTime and EndDateTime.
         /// This function takes into account any excluded dates that were provided when the 
         /// schedule was created.
+        /// This function will use the Event.EndDateTime to set a default search limit.
+        /// Improved performance can generally be obtained by using the next occurrence function
+        /// with an explicit date range.
         /// </summary>
         /// <param name="aDate"></param>
         /// <returns></returns>
         public DateTime? NextOccurrence(DateTime aDate)
         {
-            // Make sure that our search begins no earlier than the start of the event limits range.
-            DateRange eventLimits = _event.GetEventLimitsAsDateRange();
-            DateTime earliestSearchStart = eventLimits.StartDateTime.SafeAddDays(-1);
-            if (aDate < earliestSearchStart) { aDate = earliestSearchStart; }
-            // Get a working range for this search.
-            var during = DateRange(aDate, false);
-            // Find the next occurrence.
-            var dates = Occurrences(during);
-            DateTime? occurrence = dates.SkipWhile(o => o.Date <= aDate.Date).FirstOrDefault();
-            occurrence = (occurrence == default(DateTime)) ? null : occurrence;
-            // Make sure that our result is no later than the end of the event limits range.
-            if (occurrence != null && occurrence > eventLimits.EndDateTime) { occurrence = null; }
-            return occurrence;
+            if (_event.EndDateTime == null || _event.EndDateTime == DateTime.MaxValue)
+                throw new Exception("NextOccurrence(), The event must have an EndDateTime, or " +
+                "a DateRange must be included, to use this function.");
+            if (aDate > _event.EndDateTime) { return null; }
+            return NextOccurrence(aDate, new DateRange(aDate, (DateTime)_event.EndDateTime));
         }
 
         /// <summary>
@@ -158,13 +161,36 @@ namespace ScheduleWidget.ScheduledEvents
         public DateTime? NextOccurrence(DateTime aDate, DateRange during)
         {
             // Make sure that our search begins no earlier than the beginning of the during range.
-            DateTime earliestSearchStart = during.StartDateTime.SafeAddDays(-1);
-            if (aDate < earliestSearchStart) { aDate = earliestSearchStart; }
+            DateTime startOfDuring = during.StartDateTime.SafeAddDays(-1);
+            if (aDate < startOfDuring) { aDate = startOfDuring; }
+            // Make sure that our search begins no earlier than the start of the event limits range.
+            DateRange eventLimits = _event.GetEventLimitsAsDateRange();
+            DateTime startOfEvent = eventLimits.StartDateTime.SafeAddDays(-1);
+            if (aDate < startOfEvent) { aDate = startOfEvent; }
+            // Find the loop limit date for this search.
+            // This should be the earliest available ending date from all the applicable limiting ranges.
+            DateTime latestSearchDate = during.EndDateTime;
+            if (eventLimits.EndDateTime < latestSearchDate) 
+                latestSearchDate = eventLimits.EndDateTime; 
             // Perform the search.
-            DateTime? occurrence = NextOccurrence(aDate);
+            DateTime? occurrence = null;
+            while (aDate <= latestSearchDate)
+            {
+                // Get a working range for this search.
+                var workingRange = DateRangeForPreviousOrNextOccurrence(aDate, false, latestSearchDate);
+                // Find the next occurrence.
+                var dates = Occurrences(workingRange);
+                occurrence = dates.SkipWhile(o => o.Date <= aDate.Date).FirstOrDefault();
+                occurrence = (occurrence == default(DateTime)) ? null : occurrence;
+                // Break the loop if an occurrence was found.
+                if (occurrence != null) { break; }
+                // Increment the search date to search the next DateRange.
+                aDate = workingRange.EndDateTime.AddDays(1);
+            }
+            // Make sure that our result is no later than the end of the event limits range.
+            if (occurrence != null && occurrence > eventLimits.EndDateTime) { occurrence = null; }
             // Make sure that our result is no later than the end of the during range.
-            if (occurrence != null && occurrence > during.EndDateTime)
-                occurrence = null;
+            if (occurrence != null && occurrence > during.EndDateTime) { occurrence = null; }
             return occurrence;
         }
 
@@ -176,16 +202,6 @@ namespace ScheduleWidget.ScheduledEvents
         public IEnumerable<DateTime> Occurrences(DateRange during)
         {
             return EachDay(during.StartDateTime, during.EndDateTime).Where(IsOccurring);
-        }
-
-        /// <summary>
-        /// Return all occurrences within the given date range, ignoring excluded dates.
-        /// </summary>
-        /// <param name="during">DateRange</param>
-        /// <returns></returns>
-        private IEnumerable<DateTime> OccurrencesIgnoringExcludedDates(DateRange during)
-        {
-            return EachDay(during.StartDateTime, during.EndDateTime).Where(IsOccurringIgnoringExcludedDates);
         }
 
         /// <summary>
@@ -285,7 +301,8 @@ namespace ScheduleWidget.ScheduledEvents
         /// <param name="aDate"></param>
         /// <param name="previousOccurrence"></param>
         /// <returns></returns>
-        private DateRange DateRange(DateTime aDate, bool previousOccurrence)
+        private DateRange DateRangeForPreviousOrNextOccurrence(
+            DateTime aDate, bool previousOccurrence, DateTime limitingDate)
         {
             if (_event.FrequencyTypeOptions == FrequencyTypeEnum.None)
                 return new DateRange { StartDateTime = aDate, EndDateTime = aDate };
@@ -330,17 +347,20 @@ namespace ScheduleWidget.ScheduledEvents
                                 : new DateRange { StartDateTime = aDate, EndDateTime = aDate.AddYears(interval) };
                     break;
             }
-
+            if (previousOccurrence)
+                dateRange.StartDateTime = (limitingDate > dateRange.StartDateTime) ? limitingDate : dateRange.StartDateTime;
+            else
+                dateRange.EndDateTime = (limitingDate < dateRange.EndDateTime) ? limitingDate : dateRange.EndDateTime;
+            if (dateRange.StartDateTime > dateRange.EndDateTime)
+                throw new Exception("Start and end date are inconsistent. This should not happen.");
             return dateRange;
         }
 
 
         /// <summary>
         /// GetLastOccurrenceDate,
-        /// Returns the date of last occurrence of the event.
-        /// This method uses NumberOfOccurrences and EndDateTime properties to decide the last date.
-        /// Only one of these properties should be set at any time, but if both are set, then the 
-        /// most restrictive of the two properties will be used to determine the last date.
+        /// Returns the date of last existing occurrence of the event.
+        /// The last occurrence can happen on or before the Event.EndDateTime.
         /// 
         /// Dates that have been excluded in the Schedule constructor will not be included.
         /// If nothing is found, this will return null.
@@ -348,37 +368,39 @@ namespace ScheduleWidget.ScheduledEvents
         /// <returns>The date of last occurrence of the event.</returns>
         public DateTime? GetLastOccurrenceDate()
         {
-            DateTime? basedOnOccurrences = GetLastOccurrenceDateBasedOnlyOnNumberOfOccurrences();
-            DateTime? basedOnEndDateTime = GetLastOccurrenceDateBasedOnlyOnEndDateTime();
-            if (basedOnOccurrences == null && basedOnEndDateTime == null)
-                return null;
-            if (basedOnOccurrences != null && basedOnEndDateTime != null)
-                return (basedOnOccurrences < basedOnEndDateTime) ? basedOnOccurrences : basedOnEndDateTime;
-            if (basedOnOccurrences != null)
-                return basedOnOccurrences;
-            else
-                return basedOnEndDateTime;
+            if (_event.StartDateTime == null || _event.EndDateTime == null) { return null; }
+            DateTime startDateTime = (DateTime)_event.StartDateTime;
+            DateTime endDateTime = (DateTime)_event.EndDateTime;
+            if (_event.FrequencyTypeOptions == FrequencyTypeEnum.None) { return startDateTime; }
+            DateRange dateRange = new DateRange { StartDateTime = startDateTime, EndDateTime = endDateTime };
+            IEnumerable<DateTime> items = Occurrences(dateRange);
+            if (items != null)
+            {
+                DateTime foundDate = items.LastOrDefault();
+                if (foundDate == default(DateTime)) { return null; }
+                return foundDate;
+            }
+            return null;
         }
 
-
         /// <summary>
-        /// GetLastOccurrenceDateBasedOnlyOnNumberOfOccurrences,
-        /// Returns the date of last occurrence of the event, based only on the NumberOfOccurrences property.
-        /// If nothing is found, this will return null.
+        /// zInternalGetEndDateBasedOnNumberOfOccurrences,
+        /// Returns and end date for a schedule that will limit the schedule to a fixed maximum
+        /// number of occurrences.
+        /// This calculation assumes that this schedule was created without any excluded dates.
+        /// This assumption should be true, since this function is only used internally.
         /// </summary>
-        /// <returns>The date of last occurrence of the event.</returns>
-        private DateTime? GetLastOccurrenceDateBasedOnlyOnNumberOfOccurrences()
+        internal DateTime? zInternalGetEndDateBasedOnNumberOfOccurrences(int numberOfOccurrences)
         {
-            if (_event.StartDateTime == null) { return null; }
+            int occurences = numberOfOccurrences;
+            if (_event.StartDateTime == null)
+                throw new Exception("GetEndDateBasedOnNumberOfOccurrences(), " +
+                    "A StartDateTime must be set before using this function.");
             DateTime startDateTime = (DateTime)_event.StartDateTime;
             FrequencyTypeEnum frequencyType = _event.FrequencyTypeOptions;
-            if (frequencyType == FrequencyTypeEnum.None || !_event.NumberOfOccurrences.HasValue)
-            {
+            if (frequencyType == FrequencyTypeEnum.None)
                 return startDateTime;
-            }
-
             int interval;
-            int occurences = _event.NumberOfOccurrences.Value;
             DateRange dateRange = null;
 
             switch (frequencyType)
@@ -408,51 +430,12 @@ namespace ScheduleWidget.ScheduledEvents
                     dateRange = new DateRange { StartDateTime = startDateTime, EndDateTime = startDateTime.AddYears(interval * occurences) };
                     break;
             }
-            // Note: this section is designed to operate in such a way that excluding dates from an event that has
-            // a fixed number of occurrences, will -not- increase the last occurrence date.
-            // Find out when the last occurrence would be, if no dates were excluded.
-            IEnumerable<DateTime> items = OccurrencesIgnoringExcludedDates(dateRange);
-            if (items == null) return null;
-            DateTime maximumDate = items.ElementAtOrDefault(occurences - 1);
-            if (maximumDate == default(DateTime)) return null;
-            // Find the actual last occurrence, using the previously found date as the maximum value.
-            dateRange.EndDateTime = maximumDate;
-            items = Occurrences(dateRange);
+            // Find and return the date of the last occurrence.
+            IEnumerable<DateTime> items = Occurrences(dateRange);
             if (items == null) return null;
             DateTime lastDate = items.ElementAtOrDefault(occurences - 1);
-            if (lastDate == default(DateTime)) return null;
+            if (lastDate == default(DateTime)) { return null; }
             return lastDate;
-        }
-
-
-        /// <summary>
-        /// GetLastOccurrenceDateBasedOnlyOnEndDateTime,
-        /// Returns the date of last occurrence of the event, based only on the EndDateTime property.
-        /// If nothing is found, this will return null.
-        /// </summary>
-        /// <returns>The date of last occurrence of the event.</returns>
-        private DateTime? GetLastOccurrenceDateBasedOnlyOnEndDateTime()
-        {
-            if (_event.StartDateTime == null || _event.EndDateTime == null) { return null; }
-            DateTime startDateTime = (DateTime)_event.StartDateTime;
-            DateTime endDateTime = (DateTime)_event.EndDateTime;
-            FrequencyTypeEnum frequencyType = _event.FrequencyTypeOptions;
-            if (frequencyType == FrequencyTypeEnum.None)
-            {
-                return startDateTime;
-            }
-
-            int occurences = _event.NumberOfOccurrences.Value;
-            DateRange dateRange = new DateRange { StartDateTime = startDateTime, EndDateTime = endDateTime };
-
-            IEnumerable<DateTime> items = Occurrences(dateRange);
-            DateTime enddate = startDateTime;
-            if (items != null)
-            {
-                DateTime foundDate = items.ElementAtOrDefault(occurences - 1);
-                enddate = (foundDate == default(DateTime)) ? enddate : foundDate;
-            }
-            return enddate;
         }
     }
 }

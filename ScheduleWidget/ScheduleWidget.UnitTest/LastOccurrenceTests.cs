@@ -16,9 +16,9 @@ namespace ScheduleWidget.UnitTest
                 ID = 1,
                 Title = "Daily, 3 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Daily,
-                NumberOfOccurrences = 3,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
+            aEvent.SetEndDateForNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -33,10 +33,10 @@ namespace ScheduleWidget.UnitTest
                 ID = 2,
                 Title = "Every 2 days, 3 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Daily,
-                NumberOfOccurrences = 3,
                 RepeatInterval = 2,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
+            aEvent.SetEndDateForNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -52,9 +52,9 @@ namespace ScheduleWidget.UnitTest
                 Title = "Weekly on Monday, Tuesday, 3 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Weekly,
                 DaysOfWeek = 6,
-                NumberOfOccurrences = 3,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
+            aEvent.SetEndDateForNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -71,9 +71,9 @@ namespace ScheduleWidget.UnitTest
                 FrequencyTypeOptions = FrequencyTypeEnum.Weekly,
                 DaysOfWeek = 14,
                 RepeatInterval = 2,
-                NumberOfOccurrences = 10,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
+            aEvent.SetEndDateForNumberOfOccurrences(10);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -89,9 +89,9 @@ namespace ScheduleWidget.UnitTest
                 Title = "Monthly on day 29, 3 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
                 DayOfMonth = 29,
-                NumberOfOccurrences = 3,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
+            aEvent.SetEndDateForNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -107,10 +107,10 @@ namespace ScheduleWidget.UnitTest
                 Title = "Every 2 months on day 29, 3 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
                 DayOfMonth = 29,
-                NumberOfOccurrences = 3,
                 RepeatInterval = 2,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
+            aEvent.SetEndDateForNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -127,10 +127,10 @@ namespace ScheduleWidget.UnitTest
                 Title = "Monthly on the last Monday, 3 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
                 DaysOfWeek = 2,
-                NumberOfOccurrences = 3,
                 MonthlyIntervalOptions = MonthlyIntervalEnum.Last,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
+            aEvent.SetEndDateForNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -146,11 +146,11 @@ namespace ScheduleWidget.UnitTest
                 Title = "Every 2 months on the last Monday, 3 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
                 DaysOfWeek = 2,
-                NumberOfOccurrences = 3,
                 RepeatInterval = 2,
                 MonthlyIntervalOptions = MonthlyIntervalEnum.Last,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
+            aEvent.SetEndDateForNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -166,11 +166,11 @@ namespace ScheduleWidget.UnitTest
                 Title = "Every 2 months on the last Monday, 3 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
                 DaysOfWeek = 2,
-                NumberOfOccurrences = 3,
                 RepeatInterval = 2,
                 MonthlyIntervalOptions = MonthlyIntervalEnum.Last,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
+            aEvent.SetEndDateForNumberOfOccurrences(3);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -185,10 +185,10 @@ namespace ScheduleWidget.UnitTest
                 ID = 10,
                 Title = "Annually on July 29, 2 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Yearly,
-                NumberOfOccurrences = 2,
-                Anniversary = new Anniversary{ Day = 29,Month = 7},
+                Anniversary = new Anniversary { Day = 29, Month = 7 },
                 StartDateTime = new DateTime(2013, 7, 29)
             };
+            aEvent.SetEndDateForNumberOfOccurrences(2);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();
@@ -203,11 +203,11 @@ namespace ScheduleWidget.UnitTest
                 ID = 10,
                 Title = "Every 2 years on July 29, 2 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Yearly,
-                NumberOfOccurrences = 2,
                 RepeatInterval = 2,
                 Anniversary = new Anniversary { Day = 29, Month = 7 },
                 StartDateTime = new DateTime(2013, 7, 29)
             };
+            aEvent.SetEndDateForNumberOfOccurrences(2);
 
             var schedule = new Schedule(aEvent);
             DateTime? endDate = schedule.GetLastOccurrenceDate();

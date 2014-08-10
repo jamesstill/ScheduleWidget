@@ -6,6 +6,17 @@ namespace ScheduleWidget.ScheduledEvents
     {
         public DateTime StartDateTime { get; set; }
         public DateTime EndDateTime { get; set; }
+
+        public DateRange() { }
+
+        public DateRange(DateTime start, DateTime end)
+        {
+            StartDateTime = start;
+            EndDateTime = end;
+        }
+
+
+
         public bool IsOneTimeEvent
         {
             get
