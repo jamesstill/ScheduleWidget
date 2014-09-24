@@ -255,19 +255,55 @@ namespace ScheduleWidget.ScheduledEvents
         /// <summary>
         /// CanProduceOccurrences,
         /// This will return true if this event is capable of generating occurrences, otherwise false.
+        /// For performance reasons, it is a good idea to include a limit on the number of years that are
+        /// searched for occurrences. (For example, 110 years).
+        /// 
+        /// If no limit is supplied, and the event has no end date, then this function can 
+        /// (in the worst-case scenario) search for an occurrence until DateTime.MaxDate which is the year 9999, 
+        /// which can take a lot of processing time.
         /// </summary>
-        public bool CanProduceOccurrences()
+        public bool CanProduceOccurrences(int? withinYears)
         {
             if (HasBrokenZeroOccurrenceConfiguration())
                 return false;
-            int manyYears = 210;
-            int largeRepeatInterval = 100;
             DateRange eventLimits = GetEventLimitsAsDateRange();
-            if (RepeatInterval < largeRepeatInterval &&
-                (eventLimits.EndDateTime.Year - eventLimits.StartDateTime.Year) > manyYears)
+            int daysInRange = eventLimits.GetNumberOfDaysInRange();
+            int maximumDaysWithoutOccurrence = RepeatInterval;
+            switch (FrequencyTypeOptions)
+            {
+                case FrequencyTypeEnum.Daily:
+                    break;
+                case FrequencyTypeEnum.Weekly:
+                case FrequencyTypeEnum.EveryWeekDay:
+                case FrequencyTypeEnum.EveryMonWedFri:
+                case FrequencyTypeEnum.EveryTuTh:
+                    maximumDaysWithoutOccurrence *= 7;
+                    break;
+                case FrequencyTypeEnum.Monthly:
+                    maximumDaysWithoutOccurrence *= 31;
+                    break;
+                case FrequencyTypeEnum.Quarterly:
+                    maximumDaysWithoutOccurrence *= 96;
+                    break;
+                case FrequencyTypeEnum.Yearly:
+                    // Leap years have 366 days.
+                    maximumDaysWithoutOccurrence *= 366;
+                    break;
+            }
+            if (daysInRange > maximumDaysWithoutOccurrence)
                 return true;
             Schedule schedule = new Schedule(this);
-            DateTime? occurrence = schedule.NextOccurrence(eventLimits.StartDateTime);
+            DateTime? occurrence;
+            if(withinYears != null) 
+            {
+                occurrence = schedule.NextOccurrence(eventLimits.StartDateTime, 
+                    new DateRange(eventLimits.StartDateTime, eventLimits.StartDateTime.SafeAddYears((int)withinYears)));
+            }
+            else
+            {
+                occurrence = schedule.NextOccurrence(eventLimits.StartDateTime,
+                    new DateRange(eventLimits.StartDateTime, eventLimits.EndDateTime));
+            }
             if (occurrence != null) { return true; }
             return false;
         }

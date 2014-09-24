@@ -2,6 +2,7 @@
 
 namespace ScheduleWidget.ScheduledEvents
 {
+    [Serializable]
     public class DateRange
     {
         public DateTime StartDateTime { get; set; }
@@ -26,10 +27,18 @@ namespace ScheduleWidget.ScheduledEvents
             }
         }
 
+        public int GetNumberOfDaysInRange()
+        {
+            TimeSpan interval = EndDateTime - StartDateTime;
+            double totalDays = interval.TotalDays;
+            return (int)Math.Ceiling(totalDays);
+        }
+
         /// <summary>
         /// DoDateRangesOverlap,
         /// This returns true if there is some overlap between two ranges, otherwise false.
         /// 
+        /// Implementation notes:
         /// To help clarify why this function is implemented in the way that it is, here is a 
         /// listing of all positional possibilities for the start and the end of two date ranges:
         /// No overlap (some of the beginnings are after some of the ends)
@@ -41,7 +50,7 @@ namespace ScheduleWidget.ScheduledEvents
         /// s1 f1 f2 s2
         /// s1 f1 s2 f2 
         /// </summary>
-        public static bool DoDateRangesOverlap(DateRange first, DateRange second)
+        static public bool DoDateRangesOverlap(DateRange first, DateRange second)
         {
             if (first.EndDateTime < second.StartDateTime) { return false; }
             if (second.EndDateTime < first.StartDateTime) { return false; }
@@ -53,7 +62,7 @@ namespace ScheduleWidget.ScheduledEvents
         /// This will compress the specified date range to fit inside of the specified limits.
         /// If these two date ranges do not overlap, this will throw an ArgumentOutOfRangeException.
         /// </summary>
-        public static DateRange GetCompressedDateRange(DateRange suppliedRange, DateRange newLimits)
+        static public DateRange GetCompressedDateRange(DateRange suppliedRange, DateRange newLimits)
         {
             if (!DoDateRangesOverlap(suppliedRange, newLimits))
                 throw new ArgumentOutOfRangeException();
