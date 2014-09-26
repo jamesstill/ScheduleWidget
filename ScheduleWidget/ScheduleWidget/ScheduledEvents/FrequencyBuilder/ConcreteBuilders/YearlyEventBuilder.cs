@@ -31,7 +31,7 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
                     throw new ApplicationException("Events with a yearly frequency requires an anniversary.");
                 }
 
-                union.Add(new YearTE(_event.YearInterval, DateTime.Now.Year, _event.Anniversary.Month, _event.Anniversary.Day));
+                union.Add(new YearTE(_event.YearInterval, _event.FirstDateTime.HasValue ? _event.FirstDateTime.Value.Year : DateTime.Now.Year, _event.Anniversary.Month, _event.Anniversary.Day));
             }
             return union;
         }
