@@ -1,0 +1,758 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ScheduleWidget</name>
+    </assembly>
+    <members>
+        <member name="T:ScheduleWidget.Enums.FrequencyTypeEnum">
+            <summary>
+            The frequency at which an event repeats - every Day, Week, Month, Quarter, Year etc. 
+            Cannot be combined like Monthly, Daily etc. (XOR type)
+            </summary>
+        </member>
+        <member name="T:ScheduleWidget.Enums.MonthlyIntervalEnum">
+            <summary>
+            The week(s) in which a monthly event recurs, e.g. every 3rd week, or the last week, or the first and second weeks
+            </summary>
+        </member>
+        <member name="T:ScheduleWidget.Enums.QuarterEnum">
+            <summary>
+            The actual Quarter (not interval!) the event occurs in - First, second, Third or Fourth.
+            </summary>
+        </member>
+        <member name="T:ScheduleWidget.Enums.QuarterlyIntervalEnum">
+            <summary>
+            The month(s) in which a quarterly event recurs - First / Second / Last month of the quarter
+            </summary>
+        </member>
+        <member name="T:ScheduleWidget.ScheduledEvents.Anniversary">
+            <summary>
+            An anniversary is a day that commemorates or celebrates a past event that 
+            occurs on the same day of the year as the initial event. For example, a
+            birthday that occurs every Aug 1 can migrate over days of the week year 
+            after year but always falls on the same month and day. 
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders.OneTimeEventBuilder.Create">
+            <summary>
+            No frequency means a one-time only event
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders.QuarterlyEventBuilder">
+            <summary>
+            Allows for recurring Quarterly events. Events set to Freq = Quarterly will also 
+            have a MonthlyInterval and DailyInterval set, so we can specify e.g. event takes 
+            place on the 1st and last quarter, last week, Wednesday, Thursday and Fridays
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders.YearlyEventBuilder.Create">
+            <summary>
+            On yearly frequency build an anniversary temporal expression
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.DateRange.DoDateRangesOverlap(ScheduleWidget.ScheduledEvents.DateRange,ScheduleWidget.ScheduledEvents.DateRange)">
+            <summary>
+            DoDateRangesOverlap,
+            This returns true if there is some overlap between two ranges, otherwise false.
+            
+            Implementation notes:
+            To help clarify why this function is implemented in the way that it is, here is a 
+            listing of all positional possibilities for the start and the end of two date ranges:
+            No overlap (some of the beginnings are after some of the ends)
+            f1 f2 s1 s2
+            s1 s2 f1 f2 
+            Some overlap (all the beginnings are before all the ends)
+            f1 s1 f2 s2
+            f1 s1 s2 f2 
+            s1 f1 f2 s2
+            s1 f1 s2 f2 
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.DateRange.GetCompressedDateRange(ScheduleWidget.ScheduledEvents.DateRange,ScheduleWidget.ScheduledEvents.DateRange)">
+            <summary>
+            GetCompressedDateRange,
+            This will compress the specified date range to fit inside of the specified limits.
+            If these two date ranges do not overlap, this will throw an ArgumentOutOfRangeException.
+            </summary>
+        </member>
+        <member name="T:ScheduleWidget.ScheduledEvents.RangeInYear">
+            <summary>
+            Supports schedules that occur only part of the year. The street cleaning
+            example occurs only in the non-winter months (April through October). So
+            the range would be a start month of 4 and end month of 10. Start and end
+            days are optional since very fine-grained ranges are rare.
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.RangeInYear.StartMonth">
+            <summary>
+            The start month for a schedule occurring during only part of the year
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.RangeInYear.StartDayOfMonth">
+            <summary>
+            Optional start day of the month for fine-grained schedules (e.g., Apr 15).
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.RangeInYear.EndMonth">
+            <summary>
+            The end month for a schedule occurring during only part of the year
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.RangeInYear.EndDayOfMonth">
+            <summary>
+            Optional end day of the month for fine-grained schedules (e.g., Oct 15).
+            </summary>
+        </member>
+        <member name="T:ScheduleWidget.ScheduledEvents.Schedule">
+            <summary>
+            A schedule is a collection of one or more recurring events. It contains functionality to
+            work out what event dates do or not not fall on the schedule's days (occurrences). This 
+            schedule engine implements Martin Fowler's white paper "Recurring Events for Calendars" 
+            (http://martinfowler.com/apsupp/recurring.pdf).
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Schedule.IsOccurring(System.DateTime)">
+            <summary>
+            Return true if the date occurs in the schedule.
+            </summary>
+            <param name="aDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Schedule.PreviousOccurrence(System.DateTime)">
+            <summary>
+            PreviousOccurrence(DateTime),
+            Return the previous occurrence in the schedule for the given date.
+            Returns null if nothing is found.
+            And start date is required in order to determine the search limits.
+            Throws an exception if the event has no start date, and no search range is provided.
+            Notes:
+            This is not inclusive of the supplied date. Only earlier dates can be returned.
+            This returned value will stay inside the event StartDateTime and EndDateTime.
+            This function takes into account any excluded dates that were provided when the 
+            schedule was created.
+            This function will use the Event.StartDateTime to set a default search limit.
+            Improved performance can generally be obtained by using the previous occurrence function
+            with an explicit date range.
+            </summary>
+            <param name="aDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Schedule.PreviousOccurrence(System.DateTime,ScheduleWidget.ScheduledEvents.DateRange)">
+            <summary>
+            PreviousOccurrence(DateTime, DateRange),
+            Return the previous occurrence in the schedule for the given date, from within the
+            specified date range. Returns null if nothing is found.
+            See PreviousOccurrence(DateTime) for additional details.
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Schedule.NextOccurrence(System.DateTime)">
+            <summary>
+            NextOccurrence(DateTime),
+            Return the next occurrence in the schedule for the given date.
+            Returns null if nothing is found.
+            And ending date is required in order to determine the search limits.
+            Throws an exception if the event has no end date, and no search range is provided.
+            Notes:
+            This is not inclusive of the supplied date. Only later dates can be returned.
+            This returned value will stay inside the event StartDateTime and EndDateTime.
+            This function takes into account any excluded dates that were provided when the 
+            schedule was created.
+            This function will use the Event.EndDateTime to set a default search limit.
+            Improved performance can generally be obtained by using the next occurrence function
+            with an explicit date range.
+            </summary>
+            <param name="aDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Schedule.NextOccurrence(System.DateTime,ScheduleWidget.ScheduledEvents.DateRange)">
+            <summary>
+            NextOccurrence(DateTime, DateRange),
+            Return the next occurrence in the schedule for the given date, from within the
+            specified date range. Returns null if nothing is found.
+            See NextOccurrence(DateTime) for additional details.
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Schedule.Occurrences(ScheduleWidget.ScheduledEvents.DateRange)">
+            <summary>
+            Return all occurrences within the given date range.
+            </summary>
+            <param name="during">DateRange</param>
+            <returns></returns>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Schedule.Create">
+            <summary>
+            Create and return a base schedule with no exclusions.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Schedule.Create(System.Collections.Generic.IEnumerable{System.DateTime})">
+            <summary>
+            Create and return a base schedule including exclusions if applicable.
+            </summary>
+            <param name="excludedDates"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Schedule.Create(ScheduleWidget.TemporalExpressions.TemporalExpression)">
+            <summary>
+            Create and return a base schedule including exclusions if applicable.
+            </summary>
+            <param name="excludedDates">Holidays or any excluded dates</param>
+            <returns>Complete schedule as an expression</returns>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Schedule.EachDay(System.DateTime,System.DateTime)">
+            <summary>
+            Return each calendar day in the date range in ascending order
+            </summary>
+            <param name="from"></param>
+            <param name="through"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Schedule.DateRangeForPreviousOrNextOccurrence(System.DateTime,System.Boolean,System.Nullable{System.DateTime})">
+            <summary>
+            DateRangeForPreviousOrNextOccurrence
+            This is an effective way to find date range especially when the interval is greater than one for any date
+            frequencies (every x days, every x weeks, every x months, every x quarters or every x years).
+            NOTE: Quarterly is still not completely done as it is not supporting the interval 
+            (every n quarter(s)) feature right now.
+            
+            Return a date range to find either previous or next occurrence
+            for a given date by evaluating some properties of the event
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Schedule.GetLastOccurrenceDate">
+            <summary>
+            GetLastOccurrenceDate,
+            Returns the date of last existing occurrence of the event.
+            The last occurrence can happen on or before the Event.EndDateTime.
+            
+            Dates that have been excluded in the Schedule constructor will not be included.
+            If nothing is found, this will return null.
+            </summary>
+            <returns>The date of last occurrence of the event.</returns>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Schedule.zInternalGetEndDateBasedOnNumberOfOccurrences(System.Int32)">
+            <summary>
+            zInternalGetEndDateBasedOnNumberOfOccurrences,
+            Returns and end date for a schedule that will limit the schedule to a fixed maximum
+            number of occurrences.
+            This calculation assumes that this schedule was created without any excluded dates.
+            This assumption should be true, since this function is only used internally.
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Schedule.Event">
+            <summary>
+            Return the schedule's event
+            </summary>
+        </member>
+        <member name="T:ScheduleWidget.ScheduledEvents.Event">
+            <summary>
+            A generic event that is scheduled. An event is a concrete item such as "Street Cleaning"
+            or "Summer Term Algebra 1" that has a literal start and end date. The event knows its own
+            frequency (daily, weekly, or monthly), the days of the week on which it occurs, and if 
+            monthly its monthly interval. Given an event and an optional set of excluded dates (such
+            as holidays) a schedule can be created.
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Event.GetEventLimitsAsDateRange">
+            <summary>
+            Returns the start and end date for this event as a date range instance.
+            If the event does not have a start date or end date, the date range values will be
+            DateTime.MinValue and DateTime.MaxValue, respectively.
+            The dates included in this range will never be null.
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Event.DateIsWithinLimits(System.DateTime)">
+            <summary>
+            Returns true if a date falls within this event's limits, otherwise false.
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Event.SetEndDateWithNumberOfOccurrences(System.Nullable{System.Int32})">
+            <summary>
+            SetEndDateWithNumberOfOccurrences,
+            This will use the currently defined event schedule, to choose and set an
+            EndDateTime that will limit the event to a fixed maximum number of occurrences.
+            Calling this function will override any previously set EndDateTime.
+            
+            All other desired event parameters should be set before this function is called.
+            Previously set variables should include at minimum, a StartDateTime, and a Frequency.
+            
+            The reason this sets a "maximum" number of occurrences, is that the number of 
+            actual occurrences can be reduced by excluding occurrence dates from a Schedule 
+            instance. Changing the exclusions will not change the EndDateTime.
+            
+            The supplied maximumNumberOfOccurrences value is recorded for informational
+            purposes only. Only the EndDateTime is used by the Event and Schedule calculations.
+            
+            Setting this to null will clear the NumberOfOccurrencesThatWasLastSet variable, but will
+            not change the EndDateTime value.
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Event.SetEndDateTimeWithDate(System.Nullable{System.DateTime})">
+            <summary>
+            SetEndDateTimeWithDate,
+            This is a convenience function, for setting or clearing the end date while remembering to
+            clear any pre-existing NumberOfOccurrencesThatWasLastSet value.
+            Setting this function to null, will cause the event to repeat forever.
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Event.CanProduceOccurrences(System.Nullable{System.Int32})">
+            <summary>
+            CanProduceOccurrences,
+            This will return true if this event is capable of generating occurrences, otherwise false.
+            For performance reasons, it is a good idea to include a limit on the number of years that are
+            searched for occurrences. (For example, 110 years).
+            
+            If no limit is supplied, and the event has no end date, then this function can 
+            (in the worst-case scenario) search for an occurrence until DateTime.MaxDate which is the year 9999, 
+            which can take a lot of processing time.
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Event.RoughlyEstimateMinimumEventOccurrences(ScheduleWidget.ScheduledEvents.Event)">
+            <summary>
+            RoughlyEstimateMinimumEventOccurrences,
+            This will return a very rough, and conservative, guess of the minimum number of occurrences
+            that should be generated by a particular event. 
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Event.HasBrokenZeroOccurrenceConfiguration">
+            <summary>
+            HasBrokenZeroOccurrenceConfiguration,
+            This will return true if this event has certain invalid, broken configurations that will
+            generate zero occurrences.
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Event.AreEventSchedulesEqual(ScheduleWidget.ScheduledEvents.Event,ScheduleWidget.ScheduledEvents.Event)">
+            <summary>
+            AreEventSchedulesEqual,
+            This will return true if the two supplied event instances have equivalent scheduling information.
+            For example, if both schedules occur every 3 months on day 7, then this will return true.
+            This only compares the scheduling details.
+            It specifically does not compare the following fields for equality:
+            ID, Title, NumberOfOccurrencesThatWasLastSet.
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.ID">
+            <summary>
+            The unique ID of the event.
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.Title">
+            <summary>
+            The title of the event (e.g., "Street Cleaning")
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.OneTimeOnlyEventDate">
+            <summary>
+            If this is a one-time only event then set the date
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.StartDateTime">
+            <summary>
+            If this event occurs only after a certain date,
+            or repeats every x weeks, set the date.
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.EndDateTime">
+            <summary>
+            If this event occurs only until a specific ending date, set the date.
+            Note that if you set both the EndDateTime, and a NumberOfOccurrences,
+            The actual end date of the event will be determined by the more restrictive of 
+            the two values.
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.Anniversary">
+            <summary>
+            If this event has a yearly frequency then the anniversary
+            describes the fixed year after year month and day of recurrence.
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.RangeInYear">
+            <summary>
+            For events that occur only part of the year (optional)
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.Frequency">
+            <summary>
+            The one-time, daily, weekly, or monthly frequency of the event as a
+            value of FrequencyTypeEnum (0, 1, 2, 4, 8, 16, 32, 64 or 128 only).
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.RepeatInterval">
+            <summary>
+            If the frequency is daily, weekly, monthly, or yearly, 
+            then set the interval of the event as an int.
+            E.g., every second week == 2, every fourth day == 4.
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.QuarterInterval">
+            <summary>
+            If an event is quarterly, which quarter(s) does it fall in? 
+            From QuarterEnum: First, Second, Third, Fourth 
+            E.g., Second and Fourth quarters == 10 (2 + 8)
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.QuarterlyInterval">
+            <summary>
+            If the frequency is quarterly then the interval of the
+            event as a flag attribute value of QuarterlyIntervalEnum.
+            E.g., the first and last months of the quarter == 5
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.MonthlyInterval">
+            <summary>
+            If the frequency is monthly then the interval of the
+            event as a flag attribute value of MonthlyIntervalEnum.
+            E.g., the first and third weeks of the month == 5
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.DaysOfWeek">
+            <summary>
+            The days of the week that the event occurs as a value
+            of the DayOfWeekEnum flag attribute value. E.g., every
+            day of the week is 127.
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.NumberOfOccurrencesThatWasLastSet">
+            <summary>
+            This holds the number of occurrences that was last set with the 
+            SetEndDateTimeForMaximumNumberOfOccurrences() function, for informational purposes only.
+            If nothing has been set, this will contain null.
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.FrequencyTypeOptions">
+            <summary>
+            The frequency expressed as enumeration.
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.QuarterlyOptions">
+            <summary>
+            The actual Quarter expressed as an enumeration
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.QuarterlyIntervalOptions">
+            <summary>
+            The quarterly interval (i.e. month) expressed as enumeration
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.MonthlyIntervalOptions">
+            <summary>
+            The monthly interval (i.e. week) expressed as enumeration
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.DaysOfWeekOptions">
+            <summary>
+            The days of the week expressed as enumeration.
+            </summary>
+        </member>
+        <member name="P:ScheduleWidget.ScheduledEvents.Event.DayOfMonth">
+            <summary>
+            A particular day of a month used for 'Monthly' frequency type.
+            E.g., 1st day of every month, 10th day of every 2 months, etc.
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Utilities.SafeAddDays(System.DateTime,System.Double)">
+            <summary>
+            DateTime.SafeAddDays,
+            This is an extension method.
+            Adds days to a date time object without the possibility of generating an out of range exception.
+            This is useful when the DateTime object might be set to minimum or maximum value.
+            </summary>
+            <returns>The new date time object.</returns>
+        </member>
+        <member name="M:ScheduleWidget.ScheduledEvents.Utilities.SafeAddYears(System.DateTime,System.Int32)">
+            <summary>
+            DateTime.SafeAddYears,
+            This is an extension method.
+            Adds years to a date time object without the possibility of generating an out of range exception.
+            This is useful when the DateTime object might be set to minimum or maximum value.
+            </summary>
+            <returns>The new date time object.</returns>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.CollectionTE.Add(ScheduleWidget.TemporalExpressions.TemporalExpression)">
+            <summary>
+            Adds a temporal expression to the list
+            </summary>
+            <param name="expr">Temporal expression to add.</param>
+        </member>
+        <member name="T:ScheduleWidget.TemporalExpressions.AnniversaryTE">
+            <summary>
+            An anniversary temporal expression is a day that commemorates or 
+            celebrates a past event that occurs on the same day of the year as 
+            the initial event. For example, a birthday that occurs every Aug 1 
+            can migrate over days of the week year after year but always falls 
+            on the same month and day. 
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.YearTE.Includes(System.DateTime)">
+            <summary>
+            Returns true if the date falls on the day of year
+            </summary>
+            <param name="aDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.AnniversaryTE.#ctor(System.Int32,System.Int32)">
+            <summary>
+            The month and day, e.g., "Aug 1 (Birthday)":
+            var birthday = new AnniversaryTE(8, 1);
+            </summary>
+            <param name="month"></param>
+            <param name="day"></param>
+        </member>
+        <member name="T:ScheduleWidget.TemporalExpressions.DayInQuarterTE">
+            <summary>
+            Expression for day in Quarter. Implements support for temporal expressions of
+            the form: "1st quarter, 1st month, 3rd Friday" or "Last quarter, 2nd month, Fridays and Saturdays".
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.DayIntervalTE.#ctor(System.Int32,System.DateTime)">
+            <summary>
+            Every n day(s)
+            </summary>
+            <param name="dayIntervals">Day interval. E.g., Every 1 day, every 2 days, .... , every n days.</param>
+            <param name="firstDateTime">To check a day that comes under expected day interval.</param>
+        </member>
+        <member name="T:ScheduleWidget.TemporalExpressions.DayInWeekTE">
+            <summary>
+            Compares two specific days of week exactly
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.DayInWeekTE.#ctor(ScheduleWidget.Enums.DayOfWeekEnum,System.DateTime,System.Int32)">
+            <summary>
+            The day of week value
+            </summary>
+            <param name="aDayOfWeek"></param>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.DayInWeekTE.Includes(System.DateTime)">
+            <summary>
+            Returns true if the weekly interval and the day matches.
+            </summary>
+            <param name="aDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.DayInWeekTE.DayMatches(System.DateTime)">
+            <summary>
+            Returns if the day matches the specified day of week.
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.DayInWeekTE.WeekMatches(System.DateTime)">
+            <summary>
+            Returns true if the date falls in a week that matches the weekly interval.
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.DayInWeekTE.StartOfWeek(System.DateTime,System.DayOfWeek)">
+            <summary>
+            Returns the first day of the week based on the provided starting day.
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ScheduleWidget.TemporalExpressions.DayOfWeekTE">
+            <summary>
+            Compares two specific days of week exactly
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.DayOfWeekTE.#ctor(ScheduleWidget.Enums.DayOfWeekEnum)">
+            <summary>
+            The day of week value
+            </summary>
+            <param name="aDayOfWeek"></param>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.DayOfWeekTE.Includes(System.DateTime)">
+            <summary>
+            Returns true if the date day of week matches the flag
+            attribute value:
+            
+                Sun = 1,
+                Mon = 2,
+                Tue = 4,
+                Wed = 8,
+                Thu = 16,
+                Fri = 32,
+                Sat = 64
+            
+            </summary>
+            <param name="aDate"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ScheduleWidget.TemporalExpressions.FloatingHolidayTE">
+            <summary>
+            Floating holiday is one where the month never changes from year to year but the day does,
+            e.g., the first Monday of September (Labor Day). So Sep = 9, Mon = 1, and first week = 1
+            </summary>
+        </member>
+        <member name="T:ScheduleWidget.TemporalExpressions.DayInMonthTE">
+            <summary>
+            Expression for day in month. Implements support for temporal expressions of
+            the form: "last Friday of the month" or "first Tuesday of the month". The 
+            dayOfWeek enum value is converted internally to Sun = 0 ... Sat = 6. The
+            monthly interval is 1 (first), 2 (second) thru 4 (fourth) and -1 (last).
+            </summary>
+        </member>
+        <member name="T:ScheduleWidget.TemporalExpressions.MonthTE">
+            <summary>
+            Expression for 'Monthly' frequency type.
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.MonthTE.#ctor(System.Int32,System.DateTime,ScheduleWidget.Enums.DayOfWeekEnum)">
+            <summary>
+            Every n month(s), every week, selected week day(s)
+            </summary>
+            <param name="monthIntervals">Month interval. E.g., Every 1 month, every 2 months, .... , every n months.</param>
+            <param name="firstDateTime">Used when monthIntervals > 1 to check a month that comes under expected month interval.</param>
+            <param name="dayOfWeek">Day(s) of the week</param>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.MonthTE.#ctor(System.Int32,System.DateTime,System.Int32)">
+            <summary>
+            Every n month(s), one selected date
+            </summary>
+            <param name="monthIntervals">Month interval. E.g., Every 1 month, every 2 months, .... , every n months.</param>
+            <param name="firstDateTime">Used when monthIntervals > 1 to check a month that comes under expected month interval.</param>
+            <param name="date">Day of the month</param>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.MonthTE.#ctor(System.Int32,System.DateTime,ScheduleWidget.Enums.DayOfWeekEnum,ScheduleWidget.Enums.MonthlyIntervalEnum)">
+            <summary>
+            Every n month(s), selected week(s), selected week day(s)
+            </summary>
+            <param name="monthIntervals">Month interval. E.g., Every 1 month, every 2 months, .... , every n months.</param>
+            <param name="firstDateTime">Used when monthIntervals > 1 to check a month that comes under expected month interval.</param>
+            <param name="dayOfWeek">Day(s) of the week</param>
+            <param name="monthlyInterval">Week numbers. E.g., first week, second week, every week, second and third week, etc.</param>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.DayInMonthTE.#ctor(ScheduleWidget.Enums.DayOfWeekEnum)">
+            <summary>
+            Creates a temporal expression using day of the week. For example:
+            
+            var sunday = new DayInMonthTE(1);
+            var monday = new DayInMonthTE(2);
+            var tuesday = new DayInMonthTE(4);
+            var wednesday = new DayInMonthTE(8);
+            var thursday = new DayInMonthTE(16);
+            var friday = new DayInMonthTE(32);
+            var saturday = new DayInMonthTE(64);
+            
+            </summary>
+            <param name="dayOfWeekOption">Day of week</param>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.DayInMonthTE.#ctor(System.Int32)">
+            <summary>
+            Creates a temporal expression using day of the month 1 to 31.
+            The date will be adjusted to the last date of a month if a 
+            particular month doesn't have the day specified.
+            
+            var example1= = new DayInMonthTE(2); //2nd day of the month
+            </summary>
+            <param name="date"></param>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.DayInMonthTE.#ctor(ScheduleWidget.Enums.DayOfWeekEnum,ScheduleWidget.Enums.MonthlyIntervalEnum)">
+            <summary>
+            Creates a temporal expression using day of the week 0 to 6 and day
+            of week in a month which can be positive (counting from the beginning
+            of the month) or negative (counting from the end of the month).
+            
+            var example1 = new DayInMonthTE(4, 2);  // "second Tues of the month"
+            var example2 = new DayInMonthTE(32, 16); // "last Friday of the month"
+            
+            </summary>
+            <param name="dayOfWeekOption">day of week</param>
+            <param name="monthlyIntervalOption"></param>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.FloatingHolidayTE.#ctor(System.Int32,ScheduleWidget.Enums.DayOfWeekEnum,ScheduleWidget.Enums.MonthlyIntervalEnum)">
+            <summary>
+            The holiday month, day, and count where the holiday falls on a different
+            date every year, e.g., first Monday of September (Labor Day):
+            
+            var laborDay = new FloatingHolidayTE(9, 1, 1);
+            </summary>
+            <param name="month"></param>
+            <param name="dayOfWeekOption"></param>
+            <param name="monthlyIntervalOption"></param>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.FloatingHolidayTE.Includes(System.DateTime)">
+            <summary>
+            Returns true if the date falls on a holiday
+            </summary>
+            <param name="aDate"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ScheduleWidget.TemporalExpressions.DateTE">
+            <summary>
+            Compares two specific dates exactly
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.DateTE.#ctor(System.DateTime)">
+            <summary>
+            The date value
+            </summary>
+            <param name="aDate"></param>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.DateTE.Includes(System.DateTime)">
+            <summary>
+            Returns true if the date matches this date value
+            </summary>
+            <param name="aDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.DifferenceTE.Includes(System.DateTime)">
+            <summary>
+            Returns true if the inclusive expression is true and the exclusive expression is false
+            </summary>
+            <param name="aDate"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ScheduleWidget.TemporalExpressions.FixedHolidayTE">
+            <summary>
+            Fixed holiday is one where the month and day never change
+            from year to year, e.g., Jul 4 (Independence Day)
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.FixedHolidayTE.#ctor(System.Int32,System.Int32)">
+            <summary>
+            The holiday month and day, e.g., "July 4 (Independence Day)":
+            var independenceDay = new FixedHolidayTE(7, 4);
+            </summary>
+            <param name="month"></param>
+            <param name="day"></param>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.FixedHolidayTE.Includes(System.DateTime)">
+            <summary>
+            Returns true if the date falls on a holiday
+            </summary>
+            <param name="aDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.IntersectionTE.Includes(System.DateTime)">
+            <summary>
+            Returns true if the date is included in all of the expressions
+            </summary>
+            <param name="aDate"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ScheduleWidget.TemporalExpressions.RangeEachYearTE">
+            <summary>
+            Compares a range of time within a year. For example, any date that
+            falls between April and October:
+            var nonWinterMonths = new RangeEachYearTE(4, 10);
+            </summary>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.RangeEachYearTE.Includes(System.DateTime)">
+            <summary>
+            Returns true if the date is included in the expression
+            </summary>
+            <param name="aDate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ScheduleWidget.TemporalExpressions.UnionTE.Includes(System.DateTime)">
+            <summary>
+            Returns true if the date is included anywhere in the expression
+            </summary>
+            <param name="aDate"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
