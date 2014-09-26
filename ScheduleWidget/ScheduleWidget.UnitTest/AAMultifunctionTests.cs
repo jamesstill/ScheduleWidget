@@ -3,16 +3,15 @@ using System.Linq;
 using NUnit.Framework;
 using ScheduleWidget.ScheduledEvents;
 using ScheduleWidget.Enums;
-using ScheduleWidget.TemporalExpressions;
 using System.Collections.Generic;
 
 namespace ScheduleWidget.UnitTest
 {
     [TestFixture]
-    public class AAMultifunctionTests
+    public class MultifunctionTests
     {
         [Test]
-        public void AAMultifunctionTest1()
+        public void MultifunctionTest1()
         {
             var aEvent = new Event()
             {
@@ -35,12 +34,14 @@ namespace ScheduleWidget.UnitTest
             Assert.IsTrue(aEvent.NumberOfOccurrencesThatWasLastSet == 6);
 
             // Exclude 2000,2006,2010.
-            List<DateTime> excludedDates = new List<DateTime>();
-            excludedDates.Add(new DateTime(2000, 9, 27));
-            excludedDates.Add(new DateTime(2005, 9, 27));
-            excludedDates.Add(new DateTime(2005, 9, 28));
-            excludedDates.Add(new DateTime(2006, 9, 27));
-            excludedDates.Add(new DateTime(2010, 9, 27));
+            var excludedDates = new List<DateTime>
+            {
+                new DateTime(2000, 9, 27),
+                new DateTime(2005, 9, 27),
+                new DateTime(2005, 9, 28),
+                new DateTime(2006, 9, 27),
+                new DateTime(2010, 9, 27)
+            };
             var schedule = new Schedule(aEvent, excludedDates);
 
             // Make sure it is not occurring on excluded dates.
@@ -58,12 +59,12 @@ namespace ScheduleWidget.UnitTest
             Assert.IsTrue(schedule.IsOccurring(new DateTime(2008, 9, 27)));
 
             // Check the occurrences function.
-            DateRange during = new DateRange(new DateTime(1995, 1, 1),new DateTime(2015, 1, 1));
+            var during = new DateRange(new DateTime(1995, 1, 1),new DateTime(2015, 1, 1));
             var occurrences = schedule.Occurrences(during);
             Assert.IsTrue(occurrences.Count() == 3);
 
             // Check the last occurrence date function.
-            DateTime? lastDate = schedule.GetLastOccurrenceDate();
+            var lastDate = schedule.GetLastOccurrenceDate();
             Assert.IsTrue(lastDate == new DateTime(2008, 9, 27));
 
             // Check the next occurrence (date only) function.
@@ -79,8 +80,8 @@ namespace ScheduleWidget.UnitTest
             Assert.IsTrue(schedule.PreviousOccurrence(new DateTime(2013, 9, 27)) == new DateTime(2008, 9, 27));
 
             // Check the next occurrence ranged function.
-            DateRange range1 = new DateRange(new DateTime(2004, 9, 1), new DateTime(2004, 10, 1));
-            DateRange range2 = new DateRange(new DateTime(2004, 11, 1), new DateTime(2002, 9, 27));
+            var range1 = new DateRange(new DateTime(2004, 9, 1), new DateTime(2004, 10, 1));
+            var range2 = new DateRange(new DateTime(2004, 11, 1), new DateTime(2002, 9, 27));
             Assert.IsTrue(schedule.NextOccurrence(new DateTime(1995, 1, 1), range1) == new DateTime(2004, 9, 27));
             Assert.IsTrue(schedule.NextOccurrence(new DateTime(1995, 1, 1), range2) == null);
 

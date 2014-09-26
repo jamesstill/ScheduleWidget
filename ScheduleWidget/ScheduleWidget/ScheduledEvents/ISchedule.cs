@@ -7,7 +7,9 @@ namespace ScheduleWidget.ScheduledEvents
     {
         bool IsOccurring(DateTime aDate);
         DateTime? PreviousOccurrence(DateTime aDate);
+        DateTime? PreviousOccurrence(DateTime aDate, DateRange during);
         DateTime? NextOccurrence(DateTime aDate);
+        DateTime? NextOccurrence(DateTime aDate, DateRange during);
         IEnumerable<DateTime> Occurrences(DateRange during);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using NUnit.Framework;
 using ScheduleWidget.ScheduledEvents;
@@ -21,7 +20,7 @@ namespace ScheduleWidget.UnitTest
                 Frequency = 1,        // daily
                 MonthlyInterval = 0,  // not applicable
                 DaysOfWeek = 127,      // every day of week
-                FirstDateTime = new DateTime(2013, 1, 1)
+                StartDateTime = new DateTime(2013, 1, 1)
             };
 
             var schedule = new Schedule(aEvent);
@@ -42,7 +41,7 @@ namespace ScheduleWidget.UnitTest
                 Frequency = 1,        // daily
                 MonthlyInterval = 0,  // not applicable
                 DaysOfWeek = 16,       // Thursday
-                FirstDateTime = new DateTime(2013, 1, 1)
+                StartDateTime = new DateTime(2013, 1, 1)
             };
 
             var schedule = new Schedule(aEvent);
@@ -60,8 +59,8 @@ namespace ScheduleWidget.UnitTest
                 ID = 1,
                 Title = "Event 3",
                 FrequencyTypeOptions = FrequencyTypeEnum.Daily,
-                DayInterval = 4,
-                FirstDateTime = new DateTime(2013, 1, 3)
+                RepeatInterval = 4,
+                StartDateTime = new DateTime(2013, 1, 3)
             };
 
             var schedule = new Schedule(aEvent);
@@ -82,8 +81,8 @@ namespace ScheduleWidget.UnitTest
                 ID = 1,
                 Title = "Event 4",
                 FrequencyTypeOptions = FrequencyTypeEnum.Daily,
-                DayInterval = 4,
-                FirstDateTime = new DateTime(2013, 1, 3)
+                RepeatInterval = 4,
+                StartDateTime = new DateTime(2013, 1, 3)
             };
 
             var schedule = new Schedule(aEvent, holidays);
@@ -102,8 +101,8 @@ namespace ScheduleWidget.UnitTest
                 ID = 5,
                 Title = "Event 5",
                 FrequencyTypeOptions = FrequencyTypeEnum.Daily,
-                DayInterval = 1,
-                FirstDateTime = new DateTime(2013, 8, 8)
+                RepeatInterval = 1,
+                StartDateTime = new DateTime(2013, 8, 8)
             };
 
             var schedule = new Schedule(aEvent);
@@ -128,8 +127,8 @@ namespace ScheduleWidget.UnitTest
                 ID = 6,
                 Title = "Event 6",
                 FrequencyTypeOptions = FrequencyTypeEnum.Daily,
-                DayInterval = 2,
-                FirstDateTime = new DateTime(2013, 8, 8)
+                RepeatInterval = 2,
+                StartDateTime = new DateTime(2013, 8, 8)
             };
 
             var schedule = new Schedule(aEvent);

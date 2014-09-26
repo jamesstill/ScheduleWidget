@@ -7,8 +7,8 @@ namespace ScheduleWidget.Sandbox
         static void Main(string[] args)
         {
             RunDailyScenarios();
-            //RunWeeklyScenarios();
-            //RunMonthlyScenarios();
+            RunWeeklyScenarios();
+            RunMonthlyScenarios();
 
             Console.WriteLine();
             Console.WriteLine("Finished running all scenarios. Press ENTER to exit.");

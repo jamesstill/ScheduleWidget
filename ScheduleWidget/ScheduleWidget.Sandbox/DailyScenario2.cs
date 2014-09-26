@@ -8,7 +8,7 @@ namespace ScheduleWidget.Sandbox
         public static void Run()
         {
             Console.WriteLine(Environment.NewLine);
-            Console.WriteLine("Running daily scenario 2 without a FirstDateTime value");
+            Console.WriteLine("Running daily scenario 2 without a StartDateTime value");
             Console.WriteLine(Environment.NewLine);
 
             var aEvent = new Event()

@@ -55,6 +55,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AAMultifunctionTests.cs" />
     <Compile Include="BasicTest.cs" />
     <Compile Include="AnniversaryTests.cs" />
     <Compile Include="LastOccurrenceTests.cs" />

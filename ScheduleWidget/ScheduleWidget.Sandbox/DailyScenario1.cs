@@ -8,7 +8,7 @@ namespace ScheduleWidget.Sandbox
         public static void Run()
         {
             Console.WriteLine(Environment.NewLine);
-            Console.WriteLine("Running daily scenario 1 with a FirstDateTime value");
+            Console.WriteLine("Running daily scenario 1 with a StartDateTime value of 12/1/2013");
             Console.WriteLine(Environment.NewLine);
 
             var aEvent = new Event()
@@ -18,7 +18,7 @@ namespace ScheduleWidget.Sandbox
                 Frequency = 1,        // daily
                 MonthlyInterval = 0,  // not applicable
                 DaysOfWeek = 127,     // every day of week
-                FirstDateTime = new DateTime(2013, 12, 1)
+                StartDateTime = new DateTime(2013, 12, 1)
             };
 
             var during = new DateRange()
@@ -35,8 +35,8 @@ namespace ScheduleWidget.Sandbox
             }
 
             Console.WriteLine(Environment.NewLine);
-            Console.WriteLine("Printed out all dates between {0} and {1}", 
-                during.StartDateTime.ToShortDateString(), 
+            Console.WriteLine("Printed out all dates between {0} and {1}",
+                during.StartDateTime.ToShortDateString(),
                 during.EndDateTime.ToShortDateString());
         }
     }

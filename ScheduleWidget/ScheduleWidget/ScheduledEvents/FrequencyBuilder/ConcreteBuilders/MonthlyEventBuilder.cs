@@ -11,8 +11,8 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
         public MonthlyEventBuilder(Event aEvent)
         {
             //Assigning default value to month interval if the value is 0.
-            if (aEvent.MonthInterval == 0)
-                aEvent.MonthInterval = 1;
+            if (aEvent.RepeatInterval == 0)
+                aEvent.RepeatInterval = 1;
 
             _event = aEvent;
         }
@@ -20,14 +20,14 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
         public UnionTE Create()
         {
             var union = new UnionTE();
-            var firstDateTime = _event.FirstDateTime ?? DateTime.Now;
+            var firstDateTime = _event.StartDateTime ?? DateTime.Now;
 
             if (_event.DayOfMonth == 0 && (int)_event.MonthlyIntervalOptions == 0)
                 _event.MonthlyIntervalOptions = MonthlyIntervalEnum.EveryWeek;
 
             if (_event.DayOfMonth > 0)
             {
-                var dayInMonth = new MonthTE(_event.MonthInterval, firstDateTime, _event.DayOfMonth);
+                var dayInMonth = new MonthTE(_event.RepeatInterval, firstDateTime, _event.DayOfMonth);
                 union.Add(dayInMonth);
             }
             else if (_event.MonthlyInterval == (int)MonthlyIntervalEnum.EveryWeek)
@@ -35,7 +35,7 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
                 var daysOfWeek = EnumExtensions.GetFlags(_event.DaysOfWeekOptions);
                 foreach (DayOfWeekEnum dayOfWeek in daysOfWeek)
                 {
-                    var dayInMonth = new MonthTE(_event.MonthInterval, firstDateTime, dayOfWeek);
+                    var dayInMonth = new MonthTE(_event.RepeatInterval, firstDateTime, dayOfWeek);
                     union.Add(dayInMonth);
                 }
             }
@@ -47,7 +47,7 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
                 {
                     foreach (DayOfWeekEnum dayOfWeek in daysOfWeek)
                     {
-                        var dayInMonth = new MonthTE(_event.MonthInterval, firstDateTime, dayOfWeek, monthlyInterval);
+                        var dayInMonth = new MonthTE(_event.RepeatInterval, firstDateTime, dayOfWeek, monthlyInterval);
                         union.Add(dayInMonth);
                     }
                 }

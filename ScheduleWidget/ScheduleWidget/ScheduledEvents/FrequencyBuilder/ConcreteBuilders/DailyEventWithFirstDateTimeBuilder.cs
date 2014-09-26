@@ -11,8 +11,8 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
         public DailyEventWithFirstDateTimeBuilder(Event aEvent)
         {
             //Assigning default value to day interval if the value is 0.
-            if (aEvent.DayInterval == 0)
-                aEvent.DayInterval = 1;
+            if (aEvent.RepeatInterval == 0)
+                aEvent.RepeatInterval = 1;
 
             _event = aEvent;
         }
@@ -21,11 +21,11 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder.ConcreteBuilders
         {
             var union = new UnionTE();
 
-            var firstDateTime = _event.FirstDateTime ?? DateTime.Now;
+            var firstDateTime = _event.StartDateTime ?? DateTime.Now;
 
             foreach (DayOfWeekEnum day in Enum.GetValues(typeof(DayOfWeekEnum)))
             {
-                union.Add(new DayIntervalTE(_event.DayInterval, firstDateTime));
+                union.Add(new DayIntervalTE(_event.RepeatInterval, firstDateTime));
             }
 
             return union;

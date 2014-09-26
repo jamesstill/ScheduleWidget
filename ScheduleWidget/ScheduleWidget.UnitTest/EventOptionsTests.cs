@@ -125,8 +125,10 @@ namespace ScheduleWidget.UnitTest
                     EndMonth = 10,       // October
                 },
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
-                MonthlyIntervalOptions = MonthlyIntervalEnum.First | MonthlyIntervalEnum.Third, 
-                DaysOfWeekOptions = DayOfWeekEnum.Mon
+                MonthlyIntervalOptions = MonthlyIntervalEnum.First | MonthlyIntervalEnum.Third,
+                DaysOfWeekOptions = DayOfWeekEnum.Mon,
+                StartDateTime = new DateTime(2000, 1, 1),
+                EndDateTime = new DateTime(2020, 1, 1)
             };
         }
 

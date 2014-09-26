@@ -33,10 +33,10 @@ namespace ScheduleWidget.UnitTest
             var schedule = new Schedule(aEvent);
             Assert.IsTrue(schedule.IsOccurring(occurringDate));
 
-            var previousOccurrence = schedule.PreviousOccurrence(occurringDate);
+            var previousOccurrence = schedule.PreviousOccurrence(occurringDate, range);
             Assert.AreEqual(new DateTime(2013, 1, 18), previousOccurrence.Value);
 
-            var nextOccurrence = schedule.NextOccurrence(occurringDate);
+            var nextOccurrence = schedule.NextOccurrence(occurringDate, range);
             Assert.AreEqual(new DateTime(2013, 1, 25), nextOccurrence.Value);
 
             var occurrences = schedule.Occurrences(range);
@@ -54,15 +54,15 @@ namespace ScheduleWidget.UnitTest
                 ID = 1,
                 Title = "Event 2",
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
-                MonthInterval = 2,
+                RepeatInterval = 2,
                 MonthlyIntervalOptions = MonthlyIntervalEnum.Last,
                 DaysOfWeekOptions = DayOfWeekEnum.Mon | DayOfWeekEnum.Fri,
-                FirstDateTime = new DateTime(2013, 1, 15)
+                StartDateTime = new DateTime(2013, 1, 15)
             };
 
             var range = new DateRange()
             {
-                StartDateTime = aEvent.FirstDateTime.Value,
+                StartDateTime = aEvent.StartDateTime.Value,
                 EndDateTime = new DateTime(2013, 4, 30)
             };
 
@@ -71,10 +71,10 @@ namespace ScheduleWidget.UnitTest
             var schedule = new Schedule(aEvent);
             Assert.IsFalse(schedule.IsOccurring(nonOccurringDate));
 
-            var previousOccurrence = schedule.PreviousOccurrence(nonOccurringDate);
+            var previousOccurrence = schedule.PreviousOccurrence(nonOccurringDate, range);
             Assert.AreEqual(new DateTime(2013, 1, 28), previousOccurrence.Value);
 
-            var nextOccurrence = schedule.NextOccurrence(nonOccurringDate);
+            var nextOccurrence = schedule.NextOccurrence(nonOccurringDate, range);
             Assert.AreEqual(new DateTime(2013, 3, 25), nextOccurrence.Value);
 
             var occurrences = schedule.Occurrences(range);
@@ -106,10 +106,10 @@ namespace ScheduleWidget.UnitTest
             var schedule = new Schedule(aEvent);
             Assert.IsTrue(schedule.IsOccurring(occurringDate));
 
-            var previousOccurrence = schedule.PreviousOccurrence(occurringDate);
+            var previousOccurrence = schedule.PreviousOccurrence(occurringDate, range);
             Assert.AreEqual(new DateTime(2013, 11, 3), previousOccurrence.Value);
 
-            var nextOccurrence = schedule.NextOccurrence(occurringDate);
+            var nextOccurrence = schedule.NextOccurrence(occurringDate, range);
             Assert.AreEqual(new DateTime(2014, 1, 3), nextOccurrence.Value);
 
             var occurrences = schedule.Occurrences(range);
@@ -127,14 +127,14 @@ namespace ScheduleWidget.UnitTest
                 ID = 1,
                 Title = "Event 4",
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
-                MonthInterval = 3,
+                RepeatInterval = 3,
                 DayOfMonth = 30,
-                FirstDateTime = new DateTime(2013, 2, 1)
+                StartDateTime = new DateTime(2013, 2, 1)
             };
 
             var range = new DateRange()
             {
-                StartDateTime = aEvent.FirstDateTime.Value,
+                StartDateTime = aEvent.StartDateTime.Value,
                 EndDateTime = new DateTime(2014, 12, 31)
             };
 
@@ -143,10 +143,10 @@ namespace ScheduleWidget.UnitTest
             var schedule = new Schedule(aEvent);
             Assert.IsTrue(schedule.IsOccurring(occurringDate));
 
-            var previousOccurrence = schedule.PreviousOccurrence(occurringDate);
+            var previousOccurrence = schedule.PreviousOccurrence(occurringDate, range);
             Assert.AreEqual(new DateTime(2013, 11, 30), previousOccurrence.Value);
 
-            var nextOccurrence = schedule.NextOccurrence(occurringDate);
+            var nextOccurrence = schedule.NextOccurrence(occurringDate, range);
             Assert.AreEqual(new DateTime(2014, 5, 30), nextOccurrence.Value);
 
             var occurrences = schedule.Occurrences(range);
@@ -184,10 +184,10 @@ namespace ScheduleWidget.UnitTest
             Assert.IsTrue(schedule.IsOccurring(occurringDate));
             Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 3, 4)));
 
-            var previousOccurrence = schedule.PreviousOccurrence(occurringDate);
+            var previousOccurrence = schedule.PreviousOccurrence(occurringDate, range);
             Assert.AreEqual(new DateTime(2013, 1, 18), previousOccurrence.Value);
 
-            var nextOccurrence = schedule.NextOccurrence(occurringDate);
+            var nextOccurrence = schedule.NextOccurrence(occurringDate, range);
             Assert.AreEqual(new DateTime(2013, 1, 28), nextOccurrence.Value);
 
             var occurrences = schedule.Occurrences(range);
