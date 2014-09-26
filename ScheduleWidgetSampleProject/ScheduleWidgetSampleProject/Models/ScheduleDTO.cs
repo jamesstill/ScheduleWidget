@@ -361,9 +361,10 @@ namespace ScheduleWidgetSampleProject.Models
                 ID = ID,
                 Title = Title,
                 Frequency = Frequency,
-                WeeklyInterval = WeeklyInterval,
+                RepeatInterval = WeeklyInterval,
                 MonthlyInterval = MonthlyInterval,
-                FirstDateTime = StartDate,
+                StartDateTime = StartDate,
+                EndDateTime = EndDate,
                 DaysOfWeek = DaysOfWeek
             };
 
