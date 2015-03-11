@@ -9,17 +9,19 @@ namespace ScheduleWidget.TemporalExpressions
     public class DayInWeekTE : TemporalExpression
     {
         private readonly DayOfWeekEnum _dayOfWeek;
-        private readonly DateTime _firstDayOfWeek;
+        private readonly DayOfWeek _firstDayOfWeek;
+        private readonly DateTime _firstDateOfWeek;
         private readonly int _weeklyIntervals;
         private readonly DateTime _firstDateTime;
         /// <summary>
         /// The day of week value
         /// </summary>
         /// <param name="aDayOfWeek"></param>
-        public DayInWeekTE(DayOfWeekEnum aDayOfWeek, DateTime aFirstDateTime, int aWeeklyInterval)
+        public DayInWeekTE(DayOfWeekEnum aDayOfWeek, DayOfWeek aFirstDayOfWeek, DateTime aFirstDateTime, int aWeeklyInterval)
         {
             _dayOfWeek = aDayOfWeek;
-             _firstDayOfWeek = StartOfWeek(aFirstDateTime, DayOfWeek.Sunday);
+            _firstDayOfWeek = aFirstDayOfWeek;
+            _firstDateOfWeek = StartOfWeek(aFirstDateTime, _firstDayOfWeek);
             _weeklyIntervals = aWeeklyInterval;
             _firstDateTime = aFirstDateTime;
         }
@@ -37,7 +39,7 @@ namespace ScheduleWidget.TemporalExpressions
             }
             return WeekMatches(aDate) && DayMatches(aDate);
         }
-       
+
         /// <summary>
         /// Returns if the day matches the specified day of week.
         /// </summary>
@@ -80,8 +82,8 @@ namespace ScheduleWidget.TemporalExpressions
         /// <returns></returns>
         protected bool WeekMatches(DateTime aDate)
         {
-            var startOfWeek = StartOfWeek(aDate, DayOfWeek.Sunday);
-            double weeks = Math.Round((startOfWeek - _firstDayOfWeek).TotalDays / 7);
+            var startOfWeek = StartOfWeek(aDate, _firstDayOfWeek);
+            double weeks = Math.Round((startOfWeek - _firstDateOfWeek).TotalDays / 7);
 
             if (weeks % _weeklyIntervals == 0)
             {

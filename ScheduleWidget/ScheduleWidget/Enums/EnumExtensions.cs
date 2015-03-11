@@ -15,5 +15,27 @@ namespace ScheduleWidget.Enums
                 if (input.HasFlag(value))
                     yield return value;
         }
+
+        public static DayOfWeek GetDayOfWeek(DayOfWeekEnum dayOfWeek)
+        {
+            switch (dayOfWeek)
+            {
+                case DayOfWeekEnum.Sun:
+                    return DayOfWeek.Sunday;
+                case DayOfWeekEnum.Mon:
+                    return DayOfWeek.Monday;
+                case DayOfWeekEnum.Tue:
+                    return DayOfWeek.Tuesday;
+                case DayOfWeekEnum.Wed:
+                    return DayOfWeek.Wednesday;
+                case DayOfWeekEnum.Thu:
+                    return DayOfWeek.Thursday;
+                case DayOfWeekEnum.Fri:
+                    return DayOfWeek.Friday;
+                //case DayOfWeekEnum.Sat:
+                //	return DayOfWeek.Saturday;
+            }
+            return DayOfWeek.Sunday;
+        }
     }
 }
