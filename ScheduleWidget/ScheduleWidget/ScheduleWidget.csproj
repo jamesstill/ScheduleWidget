@@ -51,6 +51,7 @@
     <Compile Include="Enums\QuarterEnum.cs" />
     <Compile Include="Enums\QuarterlyIntervalEnum.cs" />
     <Compile Include="ScheduledEvents\Anniversary.cs" />
+    <Compile Include="ScheduledEvents\DayOfWeekEnumComparer.cs" />
     <Compile Include="ScheduledEvents\FrequencyBuilder\ConcreteBuilders\DailyEventBuilder.cs" />
     <Compile Include="ScheduledEvents\FrequencyBuilder\ConcreteBuilders\OneTimeEventBuilder.cs" />
     <Compile Include="ScheduledEvents\FrequencyBuilder\ConcreteBuilders\MonthlyEventBuilder.cs" />
