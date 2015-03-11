@@ -102,6 +102,11 @@ namespace ScheduleWidget.ScheduledEvents
         public int? NumberOfOccurrencesThatWasLastSet { get; set; }
 
         /// <summary>
+        /// For events that occur Weekly (optional)
+        /// </summary>
+        public DayOfWeekEnum FirstDayOfWeek { get; set; }
+
+        /// <summary>
         /// The frequency expressed as enumeration.
         /// </summary>
         public FrequencyTypeEnum FrequencyTypeOptions
