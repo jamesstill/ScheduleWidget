@@ -2,6 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using ScheduleWidget.ScheduledEvents;
+using ScheduleWidget.Enums;
 
 namespace ScheduleWidget.UnitTest
 {
@@ -21,7 +22,7 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Daughter's Birthday",
-                Frequency = 16, // yearly
+                FrequencyTypeOptions = FrequencyTypeEnum.Yearly,
                 Anniversary = anniversary
             };
 
@@ -42,7 +43,7 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Give Flowers to Wife",
-                Frequency = 16, // yearly
+                FrequencyTypeOptions = FrequencyTypeEnum.Yearly,
                 Anniversary = anniversary
             };
 

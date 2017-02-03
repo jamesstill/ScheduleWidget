@@ -41,9 +41,9 @@ namespace ScheduleWidget.UnitTest
                     StartMonth = 4,      // April
                     EndMonth = 10,       // October
                 },
-                Frequency = 4,       // monthly       
-                MonthlyInterval = 5, // first and third of month
-                DaysOfWeek = 2       // Mon
+                FrequencyTypeOptions = FrequencyTypeEnum.Monthly,       
+                MonthlyIntervalOptions = MonthlyIntervalEnum.First | MonthlyIntervalEnum.Third,
+                DaysOfWeekOptions = DayOfWeekEnum.Mon
             };
         }
 

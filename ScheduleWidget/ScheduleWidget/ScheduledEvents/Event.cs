@@ -278,9 +278,6 @@ namespace ScheduleWidget.ScheduledEvents
                 case FrequencyTypeEnum.Daily:
                     break;
                 case FrequencyTypeEnum.Weekly:
-                case FrequencyTypeEnum.EveryWeekDay:
-                case FrequencyTypeEnum.EveryMonWedFri:
-                case FrequencyTypeEnum.EveryTuTh:
                     maximumDaysWithoutOccurrence *= 7;
                     break;
                 case FrequencyTypeEnum.Monthly:
@@ -344,15 +341,6 @@ namespace ScheduleWidget.ScheduledEvents
                     includedDays += eventInstance.DaysOfWeekOptions.HasFlag(DayOfWeekEnum.Sat) ? 1 : 0;
                     includedDays += eventInstance.DaysOfWeekOptions.HasFlag(DayOfWeekEnum.Sun) ? 1 : 0;
                     result = ((spanWeeks / repeatInterval) * includedDays) - 1;
-                    break;
-                case FrequencyTypeEnum.EveryWeekDay:
-                    result = ((spanWeeks / repeatInterval) * 5) - 1;
-                    break;
-                case FrequencyTypeEnum.EveryMonWedFri:
-                    result = ((spanWeeks / repeatInterval) * 3) - 1;
-                    break;
-                case FrequencyTypeEnum.EveryTuTh:
-                    result = ((spanWeeks / repeatInterval) * 2) - 1;
                     break;
                 case FrequencyTypeEnum.Monthly:
                     int spanMonths = spanDays / 31;

@@ -17,9 +17,8 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Event 1",
-                Frequency = 1,        // daily
-                MonthlyInterval = 0,  // not applicable
-                DaysOfWeek = 127,      // every day of week
+                FrequencyTypeOptions = FrequencyTypeEnum.Daily,
+                DaysOfWeekOptions = DayOfWeekEnum.EveryDay,
                 StartDateTime = new DateTime(2013, 1, 1)
             };
 
@@ -38,9 +37,8 @@ namespace ScheduleWidget.UnitTest
                 ID = 1,
                 Title = "Event 2",
                 RangeInYear = null,
-                Frequency = 1,        // daily
-                MonthlyInterval = 0,  // not applicable
-                DaysOfWeek = 16,       // Thursday
+                FrequencyTypeOptions = FrequencyTypeEnum.Daily,
+                DaysOfWeekOptions = DayOfWeekEnum.Thu,
                 StartDateTime = new DateTime(2013, 1, 1)
             };
 
@@ -152,9 +150,8 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Event 1",
-                Frequency = 1,        // daily
-                MonthlyInterval = 0,  // not applicable
-                DaysOfWeek = 127      // every day of week
+                FrequencyTypeOptions = FrequencyTypeEnum.Daily,
+                DaysOfWeekOptions = DayOfWeekEnum.EveryDay
             };
 
             var schedule = new Schedule(aEvent);
