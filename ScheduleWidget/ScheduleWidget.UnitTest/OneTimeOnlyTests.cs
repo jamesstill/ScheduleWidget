@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using ScheduleWidget.ScheduledEvents;
 using ScheduleWidget.TemporalExpressions;
+using ScheduleWidget.Enums;
 
 namespace ScheduleWidget.UnitTest
 {
@@ -19,10 +20,8 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Labor Day Extravaganza",
-                Frequency = 0,        // one-time only
+                FrequencyTypeOptions = FrequencyTypeEnum.None,
                 OneTimeOnlyEventDate = laborDay,
-                MonthlyInterval = 0,  // not applicable
-                DaysOfWeek = 0        // not applicable
             };
 
             var schedule = new Schedule(aEvent);
@@ -38,10 +37,8 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Labor Day Extravaganza",
-                Frequency = 0,        // one-time only
+                FrequencyTypeOptions = FrequencyTypeEnum.None,
                 OneTimeOnlyEventDate = laborDay,
-                MonthlyInterval = 0,  // not applicable
-                DaysOfWeek = 0        // not applicable
             };
 
             var schedule = new Schedule(aEvent);

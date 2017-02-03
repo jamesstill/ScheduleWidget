@@ -26,9 +26,6 @@ namespace ScheduleWidget.ScheduledEvents.FrequencyBuilder
                     break;
 
                 case FrequencyTypeEnum.Weekly:
-                case FrequencyTypeEnum.EveryWeekDay:
-                case FrequencyTypeEnum.EveryMonWedFri:
-                case FrequencyTypeEnum.EveryTuTh:
                     builder = new WeeklyEventBuilder(aEvent);
                     break;
 

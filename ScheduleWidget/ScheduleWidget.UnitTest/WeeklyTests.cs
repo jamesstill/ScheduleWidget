@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using ScheduleWidget.ScheduledEvents;
+using ScheduleWidget.Enums;
 
 namespace ScheduleWidget.UnitTest
 {
@@ -14,9 +15,8 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Every Mon and Wed",
-                Frequency = 2,        // weekly
-                MonthlyInterval = 0,  // not applicable
-                DaysOfWeek = 10      // every Mon and Wed
+                FrequencyTypeOptions = FrequencyTypeEnum.Weekly,
+                DaysOfWeekOptions = DayOfWeekEnum.Mon | DayOfWeekEnum.Wed
             };
 
             var schedule = new Schedule(aEvent);
@@ -38,9 +38,8 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Every Mon Wed Fri",
-                Frequency = 2,        // weekly
-                MonthlyInterval = 0,  // not applicable
-                DaysOfWeek = 42      // every Mon, Wed and Fri
+                FrequencyTypeOptions = FrequencyTypeEnum.Weekly,
+                DaysOfWeekOptions = DayOfWeekEnum.MWF
             };
 
             var schedule = new Schedule(aEvent);
@@ -61,10 +60,9 @@ namespace ScheduleWidget.UnitTest
             var aEvent = new Event()
             {
                 ID = 1,
-                Title = "Every 2nd week on Mon Wed Fri",
-                Frequency = 2,        // weekly
-                MonthlyInterval = 0,  // not applicable
-                DaysOfWeek = 44,      // every Tue, Wed and Fri
+                Title = "Every 2nd week on Tue Wed Fri",
+                FrequencyTypeOptions = FrequencyTypeEnum.Weekly,
+                DaysOfWeekOptions = DayOfWeekEnum.Tue | DayOfWeekEnum.Wed | DayOfWeekEnum.Fri ,
                 RepeatInterval = 2, // every 2nd week
                 StartDateTime = new DateTime(2013, 1, 1) // start date on a Tue
             };
@@ -88,9 +86,8 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Every 3rd week on Mon Wed Fri",
-                Frequency = 2,        // weekly
-                MonthlyInterval = 0,  // not applicable
-                DaysOfWeek = 44,      // every Tue, Wed and Fri
+                FrequencyTypeOptions = FrequencyTypeEnum.Weekly,
+                DaysOfWeekOptions = DayOfWeekEnum.Tue | DayOfWeekEnum.Wed | DayOfWeekEnum.Fri,
                 RepeatInterval = 3, // every 3rd week
                 StartDateTime = new DateTime(2013, 1, 1) // start date on a Tue
             };
@@ -112,8 +109,8 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Every weekday (Monday to Friday)",
-                Frequency = 32,        // every weekday (Monday to Friday)
-                DaysOfWeek = 62,      // every Mon, Tue, Wed, Thu and Fri
+                FrequencyTypeOptions = FrequencyTypeEnum.Weekly,
+                DaysOfWeekOptions = DayOfWeekEnum.WorkDay,
                 StartDateTime = new DateTime(2013, 8, 1)
             };
 
@@ -142,8 +139,8 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Weekly on Monday, Wednesday, Friday",
-                Frequency = 64,        // weekly on Monday, Wednesday, Friday
-                DaysOfWeek = 42,      // every Mon, Wed and Fri
+                FrequencyTypeOptions = FrequencyTypeEnum.Weekly,
+                DaysOfWeekOptions = Enums.DayOfWeekEnum.MWF,
                 StartDateTime = new DateTime(2013, 8, 2)
             };
 
@@ -176,8 +173,8 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Weekly on Tuesday and Thursday",
-                Frequency = 128,        // weekly on Tuesday and Thursday
-                DaysOfWeek = 20,      // every Tuesday and Thursday
+                FrequencyTypeOptions = FrequencyTypeEnum.Weekly,
+                DaysOfWeekOptions = DayOfWeekEnum.TuTh,
                 StartDateTime = new DateTime(2013, 8, 1)
             };
 
@@ -199,7 +196,6 @@ namespace ScheduleWidget.UnitTest
             Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 9)));
             Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 10)));
             Assert.IsFalse(schedule.IsOccurring(new DateTime(2013, 8, 11)));
-
         }
 
 
@@ -210,8 +206,8 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Every weekday (Monday to Friday)",
-                Frequency = 32,        // every weekday (Monday to Friday)
-                DaysOfWeek = 62,      // every Mon, Tue, Wed, Thu and Fri,
+                FrequencyTypeOptions = FrequencyTypeEnum.Weekly,
+                DaysOfWeekOptions = DayOfWeekEnum.WorkDay,
                 RepeatInterval = 1,
                 StartDateTime = new DateTime(2013, 8, 5)
             };
@@ -240,10 +236,10 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Every 2nd week. First day of week Monday",
-                Frequency = 2,        // Weekly
-                DaysOfWeek = 127,      // Every day
+                FrequencyTypeOptions = FrequencyTypeEnum.Weekly,
+                DaysOfWeekOptions = DayOfWeekEnum.EveryDay,
                 RepeatInterval = 2,
-                FirstDayOfWeek = Enums.DayOfWeekEnum.Mon,
+                FirstDayOfWeek = DayOfWeekEnum.Mon,
                 StartDateTime = new DateTime(2015, 1, 1)
             };
 

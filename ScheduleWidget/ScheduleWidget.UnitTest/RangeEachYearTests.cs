@@ -181,9 +181,9 @@ namespace ScheduleWidget.UnitTest
                     StartMonth = 4,      // April
                     EndMonth = 10,       // October
                 },
-                Frequency = 2,       // weekly       
-                MonthlyInterval = 5, // first and third of month
-                DaysOfWeek = 2       // Mon
+                FrequencyTypeOptions = FrequencyTypeEnum.Weekly,       
+                MonthlyIntervalOptions = MonthlyIntervalEnum.First | MonthlyIntervalEnum.Third,
+                DaysOfWeekOptions = DayOfWeekEnum.Mon
             };
         }
 
@@ -206,9 +206,9 @@ namespace ScheduleWidget.UnitTest
                     EndMonth = 10,       // October
                     EndDayOfMonth = 15
                 },
-                Frequency = 4,       // monthly       
-                MonthlyInterval = 5, // first and third of month
-                DaysOfWeek = 2       // Mon
+                FrequencyTypeOptions = FrequencyTypeEnum.Monthly,       
+                MonthlyIntervalOptions = MonthlyIntervalEnum.First | MonthlyIntervalEnum.Third,
+                DaysOfWeekOptions = DayOfWeekEnum.Mon
             };
         }
 
