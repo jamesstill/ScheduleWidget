@@ -1,3 +1,5 @@
+Looking for .NET Core 2.0 Version? Repo here: https://github.com/jamesstill/ScheduleWidget.Core
+
 ScheduleWidget handles recurring events for calendars. Let's say we want to create a 
 recurring event for the Critical Mass Bicycle Ride, which happens in many major cities
 on the last Friday of every month. 
