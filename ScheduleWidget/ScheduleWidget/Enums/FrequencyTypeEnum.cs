@@ -12,8 +12,10 @@
         Monthly = 4,
         Quarterly = 8,
         Yearly = 16,
-        EveryWeekDay = 32, // Every weekday (Monday to Friday)
-        EveryMonWedFri = 64, // Every Monday, Wednesday and Friday
-        EveryTuTh = 128 // Every Tuesday and Thursday
+        
+        // ** This is not the way to handle this.  Check the DayOfWeekEnum instead. **
+        //EveryWeekDay = 32, // Every weekday (Monday to Friday)
+        //EveryMonWedFri = 64, // Every Monday, Wednesday and Friday
+        //EveryTuTh = 128 // Every Tuesday and Thursday
     }
 }

@@ -11,6 +11,10 @@ namespace ScheduleWidget.Enums
         Wed = 8,
         Thu = 16,
         Fri = 32,
-        Sat = 64
+        Sat = 64,
+        EveryDay = Sun | Mon | Tue | Wed | Thu | Fri | Sat,
+        WorkDay = Mon | Tue | Wed | Thu | Fri,
+        MWF = Mon | Wed | Fri,
+        TuTh = Tue | Thu
     }
 }

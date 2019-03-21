@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using ScheduleWidget.ScheduledEvents;
+using ScheduleWidget.Enums;
 
 namespace ScheduleWidget.UnitTest
 {
@@ -122,9 +123,9 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "My Recurring Event",
-                Frequency = 4,        // monthly
-                MonthlyInterval = 5,  // first and third of month
-                DaysOfWeek = 10,      // Mon and Wed
+                FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
+                MonthlyIntervalOptions = MonthlyIntervalEnum.First | MonthlyIntervalEnum.Third,
+                DaysOfWeekOptions = DayOfWeekEnum.Mon | DayOfWeekEnum.Wed,
                 StartDateTime = new DateTime(2000, 1, 1),
                 EndDateTime = new DateTime(2020, 1, 1)
             };

@@ -40,9 +40,9 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "My Recurring Event",
-                Frequency = 4,        // monthly
-                MonthlyInterval = 5,  // first and third of month
-                DaysOfWeek = 10       // Mon and Wed
+                FrequencyTypeOptions = Enums.FrequencyTypeEnum.Monthly,
+                MonthlyIntervalOptions = Enums.MonthlyIntervalEnum.First | Enums.MonthlyIntervalEnum.Third,
+                DaysOfWeekOptions = Enums.DayOfWeekEnum.Mon | Enums.DayOfWeekEnum.Wed
             };
         }
     }

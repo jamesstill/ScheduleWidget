@@ -51,7 +51,7 @@ namespace ScheduleWidget.UnitTest
                 ID = 3,
                 Title = "Weekly on Monday, Tuesday, 3 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Weekly,
-                DaysOfWeek = 6,
+                DaysOfWeekOptions = DayOfWeekEnum.Mon | DayOfWeekEnum.Tue,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
             aEvent.SetEndDateWithNumberOfOccurrences(3);
@@ -69,7 +69,7 @@ namespace ScheduleWidget.UnitTest
                 ID = 4,
                 Title = "Every 2 weeks on Monday, Tuesday, Wednesday, 10 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Weekly,
-                DaysOfWeek = 14,
+                DaysOfWeekOptions= DayOfWeekEnum.MWF,
                 RepeatInterval = 2,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
@@ -126,7 +126,7 @@ namespace ScheduleWidget.UnitTest
                 ID = 7,
                 Title = "Monthly on the last Monday, 3 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
-                DaysOfWeek = 2,
+                DaysOfWeekOptions = DayOfWeekEnum.Mon,
                 MonthlyIntervalOptions = MonthlyIntervalEnum.Last,
                 StartDateTime = new DateTime(2013, 7, 29)
             };
@@ -145,7 +145,7 @@ namespace ScheduleWidget.UnitTest
                 ID = 8,
                 Title = "Every 2 months on the last Monday, 3 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
-                DaysOfWeek = 2,
+                DaysOfWeekOptions = DayOfWeekEnum.Mon,
                 RepeatInterval = 2,
                 MonthlyIntervalOptions = MonthlyIntervalEnum.Last,
                 StartDateTime = new DateTime(2013, 7, 29)
@@ -165,7 +165,7 @@ namespace ScheduleWidget.UnitTest
                 ID = 9,
                 Title = "Every 2 months on the last Monday, 3 times",
                 FrequencyTypeOptions = FrequencyTypeEnum.Monthly,
-                DaysOfWeek = 2,
+                DaysOfWeekOptions = DayOfWeekEnum.Mon,
                 RepeatInterval = 2,
                 MonthlyIntervalOptions = MonthlyIntervalEnum.Last,
                 StartDateTime = new DateTime(2013, 7, 29)

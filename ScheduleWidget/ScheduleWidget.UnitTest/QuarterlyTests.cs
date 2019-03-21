@@ -101,11 +101,11 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Quarterly, First Quarter, First Month, Last Week, Friday",
-                Frequency = 8, // quarterly
-                QuarterInterval = 1, // first quarter
-                QuarterlyInterval = 1, // first month of quarter
-                MonthlyInterval = 16, // last week of the month
-                DaysOfWeek = 32 // Friday
+                FrequencyTypeOptions = FrequencyTypeEnum.Quarterly,
+                QuarterlyOptions = QuarterEnum.First,
+                QuarterlyIntervalOptions = QuarterlyIntervalEnum.First,
+                MonthlyIntervalOptions = MonthlyIntervalEnum.Last,
+                DaysOfWeekOptions = DayOfWeekEnum.Fri
             };
 
             var schedule = new Schedule(aEvent);
@@ -127,11 +127,11 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Quarterly, Third Quarter, Second Month, Second Week, Wednesday",
-                Frequency = 8, // quarterly
-                QuarterInterval = 4, // third quarter
-                QuarterlyInterval = 2, // 2nd month of quarter
-                MonthlyInterval = 2, // 2nd week of the month
-                DaysOfWeek = 8 // Wednesday
+                FrequencyTypeOptions = FrequencyTypeEnum.Quarterly,
+                QuarterlyOptions = QuarterEnum.Third,
+                QuarterlyIntervalOptions = QuarterlyIntervalEnum.Second,
+                MonthlyIntervalOptions = MonthlyIntervalEnum.Second,
+                DaysOfWeekOptions = DayOfWeekEnum.Wed
             };
 
             var schedule = new Schedule(aEvent);
@@ -152,11 +152,11 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Quarterly, Third Quarter, Second Month, Second Week, Wednesday",
-                Frequency = 8, // quarterly
-                QuarterInterval = 4, // third quarter
-                QuarterlyInterval = 2, // 2nd month of quarter
-                MonthlyInterval = 2, // 2nd week of the month
-                DaysOfWeek = 8 // Wednesday
+                FrequencyTypeOptions = FrequencyTypeEnum.Quarterly,
+                QuarterlyOptions = QuarterEnum.Third,
+                QuarterlyIntervalOptions = QuarterlyIntervalEnum.Second,
+                MonthlyIntervalOptions = MonthlyIntervalEnum.Second,
+                DaysOfWeekOptions = DayOfWeekEnum.Wed
             };
 
             var schedule = new Schedule(aEvent);
@@ -183,11 +183,11 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Quarterly, 2nd & 4th Quarter, Second Month, Second Week, Wednesday",
-                Frequency = 8, // quarterly
-                QuarterInterval = 10, // 2nd & 4th
-                QuarterlyInterval = 2, // 2nd month of quarter
-                MonthlyInterval = 2, // 2nd week of the month
-                DaysOfWeek = 8 // Wednesday
+                FrequencyTypeOptions = FrequencyTypeEnum.Quarterly,
+                QuarterlyOptions = QuarterEnum.Second | QuarterEnum.Fourth,
+                QuarterlyIntervalOptions = QuarterlyIntervalEnum.Second,
+                MonthlyIntervalOptions = MonthlyIntervalEnum.Second,
+                DaysOfWeekOptions = DayOfWeekEnum.Wed
             };
 
             var schedule = new Schedule(aEvent);
@@ -213,11 +213,11 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Quarterly, 2nd & 4th Quarter, 2nd & 3rd Month, Second Week, Wednesday",
-                Frequency = 8, // quarterly
-                QuarterInterval = 10, // 2nd & 4th
-                QuarterlyInterval = 6, // 2nd & 3rd month
-                MonthlyInterval = 2, // 2nd week of the month
-                DaysOfWeek = 8 // Wednesday
+                FrequencyTypeOptions = FrequencyTypeEnum.Quarterly,
+                QuarterlyOptions = QuarterEnum.Second | QuarterEnum.Fourth,
+                QuarterlyIntervalOptions = QuarterlyIntervalEnum.Second | QuarterlyIntervalEnum.Last,
+                MonthlyIntervalOptions = MonthlyIntervalEnum.Second,
+                DaysOfWeekOptions = DayOfWeekEnum.Wed
             };
 
             var schedule = new Schedule(aEvent);
@@ -246,11 +246,11 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Quarterly, 2nd & 4th Quarter, 2nd & 3rd Month, 2nd and 3rd Week, Wednesday",
-                Frequency = 8, // quarterly
-                QuarterInterval = 10, // 2nd & 4th
-                QuarterlyInterval = 6, // 2nd & 3rd month
-                MonthlyInterval = 6, // 2nd & 3rd week
-                DaysOfWeek = 8 // Wednesday
+                FrequencyTypeOptions = FrequencyTypeEnum.Quarterly,
+                QuarterlyOptions = QuarterEnum.Second | QuarterEnum.Fourth,
+                QuarterlyIntervalOptions = QuarterlyIntervalEnum.Second | QuarterlyIntervalEnum.Last,
+                MonthlyIntervalOptions = MonthlyIntervalEnum.Second | MonthlyIntervalEnum.Third,
+                DaysOfWeekOptions = DayOfWeekEnum.Wed
             };
 
             var schedule = new Schedule(aEvent);
@@ -272,11 +272,11 @@ namespace ScheduleWidget.UnitTest
             {
                 ID = 1,
                 Title = "Quarterly, 2nd & 4th Quarter, 2nd & 3rd Month, 2nd and 3rd Week, Monday & Tuesday",
-                Frequency = 8, // quarterly
-                QuarterInterval = 10, // 2nd & 4th
-                QuarterlyInterval = 6, // 2nd & 3rd month
-                MonthlyInterval = 6, // 2nd & 3rd week
-                DaysOfWeek = 6 // Mon & Tues
+                FrequencyTypeOptions = FrequencyTypeEnum.Quarterly,
+                QuarterlyOptions = QuarterEnum.Second|QuarterEnum.Fourth,
+                QuarterlyIntervalOptions = QuarterlyIntervalEnum.Second | QuarterlyIntervalEnum.Last,
+                MonthlyIntervalOptions = MonthlyIntervalEnum.Second | MonthlyIntervalEnum.Third,
+                DaysOfWeekOptions = DayOfWeekEnum.Mon | DayOfWeekEnum.Tue
             };
 
             var schedule = new Schedule(aEvent);
@@ -289,6 +289,5 @@ namespace ScheduleWidget.UnitTest
 
             Assert.IsTrue(occurances.Count() == 16, "expect 16 events");
         }
-
     }
 }
