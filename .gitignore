@@ -161,3 +161,7 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+/ScheduleWidget/.vs/ScheduleWidget/v15/Server/sqlite3/storage.ide-wal
+/ScheduleWidget/.vs/ScheduleWidget/v15/Server/sqlite3/storage.ide-shm
+/ScheduleWidget/.vs/ScheduleWidget/v15/Server/sqlite3/storage.ide
+/ScheduleWidget/.vs/ScheduleWidget/v15/Server/sqlite3/db.lock
