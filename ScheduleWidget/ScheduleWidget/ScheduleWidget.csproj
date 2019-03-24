@@ -17,5 +17,6 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyVersion>2.5.1.0</AssemblyVersion>
     <FileVersion>2.5.1.0</FileVersion>
+    <PackageLicenseUrl>http://www.opensource.org/licenses/mit-license.php</PackageLicenseUrl>
   </PropertyGroup>
 </Project>
