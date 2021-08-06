@@ -9,7 +9,7 @@
     <Copyright>Copyright (c) 2019 James Still</Copyright>
     <PackageTags>schedule recurring events calendar calendars</PackageTags>
     <PackageProjectUrl>http://schedulewidget.azurewebsites.net</PackageProjectUrl>
-    <TargetFrameworks>netstandard2.0;net45;net46;net47;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net45;net46;net47;net5.0</TargetFrameworks>
     <Version>2.5.1</Version>
     <PackageReleaseNotes></PackageReleaseNotes>
     <RepositoryUrl>https://github.com/jamesstill/ScheduleWidget</RepositoryUrl>
